@@ -1,0 +1,385 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GPU矩阵并行相乘 | GaoMing's Blog</title><meta name="keywords" content="并行程序设计"><meta name="author" content="GaoMing"><meta name="copyright" content="GaoMing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="img{     width: 50%; }  实验介绍 相对CPU来说，GPU更适合处理高度并行化的程序，此次实验借助CUDA架构，C++编码实现在GPU的矩阵快速相乘， 实验中用到了CUDA的相关知识，如cudaMalloc，cudaMemcpy，cudaFree；clock_t，gettimeofday计算运行时间； 线程块二维分布和一个线程块的线程数为256。 与在CPU中的完成速度对比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GPU矩阵并行相乘">
+<meta property="og:url" content="https://keeganli.github.com/2021/06/26/GPU%E7%9F%A9%E9%98%B5%E5%B9%B6%E8%A1%8C%E7%9B%B8%E4%B9%98/index.html">
+<meta property="og:site_name" content="GaoMing&#39;s Blog">
+<meta property="og:description" content="img{     width: 50%; }  实验介绍 相对CPU来说，GPU更适合处理高度并行化的程序，此次实验借助CUDA架构，C++编码实现在GPU的矩阵快速相乘， 实验中用到了CUDA的相关知识，如cudaMalloc，cudaMemcpy，cudaFree；clock_t，gettimeofday计算运行时间； 线程块二维分布和一个线程块的线程数为256。 与在CPU中的完成速度对比">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.ibb.co/jMhr5S9/IMG-1977-20210512-150158.jpg">
+<meta property="article:published_time" content="2021-06-26T10:04:14.000Z">
+<meta property="article:modified_time" content="2021-06-26T06:24:56.376Z">
+<meta property="article:author" content="GaoMing">
+<meta property="article:tag" content="并行程序设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.ibb.co/jMhr5S9/IMG-1977-20210512-150158.jpg"><link rel="shortcut icon" href="/img/666.png"><link rel="canonical" href="https://keeganli.github.com/2021/06/26/GPU%E7%9F%A9%E9%98%B5%E5%B9%B6%E8%A1%8C%E7%9B%B8%E4%B9%98/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'GPU矩阵并行相乘',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2021-06-26 06:24:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="/css/mycss.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/au.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.ibb.co/jMhr5S9/IMG-1977-20210512-150158.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">GaoMing's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">GPU矩阵并行相乘</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-26T10:04:14.000Z" title="发表于 2021-06-26 10:04:14">2021-06-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-06-26T06:24:56.376Z" title="更新于 2021-06-26 06:24:56">2021-06-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B9%B6%E8%A1%8C%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">并行程序设计</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B9%B6%E8%A1%8C%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/GPU%E4%B8%AA%E4%BA%BA%E4%BD%9C%E4%B8%9A/">GPU个人作业</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="GPU矩阵并行相乘"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><style>
+img{
+    width: 50%;
+}
+</style>
+<h1 id="实验介绍"><a href="#实验介绍" class="headerlink" title="实验介绍"></a>实验介绍</h1><ol>
+<li>相对CPU来说，GPU更适合处理高度并行化的程序，此次实验借助CUDA架构，C++编码实现在GPU的矩阵快速相乘，</li>
+<li>实验中用到了CUDA的相关知识，如cudaMalloc，cudaMemcpy，cudaFree；clock_t，gettimeofday计算运行时间；</li>
+<li>线程块二维分布和一个线程块的线程数为256。</li>
+<li>与在CPU中的完成速度对比。</li>
+<li>采用内核函数，运用GPU的并行处理，对两个矩阵进行相乘（矩阵采用一维数组表示），矩阵采用随机函数rand()生成。</li>
+</ol>
+<h1 id="GPU简介"><a href="#GPU简介" class="headerlink" title="GPU简介"></a>GPU简介</h1><h2 id="GPU结构"><a href="#GPU结构" class="headerlink" title="GPU结构"></a>GPU结构</h2><ul>
+<li><p>NVIDIA的GPU在浮点运算能力上，吊打了Intel的CPU。其原因来自于CPU和GPU结构上的差异。</p>
+</li>
+<li><p>如下图所示，CPU仅仅具有有限的核心数量。</p>
+</li>
+<li><p>相比于GPU，CPU的核心属于“少而精”的存在，核心数虽然很少，</p>
+</li>
+<li><p>但是每个核心的性能很强，适合处理具有很多分支的复杂的逻辑。</p>
+</li>
+<li><p>近些年来，CPU中集成了一些并行指令集，如SSE、AVX等，其中AVX可以同时处理256位(32个字节)，</p>
+</li>
+<li><p>可以大大加速并行计算。但是相比于GPU，还是小巫见大巫。<br><img src="https://i.ibb.co/4ssmDBs/1.jpg"></p>
+<h2 id="CUDA简介"><a href="#CUDA简介" class="headerlink" title="CUDA简介"></a>CUDA简介</h2></li>
+<li><p>CUDA(Compute Unified Device Architecture，计算统一设备架构)，竞争对手OpenCL(from 2008，苹果公司)。</p>
+</li>
+<li><p>CUDA 是NVIDIA专有的，即只能用Nvidia的GPU。</p>
+</li>
+<li><p>OpenCL是所有主流媒介采用的一直标准，OpenCL可以在所有平台(Nvidia, AMD等)执行，</p>
+</li>
+<li><p>但是否能具有好的运行效果会有差异，同一时刻CUDA更快，CUDA未来会比OpenCL发展更快。</p>
+<h3 id="线程讲解"><a href="#线程讲解" class="headerlink" title="线程讲解"></a>线程讲解</h3></li>
+<li><p>CUDA编程是一个多线程编程，数个线程(Thread)组成一个线程块(Block)，所有线程块组成一个线程网格(Grid)，</p>
+</li>
+<li><p>图中的线程块，以及线程块中的线程，是按照2维的方式排布的。</p>
+</li>
+<li><p>实际上，CUDA编程模型允许使用1维、2维、3维三种方式来排布。</p>
+</li>
+<li><p>另外，即使线程块使用的是1维排布，线程块中的线程也不一定要按照1维排，而是可以任意排布。<br><img src="https://i.ibb.co/qWvGQDT/2.jpg"></p>
+</li>
+<li><p>目前的GPU限制一个线程块中，最多可以安排1024个线程。</p>
+</li>
+<li><p>一个线程块用多少线程，以及一个线程网格用多少线程块，是程序员可以自由安排的。</p>
+</li>
+<li><p>一般线程块中线程的数量被安排为32的倍数，选用256是比较合适的。</p>
+</li>
+<li><p>在线程数定下来之后，一般根据数据的排布情况来确定线程块的个数。（1维排列256，2维排列（16，16））</p>
+</li>
+<li><p>例如：一个数组的长度为4096，安排每个线程处理一个元素。</p>
+</li>
+<li><p>如果安排一个线程块为256个线程，则需要4096/256=16个线程块。 </p>
+<h3 id="内核函数"><a href="#内核函数" class="headerlink" title="内核函数"></a>内核函数</h3><p>内核函数是CUDA 每个线程 执行的函数，它运行在GPU设备上。CUDA使用扩展的C语言编写内核函数，关键字为__global__。内核函数返回值只能是void。</p>
+</li>
+<li><p>定义格式：<code>__global__ void 函数名（参数……）&#123;   程序指令集合   &#125;</code></p>
+</li>
+<li><p>主函数调用的格式：<code>函数名&lt;&lt;&lt;blocksPerGrid, threadsPerBock&gt;&gt;&gt;（参数……）</code></p>
+</li>
+<li><p><code>blocksPerGrid</code>：每个网格中进程块的排布方式（可以采用1维或2维）</p>
+</li>
+<li><p><code>threadsPerBock</code>:每个进程块中进程的排布方式（可以采用1维或2维）<br>内核函数举例</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">_global <span class="token keyword">void</span> <span class="token function">VecAdd</span><span class="token punctuation">(</span><span class="token keyword">double</span> a<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">double</span> b<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">double</span> c<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> x <span class="token operator">=</span> blockIdx<span class="token punctuation">.</span>x <span class="token operator">*</span> blockDim<span class="token punctuation">.</span>x  <span class="token operator">+</span> threadIdx<span class="token punctuation">.</span>x<span class="token punctuation">;</span><span class="token comment">//当前列址</span>
+    <span class="token keyword">int</span> y <span class="token operator">=</span> blockIdy<span class="token punctuation">.</span>y <span class="token operator">*</span> blockDim<span class="token punctuation">.</span>y <span class="token operator">+</span> threadIdy<span class="token punctuation">.</span>y<span class="token punctuation">;</span><span class="token comment">//当前行址0099</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>i <span class="token operator">&lt;</span> N<span class="token operator">&amp;&amp;</span> y <span class="token operator">&lt;</span> N<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        c<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> b<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    dim3 <span class="token function">threadsPerBlock</span><span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//每个线程块内部排布</span>
+    dim3 <span class="token function">blocksPerGrid</span><span class="token punctuation">(</span>N <span class="token operator">/</span> threadsPerBlock<span class="token punctuation">.</span>x <span class="token punctuation">,</span>N <span class="token operator">/</span> threadsPerBlock<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//线程排布</span>
+    VecAdd<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>blocksPerGrid<span class="token punctuation">,</span>threadsPerBlock<span class="token operator">>></span><span class="token operator">></span><span class="token punctuation">(</span>A<span class="token punctuation">,</span>B<span class="token punctuation">,</span>C<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="编程接口"><a href="#编程接口" class="headerlink" title="编程接口"></a>编程接口</h3></li>
+<li><p>使用NVCC编译CUDA程序</p>
+</li>
+<li><p>CUDA程序使用NVCC编译器。NVCC提供了简单方便的接口，能够很好的同时处理主机端和设备端代码。</p>
+</li>
+<li><p>编译程序的命令：<code>nvcc filename.cu –o filename </code></p>
+<h3 id="cuda主要函数"><a href="#cuda主要函数" class="headerlink" title="cuda主要函数"></a>cuda主要函数</h3></li>
+</ul>
+<ol>
+<li><p><code>cudaMalloc</code></p>
+<p> <code>cudaMalloc (void **devPtr, size_t  size )</code></p>
+</li>
+<li><p><code>cudaMemcpy</code></p>
+<ul>
+<li><p>主机到设备：<code>cudaMemcpy(d_A,h_A,nBytes,cudaMemcpyHostToDevice)</code></p>
+</li>
+<li><p>设备到主机：<code>cudaMemcpy(h_A,d_A,nBytes,cudaMemcpyDeviceToHost)</code></p>
+<h1 id="实践作业"><a href="#实践作业" class="headerlink" title="实践作业"></a>实践作业</h1></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li> 编写一个矩阵乘法的GPU并行程序，</li>
+<li> 并且与对应规模的串行程序进行运行时间的比对（n=500，1000，1500，2000，3000，5000），</li>
+<li> 画出规模和时间对比图。</li>
+<li>矩阵A（n，n）  矩阵B（n，n）  C = A x B<h2 id="内核函数-1"><a href="#内核函数-1" class="headerlink" title="内核函数"></a>内核函数</h2><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;time.h></span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"cuda_runtime.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cuda.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/time.h></span> </span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"device_launch_parameters.h"</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">thread_num</span> <span class="token expression"><span class="token number">256</span></span><span class="token comment">//一个线程块的线程数</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+
+<span class="token keyword">const</span> <span class="token keyword">int</span> N <span class="token operator">=</span> <span class="token number">6000</span><span class="token punctuation">;</span><span class="token comment">//数组维数</span>
+
+<span class="token keyword">const</span> <span class="token keyword">int</span> blocks_num <span class="token operator">=</span> <span class="token punctuation">(</span>N <span class="token operator">+</span> thread_num <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> thread_num<span class="token punctuation">;</span><span class="token comment">//线程块数</span>
+
+__global__ <span class="token keyword">void</span> <span class="token function">mextix</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>da<span class="token punctuation">,</span><span class="token keyword">int</span> <span class="token operator">*</span>db<span class="token punctuation">,</span><span class="token keyword">int</span> <span class="token operator">*</span>dc<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> row <span class="token operator">=</span> blockIdx<span class="token punctuation">.</span>x <span class="token operator">*</span> blockDim<span class="token punctuation">.</span>x <span class="token operator">+</span> threadIdx<span class="token punctuation">.</span>x<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> col <span class="token operator">=</span> blockIdx<span class="token punctuation">.</span>y <span class="token operator">*</span> blockDim<span class="token punctuation">.</span>y <span class="token operator">+</span> threadIdx<span class="token punctuation">.</span>y<span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>row <span class="token operator">&lt;</span> N <span class="token operator">&amp;&amp;</span> col <span class="token operator">&lt;</span> N<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        dc<span class="token punctuation">[</span>row<span class="token operator">*</span>N<span class="token operator">+</span>col<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>i <span class="token operator">&lt;</span> N<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            dc<span class="token punctuation">[</span>row<span class="token operator">*</span>N<span class="token operator">+</span>col<span class="token punctuation">]</span> <span class="token operator">+=</span> da<span class="token punctuation">[</span>row<span class="token operator">*</span>N<span class="token operator">+</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> db<span class="token punctuation">[</span>i<span class="token operator">*</span>N<span class="token operator">+</span>col<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        
+    <span class="token punctuation">&#125;</span>
+   
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">//随机生成矩阵</span>
+<span class="token keyword">void</span> <span class="token function">rands</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+   <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>i <span class="token operator">&lt;</span> N<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+       <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>j <span class="token operator">&lt;</span> N<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+           a<span class="token punctuation">[</span>i<span class="token operator">*</span>N<span class="token operator">+</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">10</span> <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span><span class="token operator">*</span>b<span class="token punctuation">,</span><span class="token operator">*</span>c<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> <span class="token operator">*</span>da<span class="token punctuation">,</span><span class="token operator">*</span>db<span class="token punctuation">,</span><span class="token operator">*</span>dc<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> size <span class="token operator">=</span> N<span class="token operator">*</span>N<span class="token operator">*</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//freopen("out.txt","w",stdout);</span>
+    <span class="token comment">//分配空间</span>
+    a <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    b <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    c <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//生成随机数组</span>
+    <span class="token function">rands</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">rands</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//分配内存 GPU申请空间所需时间</span>
+    clock_t t1 <span class="token operator">=</span> <span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">cudaMalloc</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>da<span class="token punctuation">,</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">cudaMalloc</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>db<span class="token punctuation">,</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">cudaMalloc</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>dc<span class="token punctuation">,</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//cudaMalloc((void**)&amp;time,blocks_num*sizeof(clock_t)*2);</span>
+    clock_t t2 <span class="token operator">=</span> <span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> ts <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">double</span><span class="token punctuation">)</span><span class="token punctuation">(</span>t2<span class="token operator">-</span>t1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//CLOCKS_PER_SEC表示一秒钟内CPU运行的时钟周期数</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"GPU divide costtime : %lf ms\n"</span><span class="token punctuation">,</span>ts<span class="token operator">/</span>CLOCKS_PER_SEC<span class="token operator">*</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">//存到GPU</span>
+    <span class="token function">cudaMemcpy</span><span class="token punctuation">(</span>da<span class="token punctuation">,</span>a<span class="token punctuation">,</span>size<span class="token punctuation">,</span>cudaMemcpyHostToDevice<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">cudaMemcpy</span><span class="token punctuation">(</span>db<span class="token punctuation">,</span>b<span class="token punctuation">,</span>size<span class="token punctuation">,</span>cudaMemcpyHostToDevice<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/*
+        GPU运算  并行运算时间
+        计算代码运行时间
+    */</span>
+    timeval start<span class="token punctuation">,</span>finish1<span class="token punctuation">,</span>finish2<span class="token punctuation">;</span>
+    <span class="token function">gettimeofday</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>start<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//获得当前精确时间</span>
+    dim3 <span class="token function">dg</span><span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dim3 <span class="token function">dbs</span><span class="token punctuation">(</span><span class="token punctuation">(</span>N<span class="token operator">+</span>dg<span class="token punctuation">.</span>x<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span>dg<span class="token punctuation">.</span>x<span class="token punctuation">,</span><span class="token punctuation">(</span>N<span class="token operator">+</span>dg<span class="token punctuation">.</span>y<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span>dg<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">gettimeofday</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>finish1<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    mextix<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>dbs<span class="token punctuation">,</span>dg<span class="token operator">>></span><span class="token operator">></span><span class="token punctuation">(</span>da<span class="token punctuation">,</span>db<span class="token punctuation">,</span>dc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">gettimeofday</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>finish2<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//获得当前精确时间</span>
+    <span class="token keyword">double</span> cost1 <span class="token operator">=</span> <span class="token number">1e6</span> <span class="token operator">*</span> <span class="token punctuation">(</span>finish2<span class="token punctuation">.</span>tv_sec <span class="token operator">-</span> start<span class="token punctuation">.</span>tv_sec<span class="token punctuation">)</span> <span class="token operator">+</span> finish2<span class="token punctuation">.</span>tv_usec <span class="token operator">-</span> start<span class="token punctuation">.</span>tv_usec<span class="token punctuation">;</span><span class="token comment">//微秒</span>
+    <span class="token keyword">double</span> cs <span class="token operator">=</span> <span class="token number">1e6</span><span class="token operator">*</span><span class="token punctuation">(</span>finish1<span class="token punctuation">.</span>tv_sec <span class="token operator">-</span> start<span class="token punctuation">.</span>tv_sec<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>finish1<span class="token punctuation">.</span>tv_usec <span class="token operator">-</span> start<span class="token punctuation">.</span>tv_usec<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">/*  
+        timeval
+        &#123;
+            time_t tv_sec;  //秒 [long int]
+            suseconds_t tv_usec;  //微秒 [long int]
+        &#125;;
+   */</span>
+
+    <span class="token comment">//从GPU取回</span>
+    <span class="token function">cudaMemcpy</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span>dc<span class="token punctuation">,</span>size<span class="token punctuation">,</span>cudaMemcpyDeviceToHost<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//GPU运算时间</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"GPUCost time : %lf ms\n"</span><span class="token punctuation">,</span>cost1<span class="token operator">/</span><span class="token number">1e3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"GPU divdided time : %lf ms\n"</span><span class="token punctuation">,</span>cs<span class="token operator">/</span><span class="token number">1e3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// printf("GPUAnswer : \n");</span>
+    <span class="token comment">// for(int i = 0;i &lt; N;i++)&#123;</span>
+    <span class="token comment">//     for(int j = 0;j &lt; N;j++)&#123;</span>
+    <span class="token comment">//         printf("%d ",c[i*N+j]);</span>
+    <span class="token comment">//         //printf("1");</span>
+    <span class="token comment">//     &#125;</span>
+    <span class="token comment">//     printf("\n");</span>
+    <span class="token comment">// &#125;</span>
+    <span class="token comment">//释放内存</span>
+    <span class="token function">cudaFree</span><span class="token punctuation">(</span>da<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">cudaFree</span><span class="token punctuation">(</span>db<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">cudaFree</span><span class="token punctuation">(</span>dc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CPU计算
+    clock_t st <span class="token operator">=</span> <span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>i <span class="token operator">&lt;</span> N<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>j <span class="token operator">&lt;</span> N<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            c<span class="token punctuation">[</span>i<span class="token operator">*</span>N<span class="token operator">+</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>k <span class="token operator">&lt;</span> N<span class="token punctuation">;</span>k<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                c<span class="token punctuation">[</span>i<span class="token operator">*</span>N<span class="token operator">+</span>j<span class="token punctuation">]</span> <span class="token operator">+=</span> a<span class="token punctuation">[</span>i<span class="token operator">*</span>N<span class="token operator">+</span>k<span class="token punctuation">]</span> <span class="token operator">*</span> b<span class="token punctuation">[</span>k<span class="token operator">*</span>N<span class="token operator">+</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            
+        <span class="token punctuation">&#125;</span>
+        
+    <span class="token punctuation">&#125;</span>
+    clock_t ed <span class="token operator">=</span> <span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> ends <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">double</span><span class="token punctuation">)</span><span class="token punctuation">(</span>ed<span class="token operator">-</span>st<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CPU运算时间
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"CPUCost time : %lf ms\n"</span><span class="token punctuation">,</span>ends<span class="token operator">/</span>CLOCKS_PER_SEC<span class="token operator">*</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// printf("CPUAnswer : \n");</span>
+    <span class="token comment">// for(int i = 0;i &lt; N;i++)&#123;</span>
+    <span class="token comment">//     for(int j = 0;j &lt; N;j++)&#123;</span>
+    <span class="token comment">//         printf("%d ",c[i*N+j]);</span>
+    <span class="token comment">//     &#125;</span>
+    <span class="token comment">//     printf("\n");</span>
+    <span class="token comment">// &#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="性能对比分析"><a href="#性能对比分析" class="headerlink" title="性能对比分析"></a>性能对比分析</h2></li>
+<li>GPU运行时间与n呈线性关系，运行时间随n的增大而增大；</li>
+<li>CPU运行时间与n呈指数关系，运行时间随n的增大而增大。</li>
+<li>GPU运行时间在毫秒级，而CPU则在秒级，GPU运行时间远远小于CPU。</li>
+</ul>
+<p>分析可得，因为GPU采用线程并行处理矩阵相乘，而CPU采用串行一个个依次算，所以GPU运行时间会更短。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">GaoMing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://keeganli.github.com/2021/06/26/GPU%E7%9F%A9%E9%98%B5%E5%B9%B6%E8%A1%8C%E7%9B%B8%E4%B9%98/">https://keeganli.github.com/2021/06/26/GPU%E7%9F%A9%E9%98%B5%E5%B9%B6%E8%A1%8C%E7%9B%B8%E4%B9%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://keeganli.github.com" target="_blank">GaoMing's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B9%B6%E8%A1%8C%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">并行程序设计</a></div><div class="post_share"><div class="social-share" data-image="https://i.ibb.co/jMhr5S9/IMG-1977-20210512-150158.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/06/26/GPU%E9%A1%B9%E7%9B%AE%E4%B9%8BKNN%E7%AE%97%E6%B3%95/"><img class="prev-cover" src="https://i.ibb.co/nw6LntR/9.jpg" onerror="onerror=null;src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">GPU项目之KNN算法</div></div></a></div><div class="next-post pull-right"><a href="/2021/06/13/%E6%88%91%E6%9C%89%E4%B8%80%E9%A6%96%E6%AD%8C/"><img class="next-cover" src="https://i.ibb.co/tQj34rK/IMG-1984-20210513-102522.jpg" onerror="onerror=null;src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">我有一首歌</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/06/26/GPU项目之KNN算法/" title="GPU项目之KNN算法"><img class="cover" src="https://i.ibb.co/nw6LntR/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">GPU项目之KNN算法</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/au.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">GaoMing</div><div class="author-info__description">爱你不止520</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/keeganli"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://space.bilibili.com/178006287" target="_blank" title=""><i class="iconfont   icon-bilibili"></i></a><a class="social-icon" href="https://github.com/keeganli" target="_blank" title=""><i class="iconfont   icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_45769678" target="_blank" title=""><i class="iconfont   icon-csdn-copy-copy"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">我不喜欢你们</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">实验介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GPU%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">GPU简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GPU%E7%BB%93%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">GPU结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CUDA%E7%AE%80%E4%BB%8B"><span class="toc-number">2.2.</span> <span class="toc-text">CUDA简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E8%AE%B2%E8%A7%A3"><span class="toc-number">2.2.1.</span> <span class="toc-text">线程讲解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.2.</span> <span class="toc-text">内核函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.2.3.</span> <span class="toc-text">编程接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cuda%E4%B8%BB%E8%A6%81%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.4.</span> <span class="toc-text">cuda主要函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E4%BD%9C%E4%B8%9A"><span class="toc-number">3.</span> <span class="toc-text">实践作业</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E5%87%BD%E6%95%B0-1"><span class="toc-number">3.1.</span> <span class="toc-text">内核函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text">性能对比分析</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/26/GPU%E9%A1%B9%E7%9B%AE%E4%B9%8BKNN%E7%AE%97%E6%B3%95/" title="GPU项目之KNN算法"><img src="https://i.ibb.co/nw6LntR/9.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="GPU项目之KNN算法"/></a><div class="content"><a class="title" href="/2021/06/26/GPU%E9%A1%B9%E7%9B%AE%E4%B9%8BKNN%E7%AE%97%E6%B3%95/" title="GPU项目之KNN算法">GPU项目之KNN算法</a><time datetime="2021-06-26T14:52:10.000Z" title="发表于 2021-06-26 14:52:10">2021-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/26/GPU%E7%9F%A9%E9%98%B5%E5%B9%B6%E8%A1%8C%E7%9B%B8%E4%B9%98/" title="GPU矩阵并行相乘"><img src="https://i.ibb.co/jMhr5S9/IMG-1977-20210512-150158.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="GPU矩阵并行相乘"/></a><div class="content"><a class="title" href="/2021/06/26/GPU%E7%9F%A9%E9%98%B5%E5%B9%B6%E8%A1%8C%E7%9B%B8%E4%B9%98/" title="GPU矩阵并行相乘">GPU矩阵并行相乘</a><time datetime="2021-06-26T10:04:14.000Z" title="发表于 2021-06-26 10:04:14">2021-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/13/%E6%88%91%E6%9C%89%E4%B8%80%E9%A6%96%E6%AD%8C/" title="我有一首歌"><img src="https://i.ibb.co/tQj34rK/IMG-1984-20210513-102522.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="我有一首歌"/></a><div class="content"><a class="title" href="/2021/06/13/%E6%88%91%E6%9C%89%E4%B8%80%E9%A6%96%E6%AD%8C/" title="我有一首歌">我有一首歌</a><time datetime="2021-06-12T19:34:53.000Z" title="发表于 2021-06-12 19:34:53">2021-06-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/23/%E6%88%91%E4%B8%8D%E6%83%B3/" title="我不想"><img src="https://i.ibb.co/pr7BdqN/IMG-1975-20210512-150143.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="我不想"/></a><div class="content"><a class="title" href="/2021/05/23/%E6%88%91%E4%B8%8D%E6%83%B3/" title="我不想">我不想</a><time datetime="2021-05-23T15:57:23.000Z" title="发表于 2021-05-23 15:57:23">2021-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/21/Java-%E4%BA%94/" title="Java（五）面向对象左"><img src="https://i.ibb.co/3dcsL43/IMG-1993-20210513-103001.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="Java（五）面向对象左"/></a><div class="content"><a class="title" href="/2021/05/21/Java-%E4%BA%94/" title="Java（五）面向对象左">Java（五）面向对象左</a><time datetime="2021-05-20T21:05:15.000Z" title="发表于 2021-05-20 21:05:15">2021-05-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By GaoMing</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
