@@ -1,0 +1,592 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CPU作业之openMP实现快速排序 | GaoMing's Blog</title><meta name="keywords" content="并行程序设计"><meta name="author" content="GaoMing"><meta name="copyright" content="GaoMing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="img{     width: 50%; }   项目介绍 利用OpenMp设计多线程进行快速排序  openMP相关知识什么是openMPOpenMP是由OpenMP Architecture Review Board牵头提出的，并已被广泛接受的、用于共享内存并行系统的多线程程序设计的一套编译指令 (Compiler Directive)。 OpenMP支持、C、C++和Fortran；而支持">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CPU作业之openMP实现快速排序">
+<meta property="og:url" content="https://keeganli.github.com/2021/06/27/CPU%E4%BD%9C%E4%B8%9A%E4%B9%8BopenMp%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="GaoMing&#39;s Blog">
+<meta property="og:description" content="img{     width: 50%; }   项目介绍 利用OpenMp设计多线程进行快速排序  openMP相关知识什么是openMPOpenMP是由OpenMP Architecture Review Board牵头提出的，并已被广泛接受的、用于共享内存并行系统的多线程程序设计的一套编译指令 (Compiler Directive)。 OpenMP支持、C、C++和Fortran；而支持">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.ibb.co/BrytHNN/IMG-1972-20210512-150114.jpg">
+<meta property="article:published_time" content="2021-06-27T14:24:05.000Z">
+<meta property="article:modified_time" content="2021-06-27T10:25:36.761Z">
+<meta property="article:author" content="GaoMing">
+<meta property="article:tag" content="并行程序设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.ibb.co/BrytHNN/IMG-1972-20210512-150114.jpg"><link rel="shortcut icon" href="/img/666.png"><link rel="canonical" href="https://keeganli.github.com/2021/06/27/CPU%E4%BD%9C%E4%B8%9A%E4%B9%8BopenMp%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CPU作业之openMP实现快速排序',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2021-06-27 10:25:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="/css/mycss.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/au.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.ibb.co/BrytHNN/IMG-1972-20210512-150114.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">GaoMing's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CPU作业之openMP实现快速排序</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-27T14:24:05.000Z" title="发表于 2021-06-27 14:24:05">2021-06-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-06-27T10:25:36.761Z" title="更新于 2021-06-27 10:25:36">2021-06-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B9%B6%E8%A1%8C%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">并行程序设计</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B9%B6%E8%A1%8C%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/CPU%E4%B8%AA%E4%BA%BA%E4%BD%9C%E4%B8%9A/">CPU个人作业</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B9%B6%E8%A1%8C%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/CPU%E4%B8%AA%E4%BA%BA%E4%BD%9C%E4%B8%9A/openMP%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">openMP实现快速排序</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CPU作业之openMP实现快速排序"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><style>
+img{
+    width: 50%;
+}
+</style>
+
+<h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><ul>
+<li>利用OpenMp设计多线程进行快速排序</li>
+</ul>
+<h1 id="openMP相关知识"><a href="#openMP相关知识" class="headerlink" title="openMP相关知识"></a>openMP相关知识</h1><h2 id="什么是openMP"><a href="#什么是openMP" class="headerlink" title="什么是openMP"></a>什么是openMP</h2><p><strong>OpenMP</strong>是由<code>OpenMP Architecture Review Board</code>牵头提出的，并已被广泛接受的、用于<strong>共享内存并行系统</strong>的多线程程序设计的一套编译指令 <code>(Compiler Directive)</code>。</p>
+<p><strong>OpenMP</strong>支持、<code>C</code>、<code>C++</code>和<code>Fortran</code>；而支持<code>OpenMP</code>的编译器包括<code>Sun Compiler</code>、<code>GNU Compiler</code>和<code>Intel Compiler</code>等。</p>
+<p><strong>OpenMP</strong>提供了对并行算法的高层的抽象描述，程序员通过在源代码中加入专用的pragma来指明自己的意图，由此编译器可以自动将程序进行并行化，并在必要之处加入同步互斥以及通信。</p>
+<p>当选择忽略这些<code>pragma</code>，或者编译器不支持<code>OpenMP</code>时，程序又可退化为通常的程序(一般为串行)，代码仍然可以正常运作，只是不能利用多线程来加速程序执行。</p>
+<h2 id="openMP的Fork-Join并行执行模型"><a href="#openMP的Fork-Join并行执行模型" class="headerlink" title="openMP的Fork-Join并行执行模型"></a>openMP的Fork-Join并行执行模型</h2><img src="https://i.ibb.co/yhGgN1J/fork-join.png" style="zoom:100%;">
+
+<ul>
+<li>起始时只有一个主线程，当遇到<code>Fork</code>操作时，创建或唤醒多个子线程进入并行任务执行</li>
+<li>并行执行结束后，实现隐式的同步，汇合到主线程中，即<code>Join</code>。</li>
+<li>相邻的<code>Fork</code>和<code>Join</code>操作之间称为一个<strong>并行域</strong>，<strong>并行域可以嵌套</strong>。</li>
+</ul>
+<h2 id="openMP版本"><a href="#openMP版本" class="headerlink" title="openMP版本"></a>openMP版本</h2><ul>
+<li>调用<code>$gcc -v</code>查看服务器openMP版本</li>
+<li>官网查看<a target="_blank" rel="noopener" href="https://www.openmp.org/resources/openmp-compilers-tools/">下载</a>openMP版本</li>
+</ul>
+<h2 id="openMP编译制导"><a href="#openMP编译制导" class="headerlink" title="openMP编译制导"></a>openMP编译制导</h2><p>所有的编译制导指令必须以<code>#pragma omp</code>开头</p>
+<ol>
+<li><p>parallel指令</p>
+<ul>
+<li>用于构造一个并行块，如果它所构造的并行块有多于1条的语句，需要用一对大括号括起来。</li>
+<li>并行区域必须是一个完整的代码块，不能使用<code>goto</code>或其他语句跳出或转入。</li>
+</ul>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp parallel</span></span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The parallel region is run by thread %d.\n"</span><span class="token punctuation">,</span><span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>for指令</p>
+<ul>
+<li><p>n用于对循环工作进行并行化，它通常需要与parallel合并使用。</p>
+</li>
+<li><p>for循环必须具备一定的规范格式：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">//没有与parallel同时使用，不能并行</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp <span class="token keyword">for</span></span></span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"i = %d, threadId = %d.\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">//与parallel同时使用，能并行</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp parallel <span class="token keyword">for</span></span></span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"i = %d, threadId = %d.\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>sections和section指令</p>
+<ul>
+<li><p>用于使各个线程执行不同的工作。</p>
+</li>
+<li><p>每个<code>section</code>必须是一个结构化的代码块，不能有分支转入或跳出。</p>
+</li>
+<li><p><code>sections</code>中可以定义多个<code>section</code>，每个<code>section</code>仅被一个一线程执行一次。</p>
+</li>
+<li><p>当线程多于<code>section</code>数量时，每个线程最多执行一个<code>section</code>。</p>
+</li>
+<li><p>当线程少于<code>section</code>数量时，有线程会执行多于一个<code>的section</code>。</p>
+<p>格式：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp sections <span class="token punctuation">[</span>clause<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token punctuation">,</span><span class="token punctuation">]</span> clause<span class="token punctuation">]</span>…<span class="token punctuation">]</span></span></span>
+<span class="token punctuation">&#123;</span>
+     <span class="token punctuation">[</span>#pragma omp section<span class="token punctuation">]</span>
+         structured  block
+     <span class="token punctuation">[</span>#pragma omp section<span class="token punctuation">]</span>
+         structured block
+      ……
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp parallel sections</span></span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp section</span></span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Hello from %d.\n"</span><span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp section</span></span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Hi from %d.\n"</span><span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp section</span></span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Bye from %d.\n"</span><span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">输出：
+Bye from <span class="token number">17.</span>
+Hi from <span class="token number">28.</span>
+Hello from <span class="token number">36.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>single指令</p>
+<ul>
+<li><p>用于让紧随其后的语句串行执行</p>
+<p>例子：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;omp.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp parallel    <span class="token punctuation">&#123;</span></span></span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Run in parallel, thread id = %d.\n"</span><span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp single        <span class="token punctuation">&#123;</span></span></span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Run in sequence, thread id = %d.\n"</span><span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Run in parallel, thread id = %d.\n"</span><span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输出：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">Run in parallel<span class="token punctuation">,</span> thread id <span class="token operator">=</span> <span class="token number">11.</span>
+Run in sequence<span class="token punctuation">,</span> thread id <span class="token operator">=</span> <span class="token number">11.</span>
+Run in parallel<span class="token punctuation">,</span> thread id <span class="token operator">=</span> <span class="token number">19.</span>
+Run in parallel<span class="token punctuation">,</span> thread id <span class="token operator">=</span> <span class="token number">30.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>private数据属性</p>
+<ul>
+<li><p>将一个或多个变量声明为线程的私有变量。</p>
+</li>
+<li><p>每个线程都有它自己的变量私有副本，其他线程无法访问。</p>
+</li>
+<li><p>即使在并行区域外有同名的共享变量，共享变量在并行区域内不起任何作用，并且并行区域内不会操作到外面的共享变量。</p>
+</li>
+<li><p>并行区域内的private变量和并行区域外同名的变量没有存储关联。</p>
+</li>
+<li><p>如果需要<strong>继承原有共享变量的值</strong>，则应使用<code>firstprivate</code>子句。</p>
+</li>
+<li><p>如果需要在<strong>退出并行区域时将私有变量最后的值赋值给对应的共享变量</strong>，则可使用<code>lastprivate</code>子句。</p>
+<p>例子1：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> k<span class="token punctuation">,</span> i<span class="token punctuation">;</span>
+    k <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp parallel <span class="token keyword">for</span> <span class="token function">firstprivate</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">lastprivate</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span></span></span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">8</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        k <span class="token operator">+=</span> i<span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"k = %d in thread %d.\n"</span><span class="token punctuation">,</span> k<span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Finally, k = %d.\n"</span><span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输出：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">输出：
+k <span class="token operator">=</span> <span class="token number">101</span> in thread <span class="token number">1.</span>
+k <span class="token operator">=</span> <span class="token number">107</span> in thread <span class="token number">7.</span>
+k <span class="token operator">=</span> <span class="token number">105</span> in thread <span class="token number">5.</span>
+k <span class="token operator">=</span> <span class="token number">100</span> in thread <span class="token number">0.</span>
+k <span class="token operator">=</span> <span class="token number">103</span> in thread <span class="token number">3.</span>
+k <span class="token operator">=</span> <span class="token number">104</span> in thread <span class="token number">4.</span>
+k <span class="token operator">=</span> <span class="token number">102</span> in thread <span class="token number">2.</span>
+k <span class="token operator">=</span> <span class="token number">106</span> in thread <span class="token number">6.</span>
+Finally<span class="token punctuation">,</span> k <span class="token operator">=</span> <span class="token number">107.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>例子2：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">//默认是shared</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   <span class="token keyword">int</span> i<span class="token punctuation">,</span> j<span class="token punctuation">;</span>
+   <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp parallel <span class="token keyword">for</span></span></span>
+   <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+     <span class="token keyword">for</span> <span class="token punctuation">(</span>j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token comment">//j共享，线程1只执行了1次</span>
+         <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"i=%d, j=%d from id=%d.\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> j<span class="token punctuation">,</span> <span class="token function">omp_get_thread_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+   <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输出：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> j<span class="token operator">=</span><span class="token number">0</span> from id<span class="token operator">=</span><span class="token number">0.</span>
+i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> j<span class="token operator">=</span><span class="token number">1</span> from id<span class="token operator">=</span><span class="token number">0.</span>
+i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> j<span class="token operator">=</span><span class="token number">2</span> from id<span class="token operator">=</span><span class="token number">0.</span>
+i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> j<span class="token operator">=</span><span class="token number">3</span> from id<span class="token operator">=</span><span class="token number">0.</span>
+i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> j<span class="token operator">=</span><span class="token number">4</span> from id<span class="token operator">=</span><span class="token number">0.</span>
+i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> j<span class="token operator">=</span><span class="token number">0</span> from id<span class="token operator">=</span><span class="token number">1.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>shared数据属性</p>
+<p>例子：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span>  </span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;omp.h></span>   </span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>  
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Before: "</span> <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>    
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp parallel <span class="token keyword">for</span> <span class="token function">shared</span><span class="token punctuation">(</span>sum<span class="token punctuation">)</span>   </span></span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+        sum <span class="token operator">+=</span> i<span class="token punctuation">;</span>  <span class="token comment">//存在数据竞争</span>
+<span class="token punctuation">&#125;</span>  
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"After: "</span> <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>  
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>设置线程数量</p>
+<ul>
+<li>编译制导的<code>num_threads()</code>子句。如：<code>#pragma omp parallel num_threads(8)</code></li>
+<li>在并行区域外，使用运行库例程<code>omp_set_num_threads()</code>设定并行区域中使用。如：<code> omp_set_num_threads(10)</code></li>
+<li>环境变量<code>OMP_NUM_THREADS</code>。如：<code> export OMP_NUM_THREADS = 3</code></li>
+</ul>
+</li>
+<li><p>运行库例程与环境变量</p>
+<ul>
+<li><code>int omp_get_num_threads(void)：</code> <strong>返回当前并行区域中的线程数量</strong></li>
+<li><code>int omp_get_thread_num(void)：</code>  <strong>返回值当前并行区域中，当前线程在线程组中的编号。这个编号从0开始</strong></li>
+<li><code>int omp_get_num_procs(void)：</code>    <strong>返回值为当前程序可以使用的CPU核数</strong></li>
+<li><code>double omp_get_wtime(void)：</code>   <strong>返回值是以秒为单位的墙上时间。</strong>在并行区域开始前和结束后分别调用该函数，并求取两次返回值的差，便可计算出并行执行的时间。</li>
+</ul>
+</li>
+</ol>
+<h1 id="openMP快排"><a href="#openMP快排" class="headerlink" title="openMP快排"></a>openMP快排</h1><h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><p>   利用OpenMp设计多线程进行快速排序，递归实现多线程同时进行子块的快速排序，需要线程块log2(n)个</p>
+<h2 id="自定义的库-quickSort-h"><a href="#自定义的库-quickSort-h" class="headerlink" title="自定义的库(quickSort.h)"></a>自定义的库(quickSort.h)</h2><ul>
+<li><p>为了方便（MPI，openMP和MPI混合）对于相同函数的调用，编写通用函数库<code>quickSort.h</code></p>
+<p>原码：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"omp.h"</span></span>
+<span class="token comment">//随机创建数组</span>
+<span class="token keyword">void</span> <span class="token function">rands</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>data<span class="token punctuation">,</span><span class="token keyword">int</span> sum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//交换函数</span>
+<span class="token keyword">void</span> <span class="token function">sw</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> <span class="token operator">*</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//求2的n次幂</span>
+<span class="token keyword">int</span> <span class="token function">exp2</span><span class="token punctuation">(</span><span class="token keyword">int</span> wht_num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//求log2(n)</span>
+<span class="token keyword">int</span> <span class="token function">log2</span><span class="token punctuation">(</span><span class="token keyword">int</span> wht_num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//合并两个有序的数组</span>
+<span class="token keyword">void</span> <span class="token function">mergeList</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>c<span class="token punctuation">,</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> sta1<span class="token punctuation">,</span> <span class="token keyword">int</span> end1<span class="token punctuation">,</span> <span class="token keyword">int</span> <span class="token operator">*</span>b<span class="token punctuation">,</span> <span class="token keyword">int</span> sta2<span class="token punctuation">,</span> <span class="token keyword">int</span> end2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//串行快速排序</span>
+<span class="token keyword">int</span> <span class="token function">partition</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> sta<span class="token punctuation">,</span> <span class="token keyword">int</span> end<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">quickSort</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> sta<span class="token punctuation">,</span> <span class="token keyword">int</span> end<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//openMP(8)并行快速排序</span>
+<span class="token keyword">void</span> <span class="token function">quickSort_parallel</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span> array<span class="token punctuation">,</span> <span class="token keyword">int</span> lenArray<span class="token punctuation">,</span> <span class="token keyword">int</span> numThreads<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">quickSort_parallel_internal</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span> array<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">,</span> <span class="token keyword">int</span> cutoff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">rands</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>data<span class="token punctuation">,</span> <span class="token keyword">int</span> sum<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> sum<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        data<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">100000000</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">sw</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> <span class="token operator">*</span>b<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> t <span class="token operator">=</span> <span class="token operator">*</span>a<span class="token punctuation">;</span>
+    <span class="token operator">*</span>a <span class="token operator">=</span> <span class="token operator">*</span>b<span class="token punctuation">;</span>
+    <span class="token operator">*</span>b <span class="token operator">=</span> t<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">exp2</span><span class="token punctuation">(</span><span class="token keyword">int</span> wht_num<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> wht_i<span class="token punctuation">;</span>
+    wht_i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>wht_num<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        wht_num<span class="token operator">--</span><span class="token punctuation">;</span>
+        wht_i<span class="token operator">=</span>wht_i<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> wht_i<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">log2</span><span class="token punctuation">(</span><span class="token keyword">int</span> wht_num<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> wht_i<span class="token punctuation">,</span> wht_j<span class="token punctuation">;</span>
+    wht_i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+    wht_j<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>wht_j<span class="token operator">&lt;</span>wht_num<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        wht_j<span class="token operator">=</span>wht_j<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">;</span>
+        wht_i<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>wht_j<span class="token operator">></span>wht_num<span class="token punctuation">)</span>
+        wht_i<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> wht_i<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">partition</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> sta<span class="token punctuation">,</span> <span class="token keyword">int</span> end<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> sta<span class="token punctuation">,</span> j <span class="token operator">=</span> end <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> x <span class="token operator">=</span> a<span class="token punctuation">[</span>sta<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token operator">++</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> x <span class="token operator">&amp;&amp;</span> i <span class="token operator">&lt;</span> end<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token operator">--</span>j<span class="token punctuation">]</span> <span class="token operator">></span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">>=</span> j<span class="token punctuation">)</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token function">sw</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    a<span class="token punctuation">[</span>sta<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    a<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> j<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//并行openMP排序</span>
+<span class="token keyword">void</span> <span class="token function">quickSort_parallel</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> lenArray<span class="token punctuation">,</span> <span class="token keyword">int</span> numThreads<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> cutoff <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">;</span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp parallel <span class="token function">num_threads</span><span class="token punctuation">(</span>numThreads<span class="token punctuation">)</span> </span><span class="token comment">//指定线程数的数量</span></span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp single </span><span class="token comment">//串行执行</span></span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token function">quickSort_parallel_internal</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> lenArray <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> cutoff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">quickSort_parallel_internal</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">,</span> <span class="token keyword">int</span> cutoff<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> left<span class="token punctuation">,</span> j <span class="token operator">=</span> right<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> tmp<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> pivot <span class="token operator">=</span> a<span class="token punctuation">[</span><span class="token punctuation">(</span>left <span class="token operator">+</span> right<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment">//进行数组分割，分成两部分（符合左小右大）</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> j<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> pivot<span class="token punctuation">)</span>
+            i<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">></span> pivot<span class="token punctuation">)</span>
+            j<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> j<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            tmp <span class="token operator">=</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            a<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> tmp<span class="token punctuation">;</span>
+            i<span class="token operator">++</span><span class="token punctuation">;</span>
+            j<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">//int j = partition(a,left,right);</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>right <span class="token operator">-</span> left<span class="token punctuation">)</span> <span class="token operator">&lt;</span> cutoff<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> j<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token function">quickSort_parallel_internal</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> left<span class="token punctuation">,</span> j<span class="token punctuation">,</span> cutoff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> right<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token function">quickSort_parallel_internal</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> i<span class="token punctuation">,</span> right<span class="token punctuation">,</span> cutoff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+        <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp task</span></span>
+        <span class="token comment">/*  task是“动态”定义任务的，在运行过程中，
+            只需要使用task就会定义一个任务，
+            任务就会在一个线程上去执行，那么其它的任务就可以并行的执行。
+            可能某一个任务执行了一半的时候，或者甚至要执行完的时候，
+            程序可以去创建第二个任务，任务在一个线程上去执行，一个动态的过程
+        */</span>
+	<span class="token comment">//对两部分再进行并行的线程排序</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token function">quickSort_parallel_internal</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> left<span class="token punctuation">,</span> j<span class="token punctuation">,</span> cutoff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">omp task</span></span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token function">quickSort_parallel_internal</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> i<span class="token punctuation">,</span> right<span class="token punctuation">,</span> cutoff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//合并两个已排序的数组</span>
+<span class="token keyword">void</span> <span class="token function">mergeList</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>c<span class="token punctuation">,</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> sta1<span class="token punctuation">,</span> <span class="token keyword">int</span> end1<span class="token punctuation">,</span> <span class="token keyword">int</span> <span class="token operator">*</span>b<span class="token punctuation">,</span> <span class="token keyword">int</span> sta2<span class="token punctuation">,</span> <span class="token keyword">int</span> end2<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> a_index <span class="token operator">=</span> sta1<span class="token punctuation">;</span> <span class="token comment">// 遍历数组a的下标</span>
+    <span class="token keyword">int</span> b_index <span class="token operator">=</span> sta2<span class="token punctuation">;</span> <span class="token comment">// 遍历数组b的下标</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>          <span class="token comment">// 记录当前存储位置</span>
+    <span class="token comment">//int *c;</span>
+    <span class="token comment">//c = (int *)malloc(sizeof(int) * (end1 - sta1 + 1 + end2 - sta2 + 1));</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>a_index <span class="token operator">&lt;</span> end1 <span class="token operator">&amp;&amp;</span> b_index <span class="token operator">&lt;</span> end2<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>a_index<span class="token punctuation">]</span> <span class="token operator">&lt;=</span> b<span class="token punctuation">[</span>b_index<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            c<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>a_index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            a_index<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+            c<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> b<span class="token punctuation">[</span>b_index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            b_index<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        i<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>a_index <span class="token operator">&lt;</span> end1<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        c<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>a_index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        i<span class="token operator">++</span><span class="token punctuation">;</span>
+        a_index<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>b_index <span class="token operator">&lt;</span> end2<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        c<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> b<span class="token punctuation">[</span>b_index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        i<span class="token operator">++</span><span class="token punctuation">;</span>
+        b_index<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//串行快速排序</span>
+<span class="token keyword">void</span> <span class="token function">quickSort</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">int</span> sta<span class="token punctuation">,</span> <span class="token keyword">int</span> end<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>sta <span class="token operator">&lt;</span> end<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">//printf("3\n");</span>
+        <span class="token keyword">int</span> mid <span class="token operator">=</span> <span class="token function">partition</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> sta<span class="token punctuation">,</span> end<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">quickSort</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> sta<span class="token punctuation">,</span> mid <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">quickSort</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> mid <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> end<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>openMP快排实现代码</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;omp.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;time.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"quickSort.h"</span></span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">10000000</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">omp_set_num_threads</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> omp_time_sta<span class="token punctuation">,</span> omp_time_end<span class="token punctuation">;</span>
+    <span class="token keyword">double</span> time_sta<span class="token punctuation">,</span> time_end<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> <span class="token operator">*</span>data1<span class="token punctuation">,</span> <span class="token operator">*</span>data2<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> num <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>
+    data1 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token operator">*</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    data2 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token operator">*</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">rands</span><span class="token punctuation">(</span>data1<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">rands</span><span class="token punctuation">(</span>data2<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">//并行快速排序</span>
+    omp_time_sta <span class="token operator">=</span> <span class="token function">omp_get_wtime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">quickSort_parallel</span><span class="token punctuation">(</span>data1<span class="token punctuation">,</span> n<span class="token punctuation">,</span> num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	omp_time_end <span class="token operator">=</span> <span class="token function">omp_get_wtime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">//串行快速排序</span>
+    time_sta <span class="token operator">=</span> <span class="token function">omp_get_wtime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">quickSort</span><span class="token punctuation">(</span>data2<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    time_end <span class="token operator">=</span> <span class="token function">omp_get_wtime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">//输出运行时间</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"-------------------\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"并行处理时间 : %lf s\n"</span><span class="token punctuation">,</span> omp_time_end <span class="token operator">-</span> omp_time_sta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"串行处理时间 : %lf s\n"</span><span class="token punctuation">,</span> time_end <span class="token operator">-</span> time_sta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"-------------------\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"\n\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//输出排序后的数组</span>
+    <span class="token comment">// printf("-------------------\n");</span>
+    <span class="token comment">// printf("The final data1 : ");</span>
+    <span class="token comment">//print(data1, n);</span>
+    <span class="token comment">// printf("The final data2 : ");</span>
+    <span class="token comment">// print(data2,n);</span>
+    <span class="token comment">// printf("-------------------\n");</span>
+    <span class="token comment">// printf("\n\n");</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><code>openMP</code>快排算法<code>Github</code>上也有许多优秀的方法，大家可以自己去爬爬</p>
+</li>
+</ul>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ul>
+<li>运用<code>openMP</code>和快排算法的相通处，我们可以对串行快排进行并行化</li>
+<li>我给出的具体做法是：首先调用<code>single</code>使初始化数组分成两部分</li>
+<li>随后运用<code>task</code>，对两部分并行回溯（运用<code>task</code>而不是<code>sections</code>,是因为<code>task</code>是动态分配线程，比较灵活，用<code>sections</code>也不是不可以）</li>
+<li>核心内容均在<code>quickSort.h</code>中，自行查阅</li>
+</ul>
+<h1 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h1><ul>
+<li>没有想象中那么快，数据规模过大之后，设计到不断分配线程时间和<code>cache</code>不断替换等问题</li>
+<li>自行测试一下就看出来了</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">GaoMing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://keeganli.github.com/2021/06/27/CPU%E4%BD%9C%E4%B8%9A%E4%B9%8BopenMp%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">https://keeganli.github.com/2021/06/27/CPU%E4%BD%9C%E4%B8%9A%E4%B9%8BopenMp%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://keeganli.github.com" target="_blank">GaoMing's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B9%B6%E8%A1%8C%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">并行程序设计</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/06/27/GPU%E9%A1%B9%E7%9B%AE%E4%B9%8BRGB%E8%BD%AC%E7%81%B0%E5%BA%A6/"><img class="next-cover" src="https://i.ibb.co/hZj48L6/IMG-1976-20210512-150148.jpg" onerror="onerror=null;src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">GPU项目之RGB转灰度</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/06/26/GPU矩阵并行相乘/" title="GPU矩阵并行相乘"><img class="cover" src="https://i.ibb.co/cck3gTC/IMG-1974-20210512-150137.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">GPU矩阵并行相乘</div></div></a></div><div><a href="/2021/06/26/GPU项目之KNN算法/" title="GPU项目之KNN算法"><img class="cover" src="https://i.ibb.co/pr7BdqN/IMG-1975-20210512-150143.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">GPU项目之KNN算法</div></div></a></div><div><a href="/2021/06/27/GPU项目之RGB转灰度/" title="GPU项目之RGB转灰度"><img class="cover" src="https://i.ibb.co/hZj48L6/IMG-1976-20210512-150148.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-27</div><div class="title">GPU项目之RGB转灰度</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/au.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">GaoMing</div><div class="author-info__description">爱你不止520</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/keeganli"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://space.bilibili.com/178006287" target="_blank" title=""><i class="iconfont   icon-bilibili"></i></a><a class="social-icon" href="https://github.com/keeganli" target="_blank" title=""><i class="iconfont   icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_45769678" target="_blank" title=""><i class="iconfont   icon-csdn-copy-copy"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">高明爱圣子</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">项目介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#openMP%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">openMP相关知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFopenMP"><span class="toc-number">2.1.</span> <span class="toc-text">什么是openMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#openMP%E7%9A%84Fork-Join%E5%B9%B6%E8%A1%8C%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">openMP的Fork-Join并行执行模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#openMP%E7%89%88%E6%9C%AC"><span class="toc-number">2.3.</span> <span class="toc-text">openMP版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#openMP%E7%BC%96%E8%AF%91%E5%88%B6%E5%AF%BC"><span class="toc-number">2.4.</span> <span class="toc-text">openMP编译制导</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#openMP%E5%BF%AB%E6%8E%92"><span class="toc-number">3.</span> <span class="toc-text">openMP快排</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="toc-number">3.1.</span> <span class="toc-text">设计思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E5%BA%93-quickSort-h"><span class="toc-number">3.2.</span> <span class="toc-text">自定义的库(quickSort.h)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">3.3.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">性能分析</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/27/CPU%E4%BD%9C%E4%B8%9A%E4%B9%8BopenMp%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" title="CPU作业之openMP实现快速排序"><img src="https://i.ibb.co/BrytHNN/IMG-1972-20210512-150114.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="CPU作业之openMP实现快速排序"/></a><div class="content"><a class="title" href="/2021/06/27/CPU%E4%BD%9C%E4%B8%9A%E4%B9%8BopenMp%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" title="CPU作业之openMP实现快速排序">CPU作业之openMP实现快速排序</a><time datetime="2021-06-27T14:24:05.000Z" title="发表于 2021-06-27 14:24:05">2021-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/27/GPU%E9%A1%B9%E7%9B%AE%E4%B9%8BRGB%E8%BD%AC%E7%81%B0%E5%BA%A6/" title="GPU项目之RGB转灰度"><img src="https://i.ibb.co/hZj48L6/IMG-1976-20210512-150148.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="GPU项目之RGB转灰度"/></a><div class="content"><a class="title" href="/2021/06/27/GPU%E9%A1%B9%E7%9B%AE%E4%B9%8BRGB%E8%BD%AC%E7%81%B0%E5%BA%A6/" title="GPU项目之RGB转灰度">GPU项目之RGB转灰度</a><time datetime="2021-06-27T00:43:25.000Z" title="发表于 2021-06-27 00:43:25">2021-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/26/GPU%E9%A1%B9%E7%9B%AE%E4%B9%8BKNN%E7%AE%97%E6%B3%95/" title="GPU项目之KNN算法"><img src="https://i.ibb.co/pr7BdqN/IMG-1975-20210512-150143.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="GPU项目之KNN算法"/></a><div class="content"><a class="title" href="/2021/06/26/GPU%E9%A1%B9%E7%9B%AE%E4%B9%8BKNN%E7%AE%97%E6%B3%95/" title="GPU项目之KNN算法">GPU项目之KNN算法</a><time datetime="2021-06-26T14:52:10.000Z" title="发表于 2021-06-26 14:52:10">2021-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/26/GPU%E7%9F%A9%E9%98%B5%E5%B9%B6%E8%A1%8C%E7%9B%B8%E4%B9%98/" title="GPU矩阵并行相乘"><img src="https://i.ibb.co/cck3gTC/IMG-1974-20210512-150137.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="GPU矩阵并行相乘"/></a><div class="content"><a class="title" href="/2021/06/26/GPU%E7%9F%A9%E9%98%B5%E5%B9%B6%E8%A1%8C%E7%9B%B8%E4%B9%98/" title="GPU矩阵并行相乘">GPU矩阵并行相乘</a><time datetime="2021-06-26T10:04:14.000Z" title="发表于 2021-06-26 10:04:14">2021-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/13/%E6%88%91%E6%9C%89%E4%B8%80%E9%A6%96%E6%AD%8C/" title="我有一首歌"><img src="https://i.ibb.co/1Xztsj1/IMG-1989-20210513-102821.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="我有一首歌"/></a><div class="content"><a class="title" href="/2021/06/13/%E6%88%91%E6%9C%89%E4%B8%80%E9%A6%96%E6%AD%8C/" title="我有一首歌">我有一首歌</a><time datetime="2021-06-12T19:34:53.000Z" title="发表于 2021-06-12 19:34:53">2021-06-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By GaoMing</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
