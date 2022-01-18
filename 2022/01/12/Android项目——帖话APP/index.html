@@ -1,0 +1,2057 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Android项目——帖话APP | GaoMing's Blog</title><meta name="keywords" content="Android"><meta name="author" content="GaoMing"><meta name="copyright" content="GaoMing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="项目介绍 贴话APP实现的功能类似于百度贴吧，实现发帖，读帖，修改帖，删帖功能， 项目特色在于借助个人服务器的数据库实现网络服务，利用本地LitaPal实现用户数据缓存。 没有唯一用户的说法，使用人可以以任何用户名发帖，他人发帖可以看到。 实现了NavigationView侧边栏功能和WebView个人博客，上传图片的功能，支持用户登录，头像上传和帖子图片上传。 设计使用高德地图开发包实现地图功能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android项目——帖话APP">
+<meta property="og:url" content="https://keeganli.github.com/2022/01/12/Android%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E5%B8%96%E8%AF%9DAPP/index.html">
+<meta property="og:site_name" content="GaoMing&#39;s Blog">
+<meta property="og:description" content="项目介绍 贴话APP实现的功能类似于百度贴吧，实现发帖，读帖，修改帖，删帖功能， 项目特色在于借助个人服务器的数据库实现网络服务，利用本地LitaPal实现用户数据缓存。 没有唯一用户的说法，使用人可以以任何用户名发帖，他人发帖可以看到。 实现了NavigationView侧边栏功能和WebView个人博客，上传图片的功能，支持用户登录，头像上传和帖子图片上传。 设计使用高德地图开发包实现地图功能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.ibb.co/hZj48L6/IMG-1976-20210512-150148.jpg">
+<meta property="article:published_time" content="2022-01-12T13:24:10.000Z">
+<meta property="article:modified_time" content="2022-01-18T04:08:16.646Z">
+<meta property="article:author" content="GaoMing">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.ibb.co/hZj48L6/IMG-1976-20210512-150148.jpg"><link rel="shortcut icon" href="/img/666.png"><link rel="canonical" href="https://keeganli.github.com/2022/01/12/Android%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E5%B8%96%E8%AF%9DAPP/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: GaoMing","link":"链接: ","source":"来源: GaoMing's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android项目——帖话APP',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2022-01-18 04:08:16'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="/css/mycss.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/au.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.ibb.co/hZj48L6/IMG-1976-20210512-150148.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">GaoMing's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android项目——帖话APP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-12T13:24:10.000Z" title="发表于 2022-01-12 13:24:10">2022-01-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-18T04:08:16.646Z" title="更新于 2022-01-18 04:08:16">2022-01-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A7%BB%E5%8A%A8%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/">移动应用开发</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A7%BB%E5%8A%A8%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/Android%E9%A1%B9%E7%9B%AE/">Android项目</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A7%BB%E5%8A%A8%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/Android%E9%A1%B9%E7%9B%AE/%E5%B8%96%E8%AF%9DAPP/">帖话APP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android项目——帖话APP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><ul>
+<li>贴话APP实现的功能类似于百度贴吧，实现发帖，读帖，修改帖，删帖功能，</li>
+<li>项目特色在于借助个人服务器的数据库实现网络服务，利用本地<code>LitaPal</code>实现用户数据缓存。</li>
+<li>没有唯一用户的说法，使用人可以以任何用户名发帖，他人发帖可以看到。</li>
+<li>实现了<code>NavigationView</code>侧边栏功能和<code>WebView</code>个人博客，上传图片的功能，支持用户登录，头像上传和帖子图片上传。</li>
+<li>设计使用高德地图开发包实现地图功能。</li>
+<li>使用<code>CardView</code>美化<code>RecylerView</code>，支持<code>ToolBar</code>和<code>Scrolling </code>美化页面动画。</li>
+</ul>
+<h1 id="项目搭建"><a href="#项目搭建" class="headerlink" title="项目搭建"></a>项目搭建</h1><h2 id="首页"><a href="#首页" class="headerlink" title="首页"></a>首页</h2><ul>
+<li><p>首页采用<code>Android Stdio</code>模板（自带侧边栏），首页采用碎片，用<code>RecylerView</code>和<code>CardView</code>搭建，侧边栏采用<code>NavigationView</code>搭建。</p>
+</li>
+<li><p>```java<br>public class MainActivity extends AppCompatActivity  </p>
+<pre><code>    implements NavigationView.OnNavigationItemSelectedListener &#123;  
+private static Connection conn = null;  
+private static PreparedStatement stmt = null;  
+private SwipeRefreshLayout swipeRefreshLayout;  
+private List&lt;News&gt; sNewsList = new ArrayList&lt;News&gt;();  
+@Override  
+protected void onCreate(Bundle savedInstanceState) &#123;  
+    super.onCreate(savedInstanceState);  
+    setContentView(R.layout.activity_main);  
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  
+    toolbar.setTitle(&quot;主页&quot;);  
+     setSupportActionBar(toolbar);  
+    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);  
+    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(  
+            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);  
+    drawer.setDrawerListener(toggle);  
+    toggle.syncState();  
+    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);  
+    navigationView.setNavigationItemSelectedListener(this);  
+&#125;  
+@Override  
+public void onBackPressed() &#123;  
+    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);  
+    if (drawer.isDrawerOpen(GravityCompat.START)) &#123;  
+        drawer.closeDrawer(GravityCompat.START);  
+    &#125; else &#123;  
+        super.onBackPressed();  
+    &#125;  
+&#125;  
+@Override  
+public boolean onCreateOptionsMenu(Menu menu) &#123;  
+    // Inflate the menu; this adds items to the action bar if it is present.  
+    getMenuInflater().inflate(R.menu.main, menu);  
+    return true;  
+&#125;  
+@Override  
+public boolean onOptionsItemSelected(MenuItem item) &#123;  
+    int id = item.getItemId();  
+    if (id == R.id.action_settings) &#123;  
+        Intent intent = new Intent(MainActivity.this, PublishPost.class);  
+        startActivity(intent);  
+        item.setIntent(intent);  
+    &#125;  
+    return super.onOptionsItemSelected(item);  
+&#125;  
+@SuppressWarnings(&quot;StatementWithEmptyBody&quot;)  
+@Override  
+public boolean onNavigationItemSelected(MenuItem item) &#123;  
+    // Handle navigation view item clicks here.  
+    int id = item.getItemId();  
+    if (id == R.id.nav_camera) &#123;  
+        Intent intent = new Intent();  
+        intent.setClass(MainActivity.this, PublishPost.class);  
+        startActivityForResult(intent, 1);  
+    &#125; else if (id == R.id.nav_gallery) &#123;  
+        Intent intent = new Intent();  
+        intent.setClass(MainActivity.this, WebBlog.class);  
+        startActivity(intent);  
+    &#125; else if (id == R.id.nav_slideshow) &#123;  
+
+    &#125; else if (id == R.id.nav_manage) &#123;  
+
+    &#125; else if (id == R.id.nav_share) &#123;  
+
+    &#125; else if (id == R.id.nav_send) &#123;  
+
+    &#125;  
+    return true;  
+&#125;  
+@Override  
+protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;  
+    switch (requestCode) &#123;  
+        case 1:  
+            if (requestCode == RESULT_OK) &#123;  
+                String result = data.getStringExtra(&quot;message&quot;);  
+                finish();  
+                Intent intent = new Intent(this, MainActivity.class);  
+                startActivity(intent);  
+                Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();  
+            &#125;  
+    &#125;  
+&#125;  
+</code></pre>
+<p>}  </p>
+<pre class="line-numbers language-none"><code class="language-none">
+- 其中，onCreate函数初始化界面，引入ToolBar和NavigationView，onNavigationItemSelected函数设置侧边栏的点击事件的响应，onOptionsItemSelected函数设置ToolBar右边下拉框点击事件的响应。
+
+- 布局
+
+  &#96;&#96;&#96;xml
+  &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;  
+  &lt;android.support.v4.widget.DrawerLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;  
+      xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;  
+      xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;  
+      android:id&#x3D;&quot;@+id&#x2F;drawer_layout&quot;  
+      android:layout_width&#x3D;&quot;match_parent&quot;  
+      android:layout_height&#x3D;&quot;match_parent&quot;  
+      android:fitsSystemWindows&#x3D;&quot;true&quot;  
+      tools:openDrawer&#x3D;&quot;start&quot;&gt;  
+      &lt;include  
+          layout&#x3D;&quot;@layout&#x2F;app_bar_main&quot;  
+          android:layout_width&#x3D;&quot;match_parent&quot;  
+          android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;  
+      &lt;android.support.design.widget.NavigationView  
+          android:id&#x3D;&quot;@+id&#x2F;nav_view&quot;  
+          android:layout_width&#x3D;&quot;wrap_content&quot;  
+          android:layout_height&#x3D;&quot;match_parent&quot;  
+          android:layout_gravity&#x3D;&quot;start&quot;  
+          android:fitsSystemWindows&#x3D;&quot;true&quot;  
+          app:headerLayout&#x3D;&quot;@layout&#x2F;nav_header_main&quot;  
+          app:menu&#x3D;&quot;@menu&#x2F;activity_main_drawer&quot;&gt;  
+      &lt;&#x2F;android.support.design.widget.NavigationView&gt;  
+  &lt;&#x2F;android.support.v4.widget.DrawerLayout&gt;  
+  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>其中<code>&lt;include&gt;</code>导入主页面，<code>&lt;android.support.design.widget.NavigationView&gt;</code>标签设置侧边栏，<code>app:headerLayout</code>和<code>app:menu</code>设置侧边栏的头部和身体。</p>
+</li>
+</ul>
+<h2 id="首页碎片显示"><a href="#首页碎片显示" class="headerlink" title="首页碎片显示"></a>首页碎片显示</h2><ol>
+<li><p>首页内容显示采用<code>碎片+RecylerView+CardView</code>，核心代码如下</p>
+<ul>
+<li><p>```java<br> public class NewsTitleFragment extends Fragment {  </p>
+<pre><code> private boolean isTwoPane;  
+ private static Connection conn = null;  
+ private static PreparedStatement stmt = null;  
+ private List&lt;News&gt; sNewsList = new ArrayList&lt;News&gt;();  
+ private static final CountDownLatch ctl = new CountDownLatch(1);  
+ private SwipeRefreshLayout swipeRefreshLayout;  
+ private NewsAdapter newsAdapter = new NewsAdapter();  
+ @Nullable  
+ @Override  
+ public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) &#123;  
+     View view = inflater.inflate(R.layout.news_title_frag, container, false);  
+     RecyclerView newsTitleRecyclerView = (RecyclerView) view.findViewById(R.id.news_title_recycle_view);  
+     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity()) &#123;  
+         @Override  
+         protected int getExtraLayoutSpace(RecyclerView.State state) &#123;  
+             return 300;  
+         &#125;  
+     &#125;;  
+     newsTitleRecyclerView.setLayoutManager(layoutManager);  
+     @SuppressLint(&quot;HandlerLeak&quot;) final  
+     Handler handler = new Handler() &#123;  
+         @Override  
+         public void handleMessage(Message msg) &#123;  
+             sNewsList = (List&lt;News&gt;) msg.obj;  
+             Log.d(&quot;sNewList.length : &quot;, String.valueOf(sNewsList.size())); 
+         &#125;  
+     &#125;;  
+     Thread thread = null;  
+     thread = new Thread(new Runnable() &#123;  
+         @Override  
+         public void run() &#123;  
+             Log.d(TAG, &quot;ppppp: ???&quot;);  
+             try &#123;  
+                 conn = MySQLConnections.getConnection(&quot;blog&quot;);  
+             &#125; catch (Exception e) &#123;  
+                 e.printStackTrace();  
+             &#125;  
+             try &#123;  
+                 String sql = &quot;select id,author,title,content from Blog&quot;;  
+                 List&lt;News&gt; list_tmp = new ArrayList&lt;News&gt;();  
+                 if (conn != null) &#123;  
+                     stmt = conn.prepareStatement(sql);  
+                     conn.setAutoCommit(false);  
+                     ResultSet rs = stmt.executeQuery();//用rs接收sql语句返回的查询结果  
+                     //执行查询语句并且保存结果  
+                     while (rs.next()) &#123;  
+                         Log.d(&quot;1&quot;, &quot;1&quot;);  
+                         News news = new News();  
+                         news.setId(Integer.parseInt(rs.getString(&quot;id&quot;)));  
+                         news.setAuthor(rs.getString(&quot;author&quot;));  
+                         news.setTitle(rs.getString(&quot;title&quot;));  
+                         news.setContent(&quot;\u3000\u3000&quot; + rs.getString(&quot;content&quot;));  
+                         Log.d(&quot;Title&quot;, news.getTitle());  
+                         list_tmp.add(news);  
+                     &#125;  
+                     Collections.reverse(list_tmp);  
+                     sNewsList = list_tmp;  
+                     Message msg = new Message();  
+                     msg.obj = list_tmp;  
+                     handler.sendMessage(msg);  
+                     rs.close();  
+                 &#125;  
+             &#125; catch (Exception e) &#123;  
+                 e.printStackTrace();  
+             &#125; finally &#123;  
+             &#125;  
+         &#125;  
+     &#125;);  
+     thread.start();  
+     try &#123;  
+         thread.join();  
+     &#125; catch (InterruptedException e) &#123;  
+         e.printStackTrace();  
+     &#125;  
+     swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swip_refresh);  
+     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()&#123;  
+         @Override  
+         public void onRefresh() &#123;  
+             refreshContent();  
+         &#125;  
+     &#125;);  
+     newsAdapter.setmNewList(sNewsList);  
+     Log.d(&quot;length:&quot;, String.valueOf(sNewsList.size()));  
+     Log.d(TAG, &quot;What???&quot;);  
+     newsTitleRecyclerView.setAdapter(newsAdapter);  
+     return view;  
+ &#125;  
+ private void refreshContent() &#123;  
+     @SuppressLint(&quot;HandlerLeak&quot;) final  
+     Handler handler = new Handler() &#123;  
+         @Override  
+         public void handleMessage(Message msg) &#123;  
+             sNewsList = (List&lt;News&gt;) msg.obj;  
+                newsAdapter.addList(sNewsList);  
+             swipeRefreshLayout.setRefreshing(false);  
+             Log.d(&quot;sNewList.length : &quot;, String.valueOf(sNewsList.size()));
+         &#125;  
+     &#125;;  
+     Thread thread = null;  
+     thread = new Thread(new Runnable() &#123;  
+         @Override  
+         public void run() &#123;  
+             Log.d(TAG, &quot;ppppp: ???&quot;);  
+             try &#123;  
+                 Thread.sleep(2000);  
+                 conn = MySQLConnections.getConnection(&quot;blog&quot;);  
+             &#125; catch (Exception e) &#123;  
+                 e.printStackTrace();  
+             &#125;  
+             try &#123;  
+                 String sql = &quot;select id,author,title,content from Blog&quot;;  
+                 List&lt;News&gt; list_tmp = new ArrayList&lt;News&gt;();  
+                 if (conn != null) &#123;  
+                     stmt = conn.prepareStatement(sql);  
+                     conn.setAutoCommit(false);  
+                     ResultSet rs = stmt.executeQuery();//用rs接收sql语句返回的查询结果  
+                     //执行查询语句并且保存结果  
+                     while (rs.next()) &#123;  
+                         Log.d(&quot;1&quot;, &quot;1&quot;);  
+                         News news = new News();  
+                         news.setId(Integer.parseInt(rs.getString(&quot;id&quot;)));  
+                         news.setAuthor(rs.getString(&quot;author&quot;));  
+                         news.setTitle(rs.getString(&quot;title&quot;));  
+                         news.setContent(&quot;\u3000\u3000&quot; + rs.getString(&quot;content&quot;));  
+                         Log.d(&quot;Title&quot;, news.getTitle());  
+                         list_tmp.add(news);  
+                     &#125;  
+                     sNewsList = list_tmp;  
+                     Message msg = new Message();  
+                     msg.obj = list_tmp;  
+                     handler.sendMessage(msg);  
+                     rs.close();  
+                 &#125;  
+             &#125; catch (SQLException e) &#123;  
+                 e.printStackTrace();  
+             &#125;  
+         &#125;  
+     &#125;);  
+     thread.start();  
+&#125;  
+ @Override  
+ public void onActivityCreated(@Nullable Bundle savedInstanceState) &#123;  
+     super.onActivityCreated(savedInstanceState);  
+     if (getActivity().findViewById(R.id.new_content_layout) != null) &#123;  
+         isTwoPane = true;  
+     &#125; else &#123;  
+         isTwoPane = false;  
+     &#125;  
+ &#125;  
+ class NewsAdapter extends RecyclerView.Adapter&lt;NewsAdapter.ViewHolder&gt; &#123;  
+     private List&lt;News&gt; mNewsList = new ArrayList&lt;News&gt;();  
+     private LayoutInflater mInflater;  
+     class ViewHolder extends RecyclerView.ViewHolder &#123;  
+         TextView newsTitleText;  
+         CardView newsCardView;  
+         TextView newsContentPreView;  
+         ImageView imageViewPreView;  
+         public ViewHolder(View view) &#123;  
+             super(view);  
+             newsCardView = (CardView) view.findViewById(R.id.item_cardview);  
+             newsTitleText = (TextView) view.findViewById(R.id.news_title); 
+             newsContentPreView = (TextView) view.findViewById(R.id.news_contentPre);  
+             imageViewPreView = (ImageView) view.findViewById(R.id.imagePreRandon);  
+         &#125;  
+     &#125;  
+     public NewsAdapter() &#123;  
+     &#125;  
+     public void setmNewList(List&lt;News&gt; list) &#123;  
+         this.mNewsList = list;  
+     &#125;  
+     @Override  
+     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) &#123; 
+         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_item, parent, false);  
+         final ViewHolder holder = new ViewHolder(view);  
+         view.setOnClickListener(new View.OnClickListener() &#123;  
+             @Override  
+             public void onClick(View v) &#123;  
+                 News news = mNewsList.get(holder.getAdapterPosition());  
+                 if (isTwoPane) &#123;  
+                     NewsContentFragment newsContentFragment = (NewsContentFragment) getFragmentManager()  
+                             .findFragmentById(R.id.news_content_fragment);  
+                     newsContentFragment.refresh(news.getTitle(), news.getContent());  
+                 &#125; else &#123;  
+                     NewsContentActivity.actionStart(getActivity(), news.getTitle(), news.getContent());  
+                 &#125;  
+             &#125;  
+         &#125;);  
+         return holder;  
+     &#125;  
+     @Override  
+     public void onBindViewHolder(ViewHolder holder, int position) &#123;  
+         News news = mNewsList.get(position);  
+         holder.newsTitleText.setText(news.getTitle());  
+         holder.newsContentPreView.setText(news.getContent().substring(0, (news.getContent().length() &gt; 10 ? 10 : news.getContent().length() / 2)));  
+         int cnt = 1 + new Random().nextInt(11);  
+         if (cnt == 1) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_1);  
+        &#125; else if (cnt == 2) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_2);  
+         &#125; else if (cnt == 3) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_3);  
+         &#125; else if (cnt == 4) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_5);  
+         &#125; else if (cnt == 5) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_5);  
+         &#125; else if (cnt == 6) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_6);  
+         &#125; else if (cnt == 7) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_7);  
+         &#125; else if (cnt == 8) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_8);  
+         &#125; else if (cnt == 9) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_9);  
+         &#125; else if (cnt == 10) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_10);  
+         &#125; else if (cnt == 11) &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_11);  
+         &#125; else &#123;  
+             holder.imageViewPreView.setImageResource(R.drawable.img_12);  
+         &#125;  
+     &#125;  
+
+     @Override  
+     public int getItemCount() &#123;  
+         return mNewsList.size();  
+     &#125;  
+ &#125;  
+</code></pre>
+<p> }  </p>
+ <pre class="line-numbers language-none"><code class="language-none">
+   - 重写&#96;onCreateView&#96;函数承载每个子项的布局，函数中**开启线程和回调函数负责于服务器服务器建立连接**&#96;MySQLConnections.getConnection(&quot;blog&quot;)&#96;，同时进行select查询；建立&#96;SwipeRefreshLayout&#96;实现下拉刷新事件。
+
+     &#96;onActivityCreated&#96;函数判断是平板显示还是手机显示，若是平板显示，则调用**帖子内容碎片**，否则调用**内容活动Activity**。
+
+     建立内容类适配器&#96;NewsAdapter&#96;，初始化&#96;CardView_item&#96;的内容，同时重写&#96;onCreateViewHolder&#96;函数，负责**接收点击CardView_item跳转到帖子详情页面的事件**。
+
+     重写&#96;onBindViewHolder&#96;函数承载每个子项Holder绑定数据，函数实现了随机图片显示。&#96;swipeRefreshLayout.setOnRefreshListener&#96;实现**下拉刷新事件**，重写&#96;OnRefresh&#96;函数使用&#96;refreshContent&#96;函数实现下拉**刷新内容数据的更新**。
+
+     &#96;getItemCount&#96;函数获取**帖子个数**。
+
+2. 碎片布局
+
+   -  &#96;&#96;&#96;xml
+      &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;  
+      &lt;RelativeLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;  
+          android:layout_width&#x3D;&quot;match_parent&quot;  
+          android:layout_height&#x3D;&quot;match_parent&quot;  
+          android:orientation&#x3D;&quot;vertical&quot;&gt;  
+          &lt;ImageView  
+              android:layout_width&#x3D;&quot;match_parent&quot;  
+              android:layout_height&#x3D;&quot;match_parent&quot;  
+              android:scaleType&#x3D;&quot;centerCrop&quot;  
+              android:src&#x3D;&quot;@drawable&#x2F;bg_wood&quot; &#x2F;&gt;  
+          &lt;android.support.v4.widget.SwipeRefreshLayout  
+              android:id&#x3D;&quot;@+id&#x2F;swip_refresh&quot;  
+              android:layout_width&#x3D;&quot;match_parent&quot;  
+              android:layout_height&#x3D;&quot;match_parent&quot;  
+              android:orientation&#x3D;&quot;vertical&quot;&gt;  
+              &lt;android.support.v7.widget.RecyclerView  
+                  android:id&#x3D;&quot;@+id&#x2F;news_title_recycle_view&quot;  
+                  android:layout_width&#x3D;&quot;match_parent&quot;  
+                  android:layout_height&#x3D;&quot;match_parent&quot;  
+                  android:overScrollMode&#x3D;&quot;never&quot; &#x2F;&gt;  
+          &lt;&#x2F;android.support.v4.widget.SwipeRefreshLayout&gt;  
+      &lt;&#x2F;RelativeLayout&gt; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>主页内容碎片采用<strong>RelativeLayout</strong>布局，<imageView>标签设置<strong>背景图片</strong>，<strong>SwipeRefreshLayout</strong>实现下拉<strong>刷新</strong><code>RecylarView</code>。</imageView></p>
+</li>
+</ul>
+</li>
+<li><p><code>RecylerView</code>的子布局</p>
+<ul>
+<li>```xml<br> &lt;android.support.v7.widget.CardView xmlns:android=”<a target="_blank" rel="noopener" href="http://schemas.android.com/apk/res/android&quot;">http://schemas.android.com/apk/res/android&quot;</a>  <pre><code> xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;  
+ xmlns:card_view=&quot;http://schemas.android.com/apk/res-auto&quot;  
+ android:layout_width=&quot;match_parent&quot;  
+ android:layout_height=&quot;wrap_content&quot;  
+ android:layout_marginBottom=&quot;16dp&quot;  
+ android:layout_marginLeft=&quot;12dp&quot;  
+ android:layout_marginRight=&quot;12dp&quot;  
+ android:layout_marginTop=&quot;2dp&quot;  
+ app:cardCornerRadius=&quot;15dp&quot;  
+ app:cardElevation=&quot;10dp&quot;&gt;  
+ &lt;LinearLayout  
+     android:layout_width=&quot;361dp&quot;  
+     android:layout_height=&quot;282dp&quot;  
+     android:background=&quot;#fff&quot;  
+     android:orientation=&quot;vertical&quot;  
+     android:weightSum=&quot;1&quot;&gt;  
+     &lt;ImageView  
+         android:id=&quot;@+id/imagePreRandon&quot;  
+         android:layout_width=&quot;match_parent&quot;  
+         android:layout_height=&quot;182dp&quot;  
+         android:scaleType=&quot;centerCrop&quot; /&gt;  
+     &lt;LinearLayout  
+         android:layout_width=&quot;match_parent&quot;  
+         android:layout_height=&quot;113dp&quot;  
+         android:layout_centerVertical=&quot;true&quot;  
+         android:layout_margin=&quot;12dp&quot;  
+         android:orientation=&quot;vertical&quot;&gt;  
+           &lt;TextView  
+             android:id=&quot;@+id/news_title&quot;  
+             android:layout_width=&quot;match_parent&quot;  
+             android:layout_height=&quot;42dp&quot;  
+             android:padding=&quot;5dp&quot;  
+             android:textSize=&quot;18sp&quot;  
+             android:textStyle=&quot;bold&quot; /&gt;  
+         &lt;TextView  
+             android:id=&quot;@+id/news_contentPre&quot;  
+             android:layout_width=&quot;match_parent&quot;  
+             android:layout_height=&quot;wrap_content&quot;  
+             android:padding=&quot;5dp&quot; /&gt;  
+     &lt;/LinearLayout&gt;  
+ &lt;/LinearLayout&gt;  
+</code></pre>
+ &lt;/android.support.v7.widget.CardView&gt; <pre class="line-numbers language-none"><code class="language-none">
+   - &#96;RecyclerView&#96;的子&#96;view&#96;采用**CardView布局**
+
+## 侧边栏
+
+1. Head
+
+   -  &#96;&#96;&#96;xml
+      &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;  
+      &lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;  
+          xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;  
+          android:layout_width&#x3D;&quot;match_parent&quot;  
+          android:layout_height&#x3D;&quot;@dimen&#x2F;nav_header_height&quot;  
+          android:background&#x3D;&quot;@drawable&#x2F;side_nav_bar&quot;  
+          android:gravity&#x3D;&quot;bottom&quot;  
+          android:orientation&#x3D;&quot;vertical&quot;  
+          android:paddingBottom&#x3D;&quot;@dimen&#x2F;activity_vertical_margin&quot;  
+          android:paddingLeft&#x3D;&quot;@dimen&#x2F;activity_horizontal_margin&quot;  
+          android:paddingRight&#x3D;&quot;@dimen&#x2F;activity_horizontal_margin&quot;  
+          android:paddingTop&#x3D;&quot;@dimen&#x2F;activity_vertical_margin&quot;  
+          android:theme&#x3D;&quot;@style&#x2F;ThemeOverlay.AppCompat.Dark&quot;  
+          android:weightSum&#x3D;&quot;1&quot;&gt;  
+          &lt;ImageView  
+              android:id&#x3D;&quot;@+id&#x2F;imageView&quot;  
+              android:layout_width&#x3D;&quot;match_parent&quot;  
+              android:layout_height&#x3D;&quot;88dp&quot;  
+              android:paddingTop&#x3D;&quot;@dimen&#x2F;nav_header_vertical_spacing&quot;  
+              android:src&#x3D;&quot;@drawable&#x2F;touxiang&quot; &#x2F;&gt;  
+          &lt;TextView  
+              android:layout_width&#x3D;&quot;match_parent&quot;  
+              android:layout_height&#x3D;&quot;wrap_content&quot;  
+              android:paddingTop&#x3D;&quot;@dimen&#x2F;nav_header_vertical_spacing&quot;  
+              android:text&#x3D;&quot;GaoMing&quot;  
+              android:textAppearance&#x3D;&quot;@style&#x2F;TextAppearance.AppCompat.Body1&quot; &#x2F;&gt;  
+          &lt;TextView  
+              android:id&#x3D;&quot;@+id&#x2F;textView&quot;  
+              android:layout_width&#x3D;&quot;wrap_content&quot;  
+              android:layout_height&#x3D;&quot;wrap_content&quot;  
+              android:text&#x3D;&quot;所爱山海间&quot;&#x2F;&gt;  
+      &lt;&#x2F;LinearLayout&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>Menu</p>
+<ul>
+<li><p>```xml</p>
+ <?xml version="1.0" encoding="utf-8"?> <menu xmlns:android="http://schemas.android.com/apk/res/android">  
+     <group android:checkablebehavior="single">  
+         <item android:id="@+id/nav_camera" android:icon="@drawable/ic_menu_camera" android:title="登录">  
+         <item android:id="@+id/nav_gallery" android:icon="@drawable/ic_menu_gallery" android:title="发帖">  
+         <item android:id="@+id/nav_slideshow" android:icon="@drawable/ic_menu_slideshow" android:title="GaoMing’s Web ">  
+         <item android:id="@+id/nav_manage" android:icon="@drawable/ic_menu_manage" android:title="地图
+  ">  
+     </item></item></item></item></group>  
+     <item android:title="Communicate">  
+         <menu>  
+             <item android:id="@+id/nav_share" android:icon="@drawable/ic_menu_share" android:title="Share">  
+             <item android:id="@+id/nav_send" android:icon="@drawable/ic_menu_send" android:title="Send">  
+         </item></item></menu>  
+     </item>  
+ </menu>  
+ <pre class="line-numbers language-none"><code class="language-none">
+## 帖子详情页面
+
+1. 活动核心代码
+
+   - &#96;&#96;&#96;java
+     public class NewsContentActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener &#123;  
+         private ImageView imageViewContent;  
+         public static void actionStart(Context context, String newsTitle, String newsContent) &#123;  
+             Intent intent &#x3D; new Intent(context, NewsContentActivity.class);  
+             intent.putExtra(&quot;news_title&quot;, newsTitle);  
+             intent.putExtra(&quot;news_content&quot;, newsContent);  
+             context.startActivity(intent);  
+         &#125;  
+         @Override  
+         protected void onCreate(Bundle savedInstanceState) &#123;  
+             super.onCreate(savedInstanceState);  
+             setContentView(R.layout.activity_news_content);  
+             imageViewContent &#x3D; (ImageView) findViewById(R.id.imageContent);  
+             int cnt &#x3D; 1 + new Random().nextInt(11);  
+             if (cnt &#x3D;&#x3D; 1) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_1);  
+             &#125; else if (cnt &#x3D;&#x3D; 2) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_2);  
+             &#125; else if (cnt &#x3D;&#x3D; 3) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_3);  
+             &#125; else if (cnt &#x3D;&#x3D; 4) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_5);  
+             &#125; else if (cnt &#x3D;&#x3D; 5) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_5);  
+             &#125; else if (cnt &#x3D;&#x3D; 6) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_6);  
+             &#125; else if (cnt &#x3D;&#x3D; 7) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_7);  
+             &#125; else if (cnt &#x3D;&#x3D; 8) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_8);  
+             &#125; else if (cnt &#x3D;&#x3D; 9) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_9);  
+             &#125; else if (cnt &#x3D;&#x3D; 10) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_10);  
+             &#125; else if (cnt &#x3D;&#x3D; 11) &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_11);  
+             &#125; else &#123;  
+                 imageViewContent.setImageResource(R.drawable.img_12);  
+             &#125;  
+             Toolbar toolbar &#x3D; (Toolbar) findViewById(R.id.toolbar);  
+             String newsTitle &#x3D; getIntent().getStringExtra(&quot;news_title&quot;);  
+             String newContent &#x3D; getIntent().getStringExtra(&quot;news_content&quot;);  
+             NewsContentFragment newsContentFragment &#x3D; (NewsContentFragment) getSupportFragmentManager()  
+                     .findFragmentById(R.id.news_content_fragment);  
+             newsContentFragment.refresh(newsTitle, newContent);  
+             toolbar.setTitle(newsTitle);  
+             toolbar.setSubtitle(newsTitle);  
+             setSupportActionBar(toolbar);  
+             getSupportActionBar().setDisplayHomeAsUpEnabled(true);&#x2F;&#x2F;左侧添加一个默认的返回图标  
+             getSupportActionBar().setHomeButtonEnabled(true); &#x2F;&#x2F;设置返回键可用  
+             toolbar.setNavigationOnClickListener(new View.OnClickListener() &#123;  
+                 @Override  
+                 public void onClick(View v) &#123;  
+                     finish();  
+                 &#125;  
+             &#125;);  
+         &#125;  
+         @Override  
+         public boolean onNavigationItemSelected(@NonNull MenuItem item) &#123;  
+             return false;  
+         &#125;  
+     &#125;  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>actionStart</strong>函数负责启动活动，<strong>onCreate</strong>生成活动窗口，初始化内容。</p>
+</li>
+</ul>
+</li>
+<li><p>帖子详情页面布局</p>
+<ul>
+<li><p>```xml</p>
+ <?xml version="1.0" encoding="utf-8"?><p> &lt;android.support.design.widget.CoordinatorLayout xmlns:android=”<a target="_blank" rel="noopener" href="http://schemas.android.com/apk/res/android&quot;">http://schemas.android.com/apk/res/android&quot;</a>  </p>
+<pre><code> xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;  
+ xmlns:tools=&quot;http://schemas.android.com/tools&quot;  
+ android:layout_width=&quot;match_parent&quot;  
+ android:layout_height=&quot;match_parent&quot;  
+ android:fitsSystemWindows=&quot;true&quot;  
+ android:orientation=&quot;vertical&quot;&gt;  
+ &lt;android.support.design.widget.AppBarLayout  
+     android:layout_width=&quot;match_parent&quot;  
+     android:layout_height=&quot;200dp&quot;&gt;  
+     &lt;android.support.design.widget.CollapsingToolbarLayout  
+         android:id=&quot;@+id/toolbar_layout&quot;  
+         android:layout_width=&quot;match_parent&quot;  
+         android:layout_height=&quot;match_parent&quot;  
+         app:contentScrim=&quot;@color/colorPrimary&quot;  
+         app:layout_scrollFlags=&quot;scroll|exitUntilCollapsed&quot;&gt;  
+         &lt;ImageView  
+             android:id=&quot;@+id/imageContent&quot;  
+             android:layout_width=&quot;match_parent&quot;  
+             android:layout_height=&quot;match_parent&quot;  
+             android:scaleType=&quot;centerCrop&quot;  
+             app:layout_collapseMode=&quot;parallax&quot;  
+             app:layout_collapseParallaxMultiplier=&quot;0.9&quot;  
+             tools:ignore=&quot;ContentDescription&quot; /&gt;  
+         &lt;android.support.v7.widget.Toolbar  
+             android:id=&quot;@+id/toolbar&quot;  
+             android:layout_width=&quot;match_parent&quot;  
+             android:layout_height=&quot;50dp&quot;  
+             android:theme=&quot;@style/ToolBarTheme&quot;  
+             app:layout_collapseMode=&quot;pin&quot; /&gt;  
+     &lt;/android.support.design.widget.CollapsingToolbarLayout&gt;  
+ &lt;/android.support.design.widget.AppBarLayout&gt;  
+ &lt;android.support.v4.widget.NestedScrollView  
+     android:id=&quot;@+id/visibility_layout&quot;  
+     android:layout_width=&quot;match_parent&quot;  
+     android:layout_height=&quot;match_parent&quot;  
+     app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;&gt;  
+     &lt;android.support.v7.widget.CardView  
+         android:layout_width=&quot;match_parent&quot;  
+         android:layout_height=&quot;match_parent&quot;  
+         android:layout_marginBottom=&quot;15dp&quot;  
+         android:layout_marginLeft=&quot;15dp&quot;  
+         android:layout_marginRight=&quot;15dp&quot;  
+         android:layout_marginTop=&quot;15dp&quot;  
+         app:cardCornerRadius=&quot;10dp&quot;  
+         app:cardElevation=&quot;10dp&quot;&gt;  
+         &lt;TextView  
+             android:id=&quot;@+id/news_content&quot;  
+             android:layout_width=&quot;match_parent&quot;  
+             android:layout_height=&quot;match_parent&quot;  
+             android:layout_gravity=&quot;center_horizontal&quot;  
+             android:textSize=&quot;20sp&quot; /&gt;  
+     &lt;/android.support.v7.widget.CardView&gt;  
+ &lt;/android.support.v4.widget.NestedScrollView&gt;  
+</code></pre>
+<p> &lt;/android.support.design.widget.CoordinatorLayout&gt;</p>
+ <pre class="line-numbers language-none"><code class="language-none">
+   - 内容布局采用&#96;CoordinatorLayout&#96;（Super-power FrameLayout）**作为顶部布局和同时负责协调子view交互。使用**&#96;AppBarLayout&#96;**响应滚动手势和**&#96;ToorBar&#96;**作为顶部子项。使用&#96;CardView&#96;作为帖子详细内容主体。
+
+## 发布帖子页面
+
+1. &#96;PublishPost&#96;核心代码
+
+   -  &#96;&#96;&#96;java
+      public class PublishPost extends AppCompatActivity &#123;  
+          private Uri imageUri;  
+          private static int number &#x3D; 0;  
+          private ImageView imageView;  
+          private EditText editText1;  
+          private EditText editText2;  
+          private EditText editText3;  
+          private Toolbar toolbar;  
+          private Button button;  
+          private final int CODE_PICK_PHOTO &#x3D; 0;  
+          private final int RESULT_REQUEST_CODE &#x3D; -1;  
+          private String bitmapToString&#x3D; null;  
+          private String photoPath &#x3D; null;  
+          private Bitmap bitmap;  
+          private String username;  
+          @Override  
+          protected void onCreate(Bundle savedInstanceState) &#123;  
+              super.onCreate(savedInstanceState);  
+              setContentView(R.layout.activity_publish_post);  
+              Intent intentRec &#x3D; getIntent();  
+              username &#x3D; intentRec.getStringExtra(&quot;userName&quot;);  
+              Toolbar toolbar &#x3D; (Toolbar) findViewById(R.id.toolbar);  
+              final Handler handler &#x3D; new Handler(new Handler.Callback() &#123;  
+                  @Override  
+                  public boolean handleMessage(Message message) &#123;  
+                      return false;  
+                  &#125;  
+              &#125;);  
+              new Thread(new Runnable() &#123;  
+                  @Override  
+                  public void run() &#123;  
+                      Message msg &#x3D; new Message();&#x2F;&#x2F;message用于给handler传递参数  
+                      try &#123;  
+                          MySQLConnections.getConnection(&quot;Blog&quot;);  
+                      &#125; catch (Exception e) &#123;  
+                          e.printStackTrace();  
+                          Log.d(&quot;TAG&quot;, &quot; 数据操作异常&quot;);  
+                      &#125;  
+                      handler.sendMessage(msg);  
+                 &#125;  
+              &#125;).start();  
+              imageView &#x3D; (ImageView) findViewById(R.id.imageUp);  
+              imageView.setOnClickListener(new View.OnClickListener() &#123;  
+                  @Override  
+                  public void onClick(View v) &#123;  
+                      Intent intent_gallery &#x3D; new Intent(Intent.ACTION_PICK);  
+                      intent_gallery.setType(&quot;image&#x2F;*&quot;);  
+                      startActivityForResult(intent_gallery, CODE_PICK_PHOTO);  
+                  &#125;  
+              &#125;);  
+              editText1 &#x3D; (EditText) findViewById(R.id.upAuthor);  
+              editText2 &#x3D; (EditText) findViewById(R.id.uptitle);  
+              editText3 &#x3D; (EditText) findViewById(R.id.upcontent);  
+              button &#x3D; (Button) findViewById(R.id.buttonPub);  
+              button.setOnClickListener(new View.OnClickListener() &#123;  
+                  @Override  
+                  public void onClick(View v) &#123;  
+                      final String title &#x3D; editText1.getText().toString();  
+                      final String author &#x3D; editText2.getText().toString();  
+                      final String content &#x3D; editText3.getText().toString();  
+                      new Thread(new Runnable() &#123;  
+                          @Override  
+                          public void run() &#123;  
+                              try &#123;  
+                                  MySQLConnections.insertIntoData(PublishPost.number++, title, author, content,bitmapToString);&#x2F;&#x2F;调用插入数据库语句  
+                              &#125; catch (SQLException e) &#123;  
+                                  e.printStackTrace();  
+                              &#125;  
+                          &#125;  
+                      &#125;).start();  
+                      Saving(title,content,username,bitmapToString);  
+                      Intent intent &#x3D; new Intent(PublishPost.this, MainActivity.class);  
+                      intent.putExtra(&quot;postTitle&quot;,title);  
+                      intent.putExtra(&quot;UNAME&quot;,username);  
+                      setResult(RESULT_OK, intent);  
+                      finish();  
+                  &#125;  
+              &#125;);  
+              toolbar &#x3D; (Toolbar) findViewById(R.id.toolbarPub);  
+              toolbar.setTitle(&quot;发帖&quot;);  
+              toolbar.setSubtitle(&quot;GaoMing&quot;);  
+              setSupportActionBar(toolbar);  
+              getSupportActionBar().setDisplayHomeAsUpEnabled(true);  
+              getSupportActionBar().setHomeButtonEnabled(true);  
+              toolbar.setNavigationOnClickListener(new View.OnClickListener() &#123;  
+                  @Override  
+                  public void onClick(View v) &#123;  
+                      finish();  
+                  &#125;  
+              &#125;);  
+          &#125;  
+        
+         private void Saving(String title, String content, String username, String bitmapToString) &#123;  
+              MyPost mypost &#x3D; new MyPost();  
+              mypost.setNewstitle(title);  
+              mypost.setNewscontent(content);  
+              mypost.setUsername(username);  
+              mypost.setImagePost(bitmapToString);  
+              boolean is_ok &#x3D; mypost.save();  
+              Log.d(&quot;Answer:&quot;,String.valueOf(is_ok));  
+          &#125;  
+        
+          @Override  
+          protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;  
+              super.onActivityResult(requestCode, resultCode, data);  
+              if (requestCode &#x3D;&#x3D; CODE_PICK_PHOTO) &#123;&#x2F;&#x2F;相册  
+                  imageUri&#x3D; data.getData();  
+                  &#x2F;&#x2F;获取照片路径  
+                  imageView.setImageURI(imageUri);  
+                  Bitmap bitmap &#x3D; null;  
+                  try &#123;  
+                      bitmap &#x3D; MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);  
+                      bitmapToString &#x3D; ImageHelper.bitmapToString(bitmap);  
+                  &#125; catch (IOException e) &#123;  
+                      e.printStackTrace();  
+                  &#125;  
+              &#125;  
+          &#125;  
+        
+      &#125;  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>onCreate</strong>函数初始化发帖活动和布局，同时开启线程连接服务器的数据库（<code>MySQL</code>）<strong>。</strong>在<strong>onActivityResult函数处理图片解析，将图片解析成字符串并保存到数据库。点击发布按钮，触发开启线程插入帖子到数据库</strong>（<code>MySQLConnections.insertIntoData</code>）。</p>
+</li>
+</ul>
+</li>
+<li><p>PublishPost布局</p>
+<ul>
+<li>```xml <?xml version="1.0" encoding="utf-8"?> &lt;LinearLayout xmlns:android=”<a target="_blank" rel="noopener" href="http://schemas.android.com/apk/res/android&quot;">http://schemas.android.com/apk/res/android&quot;</a>  <pre><code> xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;  
+ xmlns:tools=&quot;http://schemas.android.com/tools&quot;  
+ android:layout_width=&quot;match_parent&quot;  
+ android:layout_height=&quot;match_parent&quot;  
+ android:fitsSystemWindows=&quot;true&quot;  
+ android:orientation=&quot;vertical&quot;  
+ tools:context=&quot;cn.com.text.Activity.PublishPost&quot;&gt;  
+ &lt;android.support.design.widget.AppBarLayout  
+     android:layout_width=&quot;match_parent&quot;  
+     android:layout_height=&quot;wrap_content&quot;  
+     android:theme=&quot;@style/AppTheme.NoActionBar.AppBarOverlay&quot;&gt;  
+     &lt;android.support.v7.widget.Toolbar  
+         android:id=&quot;@+id/toolbarPub&quot;  
+         android:layout_width=&quot;match_parent&quot;  
+         android:layout_height=&quot;?attr/actionBarSize&quot;  
+         android:background=&quot;?attr/colorPrimary&quot;  
+         app:popupTheme=&quot;@style/AppTheme.NoActionBar.PopupOverlay&quot; /&gt;  
+ &lt;/android.support.design.widget.AppBarLayout&gt;  
+ &lt;LinearLayout  
+     android:layout_width=&quot;match_parent&quot;  
+     android:layout_height=&quot;wrap_content&quot;  
+     android:orientation=&quot;vertical&quot;&gt;  
+     &lt;Button  
+         android:id=&quot;@+id/buttonPub&quot;  
+         android:layout_width=&quot;match_parent&quot;  
+         android:layout_height=&quot;wrap_content&quot;  
+         android:text=&quot;发布&quot; /&gt;  
+ &lt;/LinearLayout&gt;  
+ &lt;LinearLayout  
+     android:layout_width=&quot;368dp&quot;  
+     android:layout_height=&quot;wrap_content&quot;  
+     android:orientation=&quot;vertical&quot;&gt;&lt;/LinearLayout&gt;  
+ &lt;include  
+     android:id=&quot;@+id/include&quot;  
+     layout=&quot;@layout/content_publish_post&quot;  
+     android:layout_width=&quot;wrap_content&quot;  
+     android:layout_height=&quot;429dp&quot; /&gt;  
+</code></pre>
+   
+ <pre class="line-numbers language-none"><code class="language-none">
+   
+
+## WebBlog
+
+1. 此模块使用WebView实现APP内嵌网页，网页链接到我的个人博客（&#96;GaoMing’s Web&#96;），并且添加&#96;ToolBar&#96;作为顶部，添加返回键。
+
+   -  &#96;&#96;&#96;java
+      public class WebBlog extends AppCompatActivity &#123;  
+          private Toolbar toolbar;  
+          @Override  
+          protected void onCreate(Bundle savedInstanceState) &#123;  
+              super.onCreate(savedInstanceState);  
+              setContentView(R.layout.activity_web_blog);  
+              toolbar &#x3D; (Toolbar) findViewById(R.id.toolbarWeb);  
+              toolbar.setTitle(&quot;Blog&quot;);  
+              toolbar.setSubtitle(&quot;GaoMing&quot;);  
+              setSupportActionBar(toolbar);  
+      &#x2F;&#x2F;        toolbar.setNavigationIcon(R.drawable.ic_action_n);  
+              getSupportActionBar().setDisplayHomeAsUpEnabled(true);&#x2F;&#x2F;左侧添加一个默认的返回图标  
+              getSupportActionBar().setHomeButtonEnabled(true); &#x2F;&#x2F;设置返回键可用  
+              toolbar.setNavigationOnClickListener(new View.OnClickListener() &#123;  
+                  @Override  
+                  public void onClick(View v) &#123;  
+                      finish();  
+                  &#125;  
+              &#125;);  
+              WebView webView &#x3D; (WebView) findViewById(R.id.web_view);  
+              webView.getSettings().setJavaScriptEnabled(true);  
+              webView.setWebViewClient(new WebViewClient());  
+              webView.loadUrl(&quot;http:&#x2F;&#x2F;www.keegan.cn&quot;);  
+          &#125;  
+      &#125;  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ol>
+<h2 id="登录功能"><a href="#登录功能" class="headerlink" title="登录功能"></a>登录功能</h2><ol>
+<li><p>登录活动实现用户登录和注册，否则用户只有看帖操作，无发帖删帖更新帖子的操作。后台获取到<code>username</code>和<code>password</code>，会进行<strong>验证是否为空</strong>，根据点击的按钮触发注册或者登录，如果是注册，会<strong>查询数据库是否已存在该用户</strong>，没有的话就进行<strong>插入</strong>操作，如果是点击登录，会<strong>查询数据库是否存在该用户</strong>，如果存在，则跳转登录到主页，否则弹出不存在该用户的<code>Toast</code>提示。对于头像上传，要求注册时<strong>必须选择头像</strong>，否则会注册失败。</p>
+<ul>
+<li>```java<br>public class LogActivity extends AppCompatActivity {  <pre><code>private Button button_submit;  
+private EditText username;  
+private EditText password;  
+private Button button_reg;  
+private ImageView imageView;  
+private final int CODE_PICK_PHOTO = 1;  
+private Uri imageUri;  
+private String bitmapToString = null;  
+@Override  
+protected void onCreate(Bundle savedInstanceState) &#123;  
+    super.onCreate(savedInstanceState);  
+    setContentView(R.layout.activity_log);  
+    LitePal.getDatabase();  
+    username = (EditText) findViewById(R.id.username);  
+    password = (EditText) findViewById(R.id.password);  
+    imageView = (ImageView) findViewById(R.id.userImage);  
+    imageView.setOnClickListener(new View.OnClickListener() &#123;  
+        @Override  
+        public void onClick(View v) &#123;  
+            Intent intent_gallery = new Intent(Intent.ACTION_PICK);  
+            intent_gallery.setType(&quot;image/*&quot;);  
+            startActivityForResult(intent_gallery, CODE_PICK_PHOTO);  
+       &#125;  
+    &#125;);  
+    button_submit = (Button) findViewById(R.id.button_submit);  
+    button_submit.setOnClickListener(new View.OnClickListener() &#123;  
+        @Override  
+        public void onClick(View v) &#123;  
+            if ((!TextUtils.isEmpty(username.getText()) &amp;&amp; (!TextUtils.isEmpty(password.getText())))) &#123;  
+                User usr = new User();  
+                usr.setName(username.getText().toString());  
+                usr.setPassword(password.getText().toString());  
+                usr.setImage(bitmapToString);  
+                //检查是否有此用户  
+                List&lt;User&gt; userList = DataSupport.where(&quot;name = ? and password = ?&quot;, usr.getName(),usr.getPassword()).find(User.class);  
+                if (userList.isEmpty()) &#123;  
+                    Toast.makeText(LogActivity.this, &quot;用户名或密码错误&quot;, Toast.LENGTH_SHORT).show();  
+                &#125; else &#123;  
+                    Log.d(&quot;username&quot;, username.getText().toString());  
+                    Toast.makeText(LogActivity.this, &quot;登陆成功&quot;, Toast.LENGTH_SHORT).show();  
+                    Intent intent = new Intent(LogActivity.this, MainActivity.class);  
+                    intent.putExtra(&quot;username&quot;,usr.getName());  
+                    intent.putExtra(&quot;password&quot;,usr.getPassword());  
+                   // intent.putExtra(&quot;image&quot;,bitmapToString);  
+                    setResult(RESULT_OK,intent);  
+                    finish();  
+                &#125;  
+            &#125;else &#123;  
+                Toast.makeText(LogActivity.this,&quot;用户名或密码不为空&quot;,Toast.LENGTH_SHORT).show();  
+            &#125;  
+        &#125;  
+    &#125;);  
+    button_reg = (Button) findViewById(R.id.reg_button);  
+    button_reg.setOnClickListener(new View.OnClickListener() &#123;  
+        @Override  
+        public void onClick(View v) &#123;  
+            if ((!TextUtils.isEmpty(username.getText()) &amp;&amp; (!TextUtils.isEmpty(password.getText())))) &#123;  
+                final User usr = new User();  
+                final String usrname = username.getText().toString();  
+                final String usrpassword = password.getText().toString();  
+                usr.setName(usrname);  
+                usr.setPassword(usrpassword);  
+                usr.setImage(bitmapToString);  
+                //检查是否有此用户  
+                List&lt;User&gt; userList = DataSupport.where(&quot;name = ?&quot;, usr.getName()).find(User.class);  
+                if(bitmapToString != null)&#123;  
+                    if (userList.isEmpty()) &#123;  
+                        Thread thread = null;  
+                        thread = new Thread(new Runnable() &#123;  
+                            @Override  
+                            public void run() &#123;  
+                                try &#123;  
+                                    MySQLConnections.insertIntoUser(usrname,usrpassword,bitmapToString);  
+                                &#125; catch (SQLException e) &#123;  
+                                    e.printStackTrace();  
+                                &#125;  
+                            &#125;  
+                        &#125;);  
+                        thread.start();  
+                        try &#123;  
+                            thread.join();  
+                        &#125;catch (Exception e)&#123;  
+                            e.printStackTrace();  
+                        &#125;  
+                        usr.save();  
+                        Toast.makeText(LogActivity.this, &quot;注册成功&quot;, Toast.LENGTH_SHORT).show();  
+                    &#125; else &#123;  
+                        Toast.makeText(LogActivity.this, &quot;重复注册，请登录&quot;, Toast.LENGTH_SHORT).show();  
+                    &#125;  
+                &#125;else &#123;  
+                    Toast.makeText(LogActivity.this,&quot;请选择头像&quot;,Toast.LENGTH_SHORT).show();  
+                &#125;  
+
+            &#125;else&#123;  
+                Toast.makeText(LogActivity.this,&quot;注册用户名或密码不为空&quot;,Toast.LENGTH_SHORT).show();  
+            &#125;  
+        &#125;  
+    &#125;);  
+&#125;  
+
+@Override  
+protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;  
+    super.onActivityResult(requestCode, resultCode, data);  
+    if (requestCode == CODE_PICK_PHOTO) &#123;//相册  
+        imageUri= data.getData();  
+        //获取照片路径  
+        imageView.setImageURI(imageUri);  
+        Bitmap bitmap = null;  
+        try &#123;  
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);  
+            bitmapToString = ImageHelper.bitmapToString(bitmap);  
+        &#125; catch (IOException e) &#123;  
+            e.printStackTrace();  
+        &#125;  
+    &#125;  
+&#125;  
+</code></pre>
+}  <pre class="line-numbers language-none"><code class="language-none">
+2. 登录页面布局
+
+   - &#96;&#96;&#96;xml
+     &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;  
+     &lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;  
+         xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;  
+         xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;  
+         android:id&#x3D;&quot;@+id&#x2F;activity_main&quot;  
+         android:layout_width&#x3D;&quot;match_parent&quot;  
+         android:layout_height&#x3D;&quot;match_parent&quot;  
+         android:orientation&#x3D;&quot;vertical&quot;  
+         android:paddingBottom&#x3D;&quot;@dimen&#x2F;activity_vertical_margin&quot;  
+         android:paddingLeft&#x3D;&quot;@dimen&#x2F;activity_horizontal_margin&quot;  
+         android:paddingRight&#x3D;&quot;@dimen&#x2F;activity_horizontal_margin&quot;  
+         android:paddingTop&#x3D;&quot;@dimen&#x2F;activity_vertical_margin&quot;  
+         android:weightSum&#x3D;&quot;1&quot;  
+         tools:context&#x3D;&quot;cn.com.text.Activity.LogActivity&quot;&gt;  
+         &lt;LinearLayout  
+             android:layout_width&#x3D;&quot;wrap_content&quot;  
+             android:layout_height&#x3D;&quot;133dp&quot;  
+             android:layout_weight&#x3D;&quot;0.02&quot;  
+             android:orientation&#x3D;&quot;vertical&quot;&gt;  
+             &lt;ImageView  
+                 android:id&#x3D;&quot;@+id&#x2F;userImage&quot;  
+                 android:layout_width&#x3D;&quot;match_parent&quot;  
+                 android:layout_height&#x3D;&quot;wrap_content&quot;  
+                 android:layout_gravity&#x3D;&quot;center_horizontal&quot;  
+                 app:srcCompat&#x3D;&quot;@drawable&#x2F;touxiang&quot; &#x2F;&gt;  
+         &lt;&#x2F;LinearLayout&gt;  
+         &lt;LinearLayout  
+             android:layout_width&#x3D;&quot;match_parent&quot;  
+             android:layout_height&#x3D;&quot;16dp&quot;  
+             android:orientation&#x3D;&quot;vertical&quot;&gt;&lt;&#x2F;LinearLayout&gt;  
+         &lt;LinearLayout  
+             android:layout_width&#x3D;&quot;match_parent&quot;  
+             android:layout_height&#x3D;&quot;76dp&quot;&gt;  
+             &lt;TextView  
+                 android:layout_width&#x3D;&quot;wrap_content&quot;  
+                 android:layout_height&#x3D;&quot;match_parent&quot;  
+                 android:text&#x3D;&quot;账户：&quot; &#x2F;&gt;  
+             &lt;EditText  
+                 android:id&#x3D;&quot;@+id&#x2F;username&quot;  
+                 android:layout_width&#x3D;&quot;match_parent&quot;  
+                 android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;  
+         &lt;&#x2F;LinearLayout&gt;  
+         &lt;LinearLayout  
+             android:layout_width&#x3D;&quot;match_parent&quot;  
+             android:layout_height&#x3D;&quot;76dp&quot;&gt;  
+             &lt;TextView  
+                 android:layout_width&#x3D;&quot;wrap_content&quot;  
+                 android:layout_height&#x3D;&quot;match_parent&quot;  
+                 android:text&#x3D;&quot;密码：&quot; &#x2F;&gt;  
+             &lt;EditText  
+                 android:id&#x3D;&quot;@+id&#x2F;password&quot;  
+                 android:layout_width&#x3D;&quot;match_parent&quot;  
+                 android:layout_height&#x3D;&quot;match_parent&quot; &#x2F;&gt;  
+         &lt;&#x2F;LinearLayout&gt;  
+         &lt;Button  
+             android:id&#x3D;&quot;@+id&#x2F;button_submit&quot;  
+             android:layout_width&#x3D;&quot;match_parent&quot;  
+             android:layout_height&#x3D;&quot;69dp&quot;  
+             android:text&#x3D;&quot;登录&quot; &#x2F;&gt;  
+         &lt;Button  
+             android:id&#x3D;&quot;@+id&#x2F;reg_button&quot;  
+             android:layout_width&#x3D;&quot;match_parent&quot;  
+             android:layout_height&#x3D;&quot;69dp&quot;  
+             android:text&#x3D;&quot;注册&quot; &#x2F;&gt;  
+     &lt;&#x2F;LinearLayout&gt; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ol>
+<h2 id="用户中心页面"><a href="#用户中心页面" class="headerlink" title="用户中心页面"></a>用户中心页面</h2><ol>
+<li><p><code>MyPostActivity</code>实现用户信息显示和已发帖显示，支持点击查看帖子详情和修改删除该贴。实现过程如下：从<code>MainActivity</code>传输的<code>intent</code>中获取当前登录的用户名，查询数据库<code>MyPost</code>表，用户发过的帖子经过<code>PublishPost</code>都已经保存了，所以此时读取到数据后，使用适配器填充<code>ListView</code>的内容显示出来，增加<code>onItem</code>点击事件跳转到其他页面或者选择删除该贴。</p>
+<ul>
+<li>```java<br> public class MyPostActivity extends AppCompatActivity {  <pre><code> private List&lt;MyPost&gt; mypost = new ArrayList&lt;MyPost&gt;();  
+ private String username = null;  
+ private ImageView imageView;  
+ private String imageBit = &quot;&quot;;  
+ @Override  
+ protected void onCreate(Bundle savedInstanceState) &#123;  
+     super.onCreate(savedInstanceState);  
+     setContentView(R.layout.activity_my_post);  
+     Intent intent = getIntent();  
+     username = intent.getStringExtra(&quot;userName&quot;);  
+     imageView = (ImageView) findViewById(R.id.imageUserTouxiang);  
+     List&lt;User&gt; userList = DataSupport.where(&quot;name = ?&quot;, username).find(User.class);  
+     if (userList.size() != 0) &#123;  
+         imageBit = userList.get(0).getImage();  
+     &#125;  
+     if (imageBit.equals(&quot;&quot;)) &#123;  
+         imageView.setImageResource(R.drawable.touxiang);  
+     &#125; else &#123;  
+         imageView.setImageBitmap(ImageHelper.stringToBitmap(imageBit));  
+     &#125;  
+     initMyPost();  
+     MyPostAdapter myPostAdapter = new MyPostAdapter(MyPostActivity.this, R.layout.mypost_item, mypost);  
+     ListView listview = (ListView) findViewById(R.id.list_MyPost);  
+     listview.setAdapter(myPostAdapter);  
+     listview.setOnItemClickListener(new AdapterView.OnItemClickListener() &#123;  
+         @Override  
+         public void onItemClick(AdapterView&lt;?&gt; parent, View view, final int position, long id) &#123;  
+             final MyPost post = mypost.get(position);  
+             showNormalDialog(position);  
+</code></pre>
+ //                Intent intent = new Intent(MyPostActivity.this,NewsContentActivity.class);<br> //                intent.putExtra(“news_title”, post.getNewstitle());<br> //                intent.putExtra(“news_content”, post.getNewscontent());<br> //                startActivity(intent);  <pre><code>         &#125;  
+     &#125;);  
+ &#125;  
+
+ private void initMyPost() &#123;  
+     mypost = DataSupport.where(&quot;username = ?&quot;, username).find(MyPost.class);  
+ &#125;  
+ private void showNormalDialog(final int position) &#123;  
+     //创建dialog构造器  
+     AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);  
+     //设置title  
+     normalDialog.setTitle(&quot;选择&quot;);  
+     //设置内容  
+     normalDialog.setMessage(&quot;你确定这样做么？&quot;);  
+     //设置按钮  
+     normalDialog.setPositiveButton(&quot;查看&quot;  
+             , new DialogInterface.OnClickListener() &#123;  
+                 @Override  
+                 public void onClick(DialogInterface dialog, int which) &#123;  
+                     final MyPost post = mypost.get(position);  
+                     Intent intent = new Intent(MyPostActivity.this, NewsContentActivity.class);  
+                     intent.putExtra(&quot;news_title&quot;, post.getNewstitle());  
+                     intent.putExtra(&quot;news_content&quot;, post.getNewscontent());  
+                     startActivity(intent);  
+                     dialog.dismiss();  
+                 &#125;  
+             &#125;);  
+     normalDialog.setNegativeButton(&quot;更改&quot;,  
+             new DialogInterface.OnClickListener() &#123;  
+                 @Override  
+                 public void onClick(DialogInterface dialog, int which) &#123;  
+                     final MyPost post = mypost.get(position);  
+                     Intent intent = new Intent(MyPostActivity.this, UpdataPost.class);  
+                     intent.putExtra(&quot;username&quot;, username);  
+                     intent.putExtra(&quot;title&quot;, post.getNewstitle());  
+                     intent.putExtra(&quot;content&quot;, post.getNewscontent());  
+                     startActivity(intent);  
+                 &#125;  
+             &#125;);  
+     //创建并显示  
+     normalDialog.create().show();  
+ &#125;  
+</code></pre>
+ }   <pre class="line-numbers language-none"><code class="language-none">
+- 用户帖子适配器
+
+  &#96;&#96;&#96;java
+  public class MyPostAdapter extends ArrayAdapter&lt;MyPost&gt;&#123;  
+      private int rescoureId;  
+      public MyPostAdapter(Context context, int textViewResourceId, List&lt;MyPost&gt; objects) &#123;  
+          super(context,textViewResourceId,objects);  
+          this.rescoureId &#x3D; textViewResourceId;  
+      &#125;  
+    
+      @NonNull  
+      @Override  
+      public View getView(int position, View convertView, ViewGroup parent) &#123;  
+          MyPost myPost &#x3D; getItem(position);  
+          View view &#x3D; LayoutInflater.from(getContext()).inflate(rescoureId,parent,false);  
+          ImageView imageView &#x3D; (ImageView) view.findViewById(R.id.imageViewMyPost);  
+          TextView postTitle &#x3D; (TextView) view.findViewById(R.id.textViewTitle);  
+          TextView postContent &#x3D; (TextView) view.findViewById(R.id.textViewContent);  
+          imageView.setImageBitmap(ImageHelper.stringToBitmap(myPost.getImagePost()));  
+          postTitle.setText(myPost.getNewstitle());  
+          postContent.setText(myPost.getNewscontent());  
+          return view;  
+      &#125;  
+  &#125;  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>用户中心页面布局</p>
+<ul>
+<li>```xml <?xml version="1.0" encoding="utf-8"?> &lt;android.support.design.widget.CoordinatorLayout xmlns:android=”<a target="_blank" rel="noopener" href="http://schemas.android.com/apk/res/android&quot;">http://schemas.android.com/apk/res/android&quot;</a>  <pre><code> xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;  
+ xmlns:tools=&quot;http://schemas.android.com/tools&quot;  
+ android:layout_width=&quot;match_parent&quot;  
+ android:layout_height=&quot;match_parent&quot;  
+ android:fitsSystemWindows=&quot;true&quot;  
+ android:orientation=&quot;vertical&quot;&gt;  
+ &lt;android.support.design.widget.AppBarLayout  
+     android:layout_width=&quot;match_parent&quot;  
+     android:layout_height=&quot;200dp&quot;&gt;  
+     &lt;android.support.design.widget.CollapsingToolbarLayout  
+         android:id=&quot;@+id/toolbar_layout1&quot;  
+         android:layout_width=&quot;match_parent&quot;  
+         android:layout_height=&quot;match_parent&quot;  
+         app:contentScrim=&quot;@color/colorPrimary&quot;  
+         app:layout_scrollFlags=&quot;scroll|exitUntilCollapsed&quot;&gt;  
+         &lt;ImageView  
+             android:id=&quot;@+id/imageUserTouxiang&quot;  
+             android:layout_width=&quot;match_parent&quot;  
+             android:layout_height=&quot;match_parent&quot;  
+             android:scaleType=&quot;centerCrop&quot;  
+             app:layout_collapseMode=&quot;parallax&quot;  
+             app:layout_collapseParallaxMultiplier=&quot;0.9&quot;  
+             tools:ignore=&quot;ContentDescription&quot; /&gt;  
+         &lt;android.support.v7.widget.Toolbar  
+             android:id=&quot;@+id/toolbar&quot;  
+             android:layout_width=&quot;match_parent&quot;  
+             android:layout_height=&quot;50dp&quot;  
+             android:theme=&quot;@style/ToolBarTheme&quot;  
+             app:layout_collapseMode=&quot;pin&quot; /&gt;  
+     &lt;/android.support.design.widget.CollapsingToolbarLayout&gt;  
+ &lt;/android.support.design.widget.AppBarLayout&gt;  
+ &lt;android.support.v4.widget.NestedScrollView  
+     android:id=&quot;@+id/visibility_layout&quot;  
+     android:layout_width=&quot;match_parent&quot;  
+     android:layout_height=&quot;match_parent&quot;  
+     android:fillViewport=&quot;true&quot;  
+     app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;&gt;  
+     &lt;ListView  
+         android:id=&quot;@+id/list_MyPost&quot;  
+         android:layout_width=&quot;match_parent&quot;  
+         android:layout_height=&quot;match_parent&quot;&gt;&lt;/ListView&gt;  
+ &lt;/android.support.v4.widget.NestedScrollView&gt;  
+</code></pre>
+ &lt;/android.support.design.widget.CoordinatorLayout&gt;  <pre class="line-numbers language-none"><code class="language-none">
+- 用户页面List子布局
+
+  &#96;&#96;&#96;xml
+  &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;  
+  &lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;  
+      xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;  
+      android:layout_width&#x3D;&quot;match_parent&quot;  
+      android:layout_height&#x3D;&quot;100dp&quot;&gt;  
+      &lt;ImageView  
+          android:id&#x3D;&quot;@+id&#x2F;imageViewMyPost&quot;  
+          android:layout_width&#x3D;&quot;100dp&quot;  
+          android:layout_height&#x3D;&quot;match_parent&quot;  
+          app:srcCompat&#x3D;&quot;@color&#x2F;Blue&quot; &#x2F;&gt;  
+      &lt;LinearLayout  
+          android:layout_width&#x3D;&quot;match_parent&quot;  
+          android:layout_height&#x3D;&quot;match_parent&quot;  
+          android:orientation&#x3D;&quot;horizontal&quot;&gt;  
+          &lt;LinearLayout  
+              android:layout_width&#x3D;&quot;match_parent&quot;  
+              android:layout_height&#x3D;&quot;match_parent&quot;  
+              android:orientation&#x3D;&quot;vertical&quot;  
+              android:weightSum&#x3D;&quot;1&quot;&gt;  
+              &lt;TextView  
+                  android:id&#x3D;&quot;@+id&#x2F;textViewTitle&quot;  
+                  android:layout_width&#x3D;&quot;match_parent&quot;  
+                  android:layout_height&#x3D;&quot;50dp&quot;  
+                  android:gravity&#x3D;&quot;center_horizontal&quot;  
+                  android:text&#x3D;&quot;TextView&quot; &#x2F;&gt;  
+              &lt;LinearLayout  
+                  android:layout_width&#x3D;&quot;match_parent&quot;  
+                  android:layout_height&#x3D;&quot;wrap_content&quot;  
+                  android:orientation&#x3D;&quot;horizontal&quot;&gt;  
+                  &lt;TextView  
+                      android:id&#x3D;&quot;@+id&#x2F;textViewContent&quot;  
+                      android:layout_width&#x3D;&quot;match_parent&quot;  
+                      android:layout_height&#x3D;&quot;match_parent&quot;  
+                      android:layout_weight&#x3D;&quot;1&quot;  
+                      android:gravity&#x3D;&quot;center_horizontal&quot;  
+                      android:text&#x3D;&quot;TextView&quot; &#x2F;&gt;  
+              &lt;&#x2F;LinearLayout&gt;  
+          &lt;&#x2F;LinearLayout&gt;  
+      &lt;&#x2F;LinearLayout&gt;  
+  &lt;&#x2F;LinearLayout&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ol>
+<h2 id="地图"><a href="#地图" class="headerlink" title="地图"></a>地图</h2><p>借助高德地图API开发包，参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38436214/article/details/111628025?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164247700616780255218519%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=164247700616780255218519&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~hot_rank-1-111628025.pc_search_result_control_group&utm_term=android%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE&spm=1018.2226.3001.4187">博客</a></p>
+<ol>
+<li><p>该模块借助高德地图开发包，实现APP内嵌地图和定位，查找地区等功能。</p>
+<p>进入活动后，首先请求获取<strong>相应权限</strong>，获取成功后，调用<strong>initLocation</strong>初始化位置以及调用<strong>initMap</strong>初始化地图，根据用户位置，调用<strong>updateMapCenter</strong>使得相机视角转到用户位置。同时设计<strong>短时点击和长按点击监听事件</strong>，优化用户体验。<strong>搜索地址</strong>实现原理是获取到输入的内容，搜索位置，得到经纬度，随后调用<strong>updateMapCenter</strong>使得视角转向地址。</p>
+</li>
+<li><p>核心代码</p>
+</li>
+</ol>
+<ul>
+<li>```java<br> public class MapActivity extends AppCompatActivity implements  <pre><code>     AMapLocationListener, LocationSource,  
+     PoiSearch.OnPoiSearchListener, AMap.OnMapClickListener, AMap.OnMapLongClickListener,  
+     GeocodeSearch.OnGeocodeSearchListener, EditText.OnKeyListener &#123;  
+ //输入框  
+ private EditText etAddress;  
+ //城市  
+ private String city;  
+ //地理编码搜索  
+ private GeocodeSearch geocodeSearch;  
+ //解析成功标识码  
+ private static final int PARSE_SUCCESS_CODE = 1000;  
+ //POI查询对象  
+ private PoiSearch.Query query;  
+ //POI搜索对象  
+ private PoiSearch poiSearch;  
+ //城市码  
+ private String cityCode = null;  
+ //浮动按钮  
+ private FloatingActionButton fabPOI;  
+ //定义一个UiSettings对象  
+ private UiSettings mUiSettings;  
+ //定位样式  
+ private MyLocationStyle myLocationStyle = new MyLocationStyle();  
+ //地图控制器  
+ private AMap aMap = null;  
+ //位置更改监听  
+ private OnLocationChangedListener mListener;  
+ private MapView mapView;  
+ private static final int REQUEST_PERMISSIONS = 9527;  
+ //声明AMapLocationClient类对象  
+ public AMapLocationClient mLocationClient = null;  
+ //声明AMapLocationClientOption对象  
+ public AMapLocationClientOption mLocationOption = null;  
+ private Toolbar toolbar;  
+ @Override  
+ protected void onCreate(Bundle savedInstanceState) &#123;  
+     super.onCreate(savedInstanceState);  
+     setContentView(R.layout.activity_map);  
+     ServiceSettings.updatePrivacyShow(this, true, true);  
+     ServiceSettings.updatePrivacyAgree(this, true);  
+     toolbar = (Toolbar) findViewById(R.id.toolbarMap);  
+     toolbar.setTitle(&quot;地图&quot;);  
+     setSupportActionBar(toolbar);  
+</code></pre>
+ //        toolbar.setNavigationIcon(R.drawable.ic_action_n);  <pre><code>     getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标  
+     getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用  
+     toolbar.setNavigationOnClickListener(new View.OnClickListener() &#123;  
+         @Override  
+         public void onClick(View v) &#123;  
+             finish();  
+         &#125;  
+     &#125;);  
+     fabPOI = (FloatingActionButton) findViewById(R.id.fab_poi);  
+     etAddress = (EditText) findViewById(R.id.et_address);  
+     etAddress.setOnKeyListener(this);  
+     mapView = (MapView) findViewById(R.id.map_view);  
+     mapView.onCreate(savedInstanceState);  
+     initLocation();  
+     try &#123;  
+         initMap(savedInstanceState);  
+     &#125; catch (AMapException e) &#123;  
+         e.printStackTrace();  
+     &#125;  
+     checkingAndroidVersion();  
+ &#125;  
+ /** 
+  * 检查Android版本 
+  */  
+ private void checkingAndroidVersion() &#123;  
+     if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;  
+         //Android6.0及以上先获取权限再定位  
+         requestPermission();  
+     &#125; else &#123;  
+         //Android6.0以下直接定位  
+         mLocationClient.startLocation();  
+     &#125;  
+ &#125;  
+ @AfterPermissionGranted(REQUEST_PERMISSIONS)  
+ private void requestPermission() &#123;  
+     String[] permissions = &#123;  
+             Manifest.permission.ACCESS_COARSE_LOCATION,  
+             Manifest.permission.ACCESS_FINE_LOCATION,  
+             Manifest.permission.READ_PHONE_STATE,  
+             Manifest.permission.WRITE_EXTERNAL_STORAGE  
+     &#125;;  
+     if (EasyPermissions.hasPermissions(this, permissions)) &#123;  
+         //true 有权限 开始定位  
+         showMsg(&quot;已获得权限，可以定位啦！&quot;);  
+         mLocationClient.startLocation();  
+     &#125; else &#123;  
+         //false 无权限  
+         EasyPermissions.requestPermissions(this, &quot;需要权限&quot;, REQUEST_PERMISSIONS, permissions);  
+     &#125;  
+ &#125;  
+ /** 
+  * 请求权限结果 
+  * 
+  * @param requestCode 
+  * @param permissions 
+  * @param grantResults 
+  */  
+ @Override  
+ public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) &#123;  
+     super.onRequestPermissionsResult(requestCode, permissions, grantResults);  
+     //设置权限请求结果  
+     EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);  
+ &#125;  
+ /** 
+  * 初始化定位 
+  */  
+ private void initLocation() &#123;  
+     //初始化定位  
+     try &#123;  
+         mLocationClient = new AMapLocationClient(getApplicationContext());  
+     &#125; catch (Exception e) &#123;  
+         e.printStackTrace();  
+     &#125;  
+     //设置定位回调监听  
+     mLocationClient.setLocationListener(this);  
+     //初始化AMapLocationClientOption对象  
+     mLocationOption = new AMapLocationClientOption();  
+     //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。  
+     mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);  
+     //获取最近3s内精度最高的一次定位结果：  
+     //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。  
+     mLocationOption.setOnceLocationLatest(true);  
+     //设置是否返回地址信息（默认返回地址信息）  
+     mLocationOption.setNeedAddress(true);  
+     //设置定位请求超时时间，单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。  
+     mLocationOption.setHttpTimeOut(20000);  
+     //关闭缓存机制，高精度定位会产生缓存。  
+     mLocationOption.setLocationCacheEnable(false);  
+     //给定位客户端对象设置定位参数  
+     mLocationClient.setLocationOption(mLocationOption);  
+ &#125;  
+ private void showMsg(String s) &#123;  
+     Toast.makeText(MapActivity.this, s, Toast.LENGTH_SHORT).show();  
+ &#125;  
+ @Override  
+ public void onLocationChanged(AMapLocation aMapLocation) &#123;  
+     if (aMapLocation != null) &#123;  
+         if (aMapLocation.getErrorCode() == 0) &#123;  
+             //地址  
+             String address = aMapLocation.getAddress();  
+             double latitude = aMapLocation.getLatitude();  
+             double longitude = aMapLocation.getLongitude();  
+             StringBuffer stringBuffer = new StringBuffer();  
+             stringBuffer.append(&quot;纬度：&quot; + latitude + &quot;\n&quot;);  
+             stringBuffer.append(&quot;经度：&quot; + longitude + &quot;\n&quot;);  
+             stringBuffer.append(&quot;地址：&quot; + address + &quot;\n&quot;);  
+             Log.d(&quot;MapActivity:&quot;, stringBuffer.toString());  
+             if (mListener != null) &#123;  
+                 mListener.onLocationChanged(aMapLocation);  
+             &#125;  
+             mLocationClient.stopLocation();  
+             //显示浮空按钮  
+             fabPOI.show();  
+             //赋值  
+             cityCode = aMapLocation.getCityCode();  
+             //城市赋值  
+             city = aMapLocation.getCity();  
+             updateMapCenter(new LatLng(latitude, longitude));  
+         &#125; else &#123;  
+             //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。  
+             Log.e(&quot;AmapError&quot;, &quot;location Error, ErrCode:&quot;  
+                     + aMapLocation.getErrorCode() + &quot;, errInfo:&quot;  
+                     + aMapLocation.getErrorInfo());  
+         &#125;  
+     &#125;  
+ &#125;  
+ @Override  
+ protected void onDestroy() &#123;  
+     super.onDestroy();  
+     //销毁定位客户端，同时销毁本地定位服务。  
+     mLocationClient.onDestroy();  
+ &#125;  
+ @Override  
+ protected void onResume() &#123;  
+     super.onResume();  
+     //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图  
+     mapView.onResume();  
+ &#125;  
+ @Override  
+ protected void onPause() &#123;  
+     super.onPause();  
+     //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制  
+     mapView.onPause();  
+ &#125;  
+ @Override  
+ protected void onSaveInstanceState(Bundle outState) &#123;  
+     super.onSaveInstanceState(outState);  
+     //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态  
+     mapView.onSaveInstanceState(outState);  
+ &#125;  
+ /** 
+  * 初始化地图 
+  * 
+  * @param savedInstanceState 
+  */  
+ private void initMap(Bundle savedInstanceState) throws AMapException &#123;  
+     mapView = (MapView) findViewById(R.id.map_view);  
+     //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图  
+     mapView.onCreate(savedInstanceState);  
+     //初始化地图控制器对象  
+     aMap = mapView.getMap();  
+     //设置最小缩放等级为16 ，缩放级别范围为[3, 20]  
+     aMap.setMinZoomLevel(12);  
+     //开启室内地图  
+     aMap.showIndoorMap(true);  
+     aMap.setOnMapClickListener(this);  
+     aMap.setOnMapLongClickListener(this);  
+     // 自定义精度范围的圆形边框颜色  都为0则透明  
+     myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));  
+     // 自定义精度范围的圆形边框宽度  0 无宽度  
+     myLocationStyle.strokeWidth(0);  
+     // 设置圆形的填充颜色  都为0则透明  
+     myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));  
+     //设置定位蓝点的Style  
+     aMap.setMyLocationStyle(myLocationStyle);  
+     // 设置定位监听  
+     aMap.setLocationSource(this);  
+     // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false  
+     aMap.setMyLocationEnabled(true);  
+     //实例化UiSettings类对象  
+     mUiSettings = aMap.getUiSettings();  
+     //隐藏缩放按钮  
+     mUiSettings.setZoomControlsEnabled(false);  
+     //显示比例尺 默认不显示  
+     mUiSettings.setScaleControlsEnabled(true);  
+     //构建GeocodeSearch对象  
+     geocodeSearch = new GeocodeSearch(this);  
+     geocodeSearch.setOnGeocodeSearchListener(this);  
+ &#125;  
+
+ /** 
+  * 通过经纬度获取地址 
+  * 
+  * @param latLng 
+  */  
+ private void latlonToAddress(LatLng latLng) &#123;  
+     //位置点  通过经纬度进行构建  
+     LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);  
+     //逆编码查询  第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系  
+     RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 20, GeocodeSearch.AMAP);  
+     //异步获取地址信息  
+     geocodeSearch.getFromLocationAsyn(query);  
+ &#125;  
+ @Override  
+ public void activate(OnLocationChangedListener onLocationChangedListener) &#123;  
+     mListener = onLocationChangedListener;  
+     if (mLocationClient == null) &#123;  
+         mLocationClient.startLocation();//启动定位  
+     &#125;  
+ &#125;  
+ @Override  
+ public void deactivate() &#123;  
+     mListener = null;  
+     if (mLocationClient != null) &#123;  
+         mLocationClient.stopLocation();  
+         mLocationClient.onDestroy();  
+     &#125;  
+     mLocationClient = null;  
+ &#125;  
+ /** 
+  * 浮动按钮点击查询附近POI 
+  * 
+  * @param view 
+  */  
+ public void queryPOI(View view) throws AMapException &#123;  
+     //构造query对象  
+     query = new PoiSearch.Query(&quot;购物&quot;, &quot;&quot;, cityCode);  
+     // 设置每页最多返回多少条poiitem  
+     query.setPageSize(10);  
+     //设置查询页码  
+     query.setPageNum(1);  
+     //构造 PoiSearch 对象  
+     poiSearch = new PoiSearch(this, query);  
+     //设置搜索回调监听  
+     poiSearch.setOnPoiSearchListener(this);  
+     //发起搜索附近POI异步请求  
+     poiSearch.searchPOIAsyn();  
+ &#125;  
+ @Override  
+ public void onPoiSearched(PoiResult poiResult, int i) &#123;  
+     //解析result获取POI信息  
+     //获取POI组数列表  
+     ArrayList&lt;PoiItem&gt; poiItems = poiResult.getPois();  
+     for (PoiItem poiItem : poiItems) &#123;  
+         Log.d(&quot;MainActivity&quot;, &quot; Title：&quot; + poiItem.getTitle() + &quot; Snippet：&quot; + poiItem.getSnippet());  
+     &#125;  
+ &#125;  
+ @Override  
+ public void onPoiItemSearched(PoiItem poiItem, int i) &#123;  
+
+ &#125;  
+ @Override  
+ public void onMapClick(LatLng latLng) &#123;  
+     showMsg(&quot;点击了地图，经度：&quot; + latLng.longitude + &quot;，纬度：&quot; + latLng.latitude);  
+     latlonToAddress(latLng);  
+     updateMapCenter(latLng);  
+ &#125;  
+ @Override  
+ public void onMapLongClick(LatLng latLng) &#123;  
+     showMsg(&quot;长按了地图，经度：&quot; + latLng.longitude + &quot;，纬度：&quot; + latLng.latitude);  
+     latlonToAddress(latLng);  
+ &#125;  
+ @Override  
+ public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int rCode) &#123;  
+     //解析result获取地址描述信息  
+     if (rCode == PARSE_SUCCESS_CODE) &#123;  
+         RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();  
+         //显示解析后的地址  
+         showMsg(&quot;地址：&quot; + regeocodeAddress.getFormatAddress());  
+     &#125; else &#123;  
+         showMsg(&quot;获取地址失败&quot;);  
+     &#125;  
+ &#125;  
+
+ @Override  
+ public void onGeocodeSearched(GeocodeResult geocodeResult, int i) &#123;  
+     if (i == PARSE_SUCCESS_CODE) &#123;  
+         List&lt;GeocodeAddress&gt; geocodeAddressList = geocodeResult.getGeocodeAddressList();  
+         if (geocodeAddressList != null &amp;&amp; geocodeAddressList.size() &gt; 0) &#123;  
+             LatLonPoint latLonPoint = geocodeAddressList.get(0).getLatLonPoint();  
+             //显示解析后的坐标  
+             showMsg(&quot;坐标csac：&quot; + latLonPoint.getLongitude() + &quot;，&quot; + latLonPoint.getLatitude());  
+             LatLng latLng = new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude());  
+             updateMapCenter(latLng);  
+         &#125;  
+     &#125; else &#123;  
+         showMsg(&quot;获取坐标失败&quot;);  
+     &#125;  
+ &#125;  
+ @Override  
+ public boolean onKey(View v, int keyCode, KeyEvent event) &#123;  
+     if (keyCode == KeyEvent.KEYCODE_ENTER &amp;&amp; event.getAction() == KeyEvent.ACTION_UP) &#123;  
+         //获取输入框的值  
+         String address = etAddress.getText().toString().trim();  
+         if (address == null || address.isEmpty()) &#123;  
+             showMsg(&quot;请输入地址&quot;);  
+         &#125; else &#123;  
+             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);  
+             //隐藏软键盘  
+             imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);  
+             // name表示地址，第二个参数表示查询城市，中文或者中文全拼，citycode、adcode  
+             GeocodeQuery query = new GeocodeQuery(address, city);  
+             geocodeSearch.getFromLocationNameAsyn(query);  
+         &#125;  
+         return true;  
+     &#125;  
+     return false;  
+ &#125;  
+ /** 
+  * 改变地图中心位置 
+  * 
+  * @param latLng 位置 
+  */  
+ private void updateMapCenter(LatLng latLng) &#123;  
+     // CameraPosition 第一个参数： 目标位置的屏幕中心点经纬度坐标。  
+     // CameraPosition 第二个参数： 目标可视区域的缩放级别  
+     // CameraPosition 第三个参数： 目标可视区域的倾斜度，以角度为单位。  
+     // CameraPosition 第四个参数： 可视区域指向的方向，以角度为单位，从正北向顺时针方向计算，从0度到360度  
+</code></pre>
+ Da <pre><code>     //位置变更  
+     CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);  
+     //改变位置  
+     aMap.animateCamera(cameraUpdate);  
+ &#125;  
+</code></pre>
+ }   <pre class="line-numbers language-none"><code class="language-none">
+## 更新帖子
+
+1. 该模块实现更新修改用户已经发布的帖子。
+
+2. 核心代码
+
+   -  &#96;&#96;&#96;java
+      public class UpdataPost extends AppCompatActivity &#123;  
+          private ImageView imageView;  
+          private EditText editText1;  
+          private EditText editText2;  
+          private EditText editText3;  
+          private Toolbar toolbar;  
+          private Button button;  
+          private Connection connection;  
+          @Override  
+          protected void onCreate(Bundle savedInstanceState) &#123;  
+              super.onCreate(savedInstanceState);  
+              setContentView(R.layout.activity_updata_post);  
+              imageView &#x3D; (ImageView) findViewById(R.id.imageUp);  
+              editText1  &#x3D; (EditText) findViewById(R.id.upAuthor);  
+              editText2 &#x3D; (EditText) findViewById(R.id.uptitle);  
+              editText3 &#x3D; (EditText) findViewById(R.id.upcontent);  
+              Intent intent &#x3D; getIntent();  
+              String title &#x3D; intent.getStringExtra(&quot;title&quot;);  
+              final String content &#x3D; intent.getStringExtra(&quot;content&quot;);  
+              editText2.setText(title);  
+              editText3.setText(content);  
+              button &#x3D; (Button) findViewById(R.id.buttonUp);  
+              button.setOnClickListener(new View.OnClickListener() &#123;  
+                  @Override  
+                  public void onClick(View v) &#123;  
+                      new Thread(new Runnable() &#123;  
+                          @Override  
+                          public void run() &#123;  
+                              try&#123;  
+                                 connection &#x3D; MySQLConnections.getConnection(&quot;blog&quot;);  
+                                  String title1 &#x3D; editText2.getText().toString();  
+                                  String content1 &#x3D; editText3.getText().toString();  
+                                  String sql &#x3D; &quot;update Blog set title&#x3D;&#39;&quot;+title1+&quot;&#39; where content&#x3D;&#39;&quot;+content+&quot;&#39;&quot;;  
+                                  PreparedStatement pst;  
+                                  pst &#x3D; connection.prepareStatement(sql);  
+                                  pst.executeUpdate();  
+                                  sql &#x3D; &quot;update Blog set content&#x3D;&#39;&quot;+content1+&quot;&#39; where title&#x3D;&#39;&quot;+title1+&quot;&#39;&quot;;  
+                                  pst.close();  
+                                  connection.close();  
+                              &#125;catch (Exception e)&#123;  
+                                  e.printStackTrace();  
+                              &#125;  
+                          &#125;  
+                      &#125;).start();  
+                  &#125;  
+              &#125;);  
+          &#125;  
+      &#125;  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h2 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h2><ol>
+<li><p><code>News</code></p>
+<ul>
+<li>```java<br>public class News {  <pre><code>private String title;  
+private String content;  
+private String author;  
+private int id;  
+private String image;  
+public String getTitle() &#123;  
+    return title;  
+&#125;  
+public void setTitle(String title) &#123;  
+    this.title = title;  
+&#125;  
+public String getContent() &#123;  
+    return content;  
+&#125;  
+public void setContent(String content) &#123;  
+    this.content = content;  
+&#125;  
+public int getId() &#123;  
+    return id;  
+&#125;  
+public void setId(int id) &#123;  
+    this.id = id;  
+&#125;  
+public String getAuthor() &#123;  
+    return author;  
+&#125;  
+public void setAuthor(String author) &#123;  
+    this.author = author;  
+&#125;  
+public String getImage() &#123;  
+    return image;  
+&#125;  
+public void setImage(String image) &#123;  
+    this.image = image;  
+&#125;  
+</code></pre>
+}  <pre class="line-numbers language-none"><code class="language-none">
+2. &#96;MyPost&#96;
+
+   -  &#96;&#96;&#96;java
+      public class MyPost extends DataSupport &#123;  
+          private String username;  
+          private String newstitle;  
+          private String newscontent;  
+          private String imagePost;  
+          public String getNewstitle() &#123;  
+              return newstitle;  
+          &#125;  
+          public void setNewstitle(String newstitle) &#123;  
+              this.newstitle &#x3D; newstitle;  
+          &#125;  
+          public String getUsername() &#123;  
+              return username;  
+          &#125;  
+          public void setUsername(String username) &#123;  
+              this.username &#x3D; username;  
+          &#125;  
+          public String getNewscontent() &#123;  
+              return newscontent;  
+          &#125;  
+          public void setNewscontent(String newscontent) &#123;  
+              this.newscontent &#x3D; newscontent;  
+          &#125;  
+          public String getImagePost() &#123;  
+              return imagePost;  
+          &#125;  
+          public void setImagePost(String imagePost) &#123;  
+              this.imagePost &#x3D; imagePost;  
+          &#125;  
+       &#125;  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><code>User</code></p>
+<ul>
+<li>```java<br>public class User extends DataSupport {  <pre><code>private String name;  
+private String password;  
+private String image;  
+public String getName() &#123;  
+    return name;  
+&#125;  
+public void setName(String name) &#123;  
+    this.name = name;  
+&#125;  
+public String getPassword() &#123;  
+    return password;  
+&#125;  
+public void setPassword(String password) &#123;  
+    this.password = password;  
+&#125;  
+public String getImage() &#123;  
+    return image;  
+&#125;  
+public void setImage(String image) &#123;  
+    this.image = image;  
+&#125;  
+</code></pre>
+}  <pre class="line-numbers language-none"><code class="language-none">
+## 工具包类
+
+1. &#96;ImageHelper&#96;
+
+   -  实现Bitmap和String的转换
+
+   - &#96;&#96;&#96;java
+     public class ImageHelper &#123;  
+         public static Bitmap stringToBitmap(String string) &#123;  
+             &#x2F;&#x2F; 将字符串转换成Bitmap类型  
+             Bitmap bitmap &#x3D; null;  
+             try &#123;  
+                 byte[] bitmapArray;  
+                 bitmapArray &#x3D; Base64.decode(string, Base64.DEFAULT);  
+                 bitmap &#x3D; BitmapFactory.decodeByteArray(bitmapArray, 0,  
+                         bitmapArray.length);  
+             &#125; catch (Exception e) &#123;  
+                 e.printStackTrace();  
+             &#125;  
+             return bitmap;  
+         &#125;  
+         &#x2F;&#x2F;把bitmap转换成字符串  
+         public static String bitmapToString(Bitmap bitmap) &#123;  
+             String string &#x3D; null;  
+             ByteArrayOutputStream btString &#x3D; new ByteArrayOutputStream();  
+             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, btString);  
+             byte[] bytes &#x3D; btString.toByteArray();  
+             string &#x3D; Base64.encodeToString(bytes, Base64.DEFAULT);  
+             return string;  
+         &#125;  
+     &#125;  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><code>MySQLConnection</code></p>
+<ul>
+<li><p> 实现服务器数据库的连接以及数据库的操作(导入MySqlConnector包)。</p>
+</li>
+<li><pre><code class="java">public class MySQLConnections &#123;  
+    public static int number = 0;  
+    private String driver = &quot;&quot;;  
+    private String dbURL = &quot;&quot;;  
+    private String user = &quot;&quot;;  
+    private String password = &quot;&quot;;  
+    private static MySQLConnections connection = null;  
+    private static Connection conn = null;  
+    private static PreparedStatement stmt = null;  
+    private static List&lt;News&gt;newsList = new ArrayList&lt;News&gt;();  
+    private MySQLConnections() throws Exception &#123;  
+        driver = &quot;com.mysql.jdbc.Driver&quot;;  
+        dbURL = &quot;jdbc:mysql://182.92.153.231:3306/blog&quot;;  
+        user = &quot;lkk&quot;;  
+        password = &quot;123456&quot;;  
+        System.out.println(&quot;dbURL:&quot; + dbURL);  
+    &#125;  
+    public static Connection getConnection(String dbName) &#123;  
+        Connection conn = null;  
+        if (connection == null) &#123;  
+            try &#123;  
+                connection = new MySQLConnections();  
+            &#125; catch (Exception e) &#123;  
+                e.printStackTrace();  
+                return null;  
+            &#125;  
+        &#125;  
+        try &#123;  
+            Class.forName(connection.driver);  
+            conn = DriverManager.getConnection(connection.dbURL,  
+                    connection.user, connection.password);  
+        &#125; catch (Exception e) &#123;  
+            e.printStackTrace();  
+        &#125;  
+        return conn;  
+    &#125;  
+    public static int insertIntoData(final int id, final String author,final String title,final String content,String image) throws SQLException &#123;//增加数据  
+        Connection  conn = null;  
+        conn = getConnection(&quot;blog&quot;);//填写需要连接的数据库的名称，我是用的是person  
+        //使用DriverManager获取数据库连接  
+        Statement stmt = conn.createStatement();  
+        //使用Connection来创建一个Statment对象  
+        String sql = &quot;insert INTO Blog (id,author,title,content,image)VALUES(&#39;&quot;+id+&quot;&#39;,&#39;&quot;+author+&quot;&#39;,&#39;&quot;+title+&quot;&#39;,&#39;&quot;+content+&quot;&#39;,&#39;&quot;+image+&quot;&#39;)&quot;;  
+        return stmt.executeUpdate(sql);//返回的同时执行sql语句，返回受影响的条目数量，一般不作处理  
+    &#125;  
+    public static List&lt;News&gt; querycol() throws SQLException &#123;//读取某一行  
+        //加载数据库驱动  
+        final Handler handler = new Handler(new Handler.Callback() &#123;  
+            @Override  
+            public boolean handleMessage(Message message) &#123;  
+                //下一步执行的代码  
+                return false;  
+            &#125;  
+        &#125;);  
+        new Thread(new Runnable() &#123;  
+            @Override  
+            public void run() &#123;  
+                Message msg = new Message();//message用于给handler传递参数  
+                try &#123;  
+                    //调用连接数据库方法的代码  
+                    conn = MySQLConnections.getConnection(&quot;Blog&quot;);  
+                &#125; catch (Exception e) &#123;  
+                    e.printStackTrace();  
+                    Log.d(&quot;TAG&quot;, &quot; 数据操作异常&quot;);  
+                &#125;handler.sendMessage(msg);  
+                try &#123;  
+                    String sql = &quot;select * from Blog&quot;;  
+                    if(conn != null)&#123;  
+                        stmt = conn.prepareStatement(sql);  
+                        conn.setAutoCommit(false);  
+                        ResultSet rs =stmt.executeQuery();//用rs接收sql语句返回的查询结果  
+                        //执行查询语句并且保存结果  
+                        while (rs.next())&#123;  
+                            News news = new News();  
+                            news.setId(Integer.parseInt(rs.getString(&quot;id&quot;)));  
+                            news.setAuthor(rs.getString(&quot;author&quot;));  
+                            news.setTitle(rs.getString(&quot;title&quot;));  
+                            news.setContent(rs.getString(&quot;content&quot;));  
+                            news.setImage(rs.getString(&quot;image&quot;));  
+                            newsList.add(news);  
+                        &#125;  
+                        rs.close();  
+                    &#125;  
+                    sleep(2000);  
+                &#125; catch (InterruptedException e) &#123;  
+                    e.printStackTrace();  
+                &#125; catch (SQLException e) &#123;  
+                    e.printStackTrace();  
+                &#125;  
+            &#125;  
+        &#125;).start();  
+        return newsList;  
+    &#125;  
+    public static int insertIntoUser(String name, String password, String image) throws SQLException &#123;  
+        Connection  conn = null;  
+        conn = getConnection(&quot;blog&quot;);//填写需要连接的数据库的名称，我是用的是person  
+        //使用DriverManager获取数据库连接  
+        Statement stmt = conn.createStatement();  
+        //使用Connection来创建一个Statment对象  
+        String sql = &quot;insert INTO User (name,password,image)VALUES(&#39;&quot;+name+&quot;&#39;,&#39;&quot;+password+&quot;&#39;,&#39;&quot;+image+&quot;&#39;)&quot;;  
+        return stmt.executeUpdate(sql);  
+    &#125;  
+&#125;  
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="项目Gitee"><a href="#项目Gitee" class="headerlink" title="项目Gitee"></a>项目Gitee</h1><p>地址：<a target="_blank" rel="noopener" href="https://gitee.com/lkksxxdxxd/android">https://gitee.com/lkksxxdxxd/android</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">GaoMing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://keeganli.github.com/2022/01/12/Android%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E5%B8%96%E8%AF%9DAPP/">https://keeganli.github.com/2022/01/12/Android%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E5%B8%96%E8%AF%9DAPP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://keeganli.github.com" target="_blank">GaoMing's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/11/12/ssm1/"><img class="next-cover" src="https://i.ibb.co/pr7BdqN/IMG-1975-20210512-150143.jpg" onerror="onerror=null;src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ssm1</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/au.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">GaoMing</div><div class="author-info__description">终身浪漫</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/keeganli"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://space.bilibili.com/178006287" target="_blank" title=""><i class="iconfont   icon-bilibili"></i></a><a class="social-icon" href="https://github.com/keeganli" target="_blank" title=""><i class="iconfont   icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_45769678" target="_blank" title=""><i class="iconfont   icon-csdn-copy-copy"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">高明爱圣子</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">项目介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">项目搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A6%96%E9%A1%B5"><span class="toc-number">2.1.</span> <span class="toc-text">首页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A6%96%E9%A1%B5%E7%A2%8E%E7%89%87%E6%98%BE%E7%A4%BA"><span class="toc-number">2.2.</span> <span class="toc-text">首页碎片显示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD"><span class="toc-number">2.3.</span> <span class="toc-text">登录功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E4%B8%AD%E5%BF%83%E9%A1%B5%E9%9D%A2"><span class="toc-number">2.4.</span> <span class="toc-text">用户中心页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E5%9B%BE"><span class="toc-number">2.5.</span> <span class="toc-text">地图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.6.</span> <span class="toc-text">数据库设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AEGitee"><span class="toc-number">3.</span> <span class="toc-text">项目Gitee</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/12/Android%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E5%B8%96%E8%AF%9DAPP/" title="Android项目——帖话APP"><img src="https://i.ibb.co/hZj48L6/IMG-1976-20210512-150148.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="Android项目——帖话APP"/></a><div class="content"><a class="title" href="/2022/01/12/Android%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E5%B8%96%E8%AF%9DAPP/" title="Android项目——帖话APP">Android项目——帖话APP</a><time datetime="2022-01-12T13:24:10.000Z" title="发表于 2022-01-12 13:24:10">2022-01-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/12/ssm1/" title="ssm1"><img src="https://i.ibb.co/pr7BdqN/IMG-1975-20210512-150143.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="ssm1"/></a><div class="content"><a class="title" href="/2021/11/12/ssm1/" title="ssm1">ssm1</a><time datetime="2021-11-11T18:41:40.000Z" title="发表于 2021-11-11 18:41:40">2021-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/11/ssm%E6%A1%86%E6%9E%B6/" title="无题"><img src="https://i.ibb.co/cck3gTC/IMG-1974-20210512-150137.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2021/11/11/ssm%E6%A1%86%E6%9E%B6/" title="无题">无题</a><time datetime="2021-11-11T09:20:56.754Z" title="发表于 2021-11-11 09:20:56">2021-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/09/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%BF%9B%E9%98%B6/" title="从零搭建个人博客进阶"><img src="https://i.ibb.co/MpZDWDJ/IMG-2302-20210627-182838.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="从零搭建个人博客进阶"/></a><div class="content"><a class="title" href="/2021/09/09/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%BF%9B%E9%98%B6/" title="从零搭建个人博客进阶">从零搭建个人博客进阶</a><time datetime="2021-09-08T20:00:26.000Z" title="发表于 2021-09-08 20:00:26">2021-09-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/07/Hexo%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" title="Hexo个人博客搭建"><img src="https://i.ibb.co/3dcsL43/IMG-1993-20210513-103001.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="Hexo个人博客搭建"/></a><div class="content"><a class="title" href="/2021/09/07/Hexo%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" title="Hexo个人博客搭建">Hexo个人博客搭建</a><time datetime="2021-09-06T21:26:04.000Z" title="发表于 2021-09-06 21:26:04">2021-09-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By GaoMing</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
