@@ -1,146 +1,254 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Web项目之人事资源管理系统 | GaoMing's Blog</title><meta name="keywords" content="Web应用开发"><meta name="author" content="GaoMing"><meta name="copyright" content="GaoMing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="项目Gitee地址 博客地址 项目需求人力资源管理系统定位  实现的人力资源管理系统面向股东，员工以及实习生服务。 通过实现各模块功能，通过系统的方法进行公司的人员的加入,内部调动及离职人员变动,并为这些人员流动提供辅助管理。 以确保在适当的职位上又各种适当的人才能够既有效率又有效能地完成各项任务。  用户权限与认证  本模块实现的功能是用户的注册以及权限的分配，连接数据库和shiro实现用户安全">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;keeganli.github.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script>
+<meta name="description" content="项目Gitee地址 博客地址 项目需求人力资源管理系统定位  实现的人力资源管理系统面向股东，员工以及实习生服务。 通过实现各模块功能，通过系统的方法进行公司的人员的加入,内部调动及离职人员变动,并为这些人员流动提供辅助管理。 以确保在适当的职位上又各种适当的人才能够既有效率又有效能地完成各项任务。  用户权限与认证  本模块实现的功能是用户的注册以及权限的分配，连接数据库和shiro实现用户安全">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Web项目之人事资源管理系统">
 <meta property="og:url" content="https://keeganli.github.com/2022/01/21/Web%E9%A1%B9%E7%9B%AE%E4%B9%8B%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="GaoMing&#39;s Blog">
 <meta property="og:description" content="项目Gitee地址 博客地址 项目需求人力资源管理系统定位  实现的人力资源管理系统面向股东，员工以及实习生服务。 通过实现各模块功能，通过系统的方法进行公司的人员的加入,内部调动及离职人员变动,并为这些人员流动提供辅助管理。 以确保在适当的职位上又各种适当的人才能够既有效率又有效能地完成各项任务。  用户权限与认证  本模块实现的功能是用户的注册以及权限的分配，连接数据库和shiro实现用户安全">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://i.ibb.co/XDg90B8/IMG-1995-20210513-103240.jpg">
+<meta property="og:image" content="https://ibb.co/G5Lyn1V">
+<meta property="og:image" content="https://ibb.co/rttNvzg">
+<meta property="og:image" content="https://keeganli.github.com/.com//Users/86176/OneDrive/桌面/3.png">
+<meta property="og:image" content="https://keeganli.github.com/.com//Users/86176/OneDrive/桌面/4.png">
+<meta property="og:image" content="https://keeganli.github.com/.com//Users/86176/OneDrive/桌面/5.png">
 <meta property="article:published_time" content="2022-01-21T10:55:00.000Z">
 <meta property="article:modified_time" content="2022-01-21T04:08:22.980Z">
 <meta property="article:author" content="GaoMing">
 <meta property="article:tag" content="Web应用开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.ibb.co/XDg90B8/IMG-1995-20210513-103240.jpg"><link rel="shortcut icon" href="/img/666.png"><link rel="canonical" href="https://keeganli.github.com/2022/01/21/Web%E9%A1%B9%E7%9B%AE%E4%B9%8B%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '',
-  date_suffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: {"limitCount":50,"languages":{"author":"作者: GaoMing","link":"链接: ","source":"来源: GaoMing's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
-  lightbox: 'fancybox',
-  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
-  source: {
-    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
-    },
-    fancybox: {
-      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
-    }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isanchor: false
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: 'Web项目之人事资源管理系统',
-  isPost: true,
-  isHome: false,
-  isHighlightShrink: true,
-  isToc: true,
-  postUpdate: '2022-01-21 04:08:22'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
+<meta name="twitter:image" content="https://ibb.co/G5Lyn1V">
 
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-      },
 
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
+<link rel="canonical" href="https://keeganli.github.com/2022/01/21/Web%E9%A1%B9%E7%9B%AE%E4%B9%8B%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/">
 
-        if (!itemStr) {
-          return undefined
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
 
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
-      }
-    }
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;keeganli.github.com&#x2F;2022&#x2F;01&#x2F;21&#x2F;Web%E9%A1%B9%E7%9B%AE%E4%B9%8B%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F&#x2F;&quot;,&quot;path&quot;:&quot;2022&#x2F;01&#x2F;21&#x2F;Web项目之人事资源管理系统&#x2F;&quot;,&quot;title&quot;:&quot;Web项目之人事资源管理系统&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Web项目之人事资源管理系统 | GaoMing's Blog</title><script src="/js/config.js"></script>
   
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    })
-  
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
-    
-          if (t === 'dark') activateDarkMode()
-          else if (t === 'light') activateLightMode()
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">GaoMing's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
         
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
-    })(window)</script><link rel="stylesheet" href="/css/mycss.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/au.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.ibb.co/XDg90B8/IMG-1995-20210513-103240.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">GaoMing's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Web项目之人事资源管理系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-21T10:55:00.000Z" title="发表于 2022-01-21 10:55:00">2022-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-21T04:08:22.980Z" title="更新于 2022-01-21 04:08:22">2022-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/">Web应用开发</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/Web%E9%A1%B9%E7%9B%AE/">Web项目</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/Web%E9%A1%B9%E7%9B%AE/%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/">人事资源管理系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Web项目之人事资源管理系统"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="项目Gitee"><a href="#项目Gitee" class="headerlink" title="项目Gitee"></a>项目Gitee</h1><p><a target="_blank" rel="noopener" href="https://gitee.com/lkksxxdxxd/WebProgect">地址</a></p>
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28445534&auto=0&height=66"></iframe>
+  
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AEGitee"><span class="nav-number">1.</span> <span class="nav-text">项目Gitee</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">项目需求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E5%AE%9A%E4%BD%8D"><span class="nav-number">2.1.</span> <span class="nav-text">人力资源管理系统定位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E4%B8%8E%E8%AE%A4%E8%AF%81"><span class="nav-number">2.2.</span> <span class="nav-text">用户权限与认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E9%97%A8%E7%AE%A1%E7%90%86"><span class="nav-number">2.3.</span> <span class="nav-text">部门管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%96%AA%E8%B5%84%E7%AE%A1%E7%90%86"><span class="nav-number">2.4.</span> <span class="nav-text">薪资管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E5%8B%A4%E7%AE%A1%E7%90%86"><span class="nav-number">2.5.</span> <span class="nav-text">考勤管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E4%BA%8B%E5%A4%84%E7%90%86"><span class="nav-number">2.6.</span> <span class="nav-text">人事处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E9%83%A8%E7%BD%B2%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.7.</span> <span class="nav-text">发布部署到服务器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">项目设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C"><span class="nav-number">3.1.</span> <span class="nav-text">登录注册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E9%97%A8%E7%AE%A1%E7%90%86-1"><span class="nav-number">3.2.</span> <span class="nav-text">部门管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%96%AA%E8%B5%84%E7%AE%A1%E7%90%86-1"><span class="nav-number">3.3.</span> <span class="nav-text">薪资管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E5%8B%A4%E7%AE%A1%E7%90%86-1"><span class="nav-number">3.4.</span> <span class="nav-text">考勤管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E4%BA%8B%E5%A4%84%E7%90%86-1"><span class="nav-number">3.5.</span> <span class="nav-text">人事处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.6.</span> <span class="nav-text">数据库设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Userall%EF%BC%88%E7%94%A8%E6%88%B7%EF%BC%89"><span class="nav-number">3.6.1.</span> <span class="nav-text">Userall（用户）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UserPer%EF%BC%88%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%EF%BC%89"><span class="nav-number">3.6.2.</span> <span class="nav-text">UserPer（用户权限）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#department%EF%BC%88%E9%83%A8%E9%97%A8%EF%BC%89"><span class="nav-number">3.6.3.</span> <span class="nav-text">department（部门）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#employees%EF%BC%88%E8%81%8C%E5%91%98%E3%80%90%E6%89%80%E6%9C%89%E3%80%91%EF%BC%89"><span class="nav-number">3.6.4.</span> <span class="nav-text">employees（职员【所有】）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gangwei%EF%BC%88%E5%B2%97%E4%BD%8D%EF%BC%89"><span class="nav-number">3.6.5.</span> <span class="nav-text">gangwei（岗位）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kaoqin%EF%BC%88%E8%80%83%E5%8B%A4%EF%BC%89"><span class="nav-number">3.6.6.</span> <span class="nav-text">kaoqin（考勤）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#position%EF%BC%88%E8%81%8C%E4%BD%8D%EF%BC%89"><span class="nav-number">3.6.7.</span> <span class="nav-text">position（职位）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#salary%EF%BC%88%E8%96%AA%E8%B5%84%EF%BC%89"><span class="nav-number">3.6.8.</span> <span class="nav-text">salary（薪资）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">项目核心代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E8%AE%BE%E8%AE%A1"><span class="nav-number">5.</span> <span class="nav-text">详细设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E4%B8%8E%E6%B3%A8%E5%86%8C"><span class="nav-number">5.1.</span> <span class="nav-text">登录与注册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E9%97%A8%E7%AE%A1%E7%90%86-2"><span class="nav-number">5.2.</span> <span class="nav-text">部门管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller%E5%B1%82"><span class="nav-number">5.2.1.</span> <span class="nav-text">Controller层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service%E5%B1%82"><span class="nav-number">5.2.2.</span> <span class="nav-text">Service层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mapper%E5%B1%82"><span class="nav-number">5.2.3.</span> <span class="nav-text">Mapper层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AFHTML-amp-JS"><span class="nav-number">5.2.4.</span> <span class="nav-text">前端HTML&amp;JS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%96%AA%E8%B5%84%E7%AE%A1%E7%90%86-2"><span class="nav-number">5.3.</span> <span class="nav-text">薪资管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller%E5%B1%82-1"><span class="nav-number">5.3.1.</span> <span class="nav-text">Controller层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service%E5%B1%82-1"><span class="nav-number">5.3.2.</span> <span class="nav-text">Service层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mapper%E5%B1%82-1"><span class="nav-number">5.3.3.</span> <span class="nav-text">Mapper层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E5%8B%A4%E7%AE%A1%E7%90%86-2"><span class="nav-number">5.4.</span> <span class="nav-text">考勤管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller%E5%B1%82-2"><span class="nav-number">5.4.1.</span> <span class="nav-text">Controller层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service%E5%B1%82-2"><span class="nav-number">5.4.2.</span> <span class="nav-text">Service层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mapper%E5%B1%82-2"><span class="nav-number">5.4.3.</span> <span class="nav-text">Mapper层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E4%BA%8B%E5%A4%84%E7%90%86-2"><span class="nav-number">5.5.</span> <span class="nav-text">人事处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller%E5%B1%82-3"><span class="nav-number">5.5.1.</span> <span class="nav-text">Controller层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sevice%E5%B1%82"><span class="nav-number">5.5.2.</span> <span class="nav-text">Sevice层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mapper%E5%B1%82-3"><span class="nav-number">5.5.3.</span> <span class="nav-text">Mapper层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E5%88%86%E7%BB%84"><span class="nav-number">5.6.</span> <span class="nav-text">用户权限分组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shiroConfiguration"><span class="nav-number">5.6.1.</span> <span class="nav-text">shiroConfiguration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shiroRealm"><span class="nav-number">5.6.2.</span> <span class="nav-text">shiroRealm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#thymeleaf-shiro"><span class="nav-number">5.6.3.</span> <span class="nav-text">thymeleaf+shiro</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2"><span class="nav-number">6.</span> <span class="nav-text">项目部署</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">GaoMing</p>
+  <div class="site-description" itemprop="description">终身浪漫</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://keeganli.github.com/2022/01/21/Web%E9%A1%B9%E7%9B%AE%E4%B9%8B%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="GaoMing">
+      <meta itemprop="description" content="终身浪漫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GaoMing's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Web项目之人事资源管理系统
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-01-21 10:55:00 / 修改时间：04:08:22" itemprop="dateCreated datePublished" datetime="2022-01-21T10:55:00Z">2022-01-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">Web应用开发</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/Web%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">Web项目</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/Web%E9%A1%B9%E7%9B%AE/%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">人事资源管理系统</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="项目Gitee"><a href="#项目Gitee" class="headerlink" title="项目Gitee"></a>项目Gitee</h1><p><a target="_blank" rel="noopener" href="https://gitee.com/lkksxxdxxd/WebProgect">地址</a></p>
 <p><a target="_blank" rel="noopener" href="http://keegan.cn/">博客地址</a></p>
 <h1 id="项目需求"><a href="#项目需求" class="headerlink" title="项目需求"></a>项目需求</h1><h2 id="人力资源管理系统定位"><a href="#人力资源管理系统定位" class="headerlink" title="人力资源管理系统定位"></a>人力资源管理系统定位</h2><ul>
 <li> 实现的人力资源管理系统面向股东，员工以及实习生服务。</li>
@@ -1265,4 +1373,81 @@
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h1 id="项目部署"><a href="#项目部署" class="headerlink" title="项目部署"></a>项目部署</h1><p><a target="_blank" rel="noopener" href="http://182.92.153.231:1212/">部署网址</a></p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">GaoMing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://keeganli.github.com/2022/01/21/Web%E9%A1%B9%E7%9B%AE%E4%B9%8B%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/">https://keeganli.github.com/2022/01/21/Web%E9%A1%B9%E7%9B%AE%E4%B9%8B%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://keeganli.github.com" target="_blank">GaoMing's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/">Web应用开发</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/21/STM32RCC%E4%BD%8D%E5%9F%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E9%92%9F/"><img class="next-cover" src="https://i.ibb.co/cck3gTC/IMG-1974-20210512-150137.jpg" onerror="onerror=null;src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">STM32RCC位域初始化时钟</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/au.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">GaoMing</div><div class="author-info__description">终身浪漫</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/keeganli"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://space.bilibili.com/178006287" target="_blank" title=""><i class="iconfont   icon-bilibili"></i></a><a class="social-icon" href="https://github.com/keeganli" target="_blank" title=""><i class="iconfont   icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_45769678" target="_blank" title=""><i class="iconfont   icon-csdn-copy-copy"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">高明爱圣子</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AEGitee"><span class="toc-number">1.</span> <span class="toc-text">项目Gitee</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">项目需求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E5%AE%9A%E4%BD%8D"><span class="toc-number">2.1.</span> <span class="toc-text">人力资源管理系统定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E4%B8%8E%E8%AE%A4%E8%AF%81"><span class="toc-number">2.2.</span> <span class="toc-text">用户权限与认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E9%97%A8%E7%AE%A1%E7%90%86"><span class="toc-number">2.3.</span> <span class="toc-text">部门管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%96%AA%E8%B5%84%E7%AE%A1%E7%90%86"><span class="toc-number">2.4.</span> <span class="toc-text">薪资管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%80%83%E5%8B%A4%E7%AE%A1%E7%90%86"><span class="toc-number">2.5.</span> <span class="toc-text">考勤管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%BA%E4%BA%8B%E5%A4%84%E7%90%86"><span class="toc-number">2.6.</span> <span class="toc-text">人事处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E9%83%A8%E7%BD%B2%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.7.</span> <span class="toc-text">发布部署到服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">项目设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C"><span class="toc-number">3.1.</span> <span class="toc-text">登录注册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E9%97%A8%E7%AE%A1%E7%90%86-1"><span class="toc-number">3.2.</span> <span class="toc-text">部门管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%96%AA%E8%B5%84%E7%AE%A1%E7%90%86-1"><span class="toc-number">3.3.</span> <span class="toc-text">薪资管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%80%83%E5%8B%A4%E7%AE%A1%E7%90%86-1"><span class="toc-number">3.4.</span> <span class="toc-text">考勤管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%BA%E4%BA%8B%E5%A4%84%E7%90%86-1"><span class="toc-number">3.5.</span> <span class="toc-text">人事处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.6.</span> <span class="toc-text">数据库设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Userall%EF%BC%88%E7%94%A8%E6%88%B7%EF%BC%89"><span class="toc-number">3.6.1.</span> <span class="toc-text">Userall（用户）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UserPer%EF%BC%88%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%EF%BC%89"><span class="toc-number">3.6.2.</span> <span class="toc-text">UserPer（用户权限）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#department%EF%BC%88%E9%83%A8%E9%97%A8%EF%BC%89"><span class="toc-number">3.6.3.</span> <span class="toc-text">department（部门）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#employees%EF%BC%88%E8%81%8C%E5%91%98%E3%80%90%E6%89%80%E6%9C%89%E3%80%91%EF%BC%89"><span class="toc-number">3.6.4.</span> <span class="toc-text">employees（职员【所有】）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gangwei%EF%BC%88%E5%B2%97%E4%BD%8D%EF%BC%89"><span class="toc-number">3.6.5.</span> <span class="toc-text">gangwei（岗位）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kaoqin%EF%BC%88%E8%80%83%E5%8B%A4%EF%BC%89"><span class="toc-number">3.6.6.</span> <span class="toc-text">kaoqin（考勤）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#position%EF%BC%88%E8%81%8C%E4%BD%8D%EF%BC%89"><span class="toc-number">3.6.7.</span> <span class="toc-text">position（职位）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#salary%EF%BC%88%E8%96%AA%E8%B5%84%EF%BC%89"><span class="toc-number">3.6.8.</span> <span class="toc-text">salary（薪资）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">项目核心代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.</span> <span class="toc-text">详细设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E4%B8%8E%E6%B3%A8%E5%86%8C"><span class="toc-number">5.1.</span> <span class="toc-text">登录与注册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E9%97%A8%E7%AE%A1%E7%90%86-2"><span class="toc-number">5.2.</span> <span class="toc-text">部门管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Controller%E5%B1%82"><span class="toc-number">5.2.1.</span> <span class="toc-text">Controller层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service%E5%B1%82"><span class="toc-number">5.2.2.</span> <span class="toc-text">Service层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapper%E5%B1%82"><span class="toc-number">5.2.3.</span> <span class="toc-text">Mapper层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AFHTML-amp-JS"><span class="toc-number">5.2.4.</span> <span class="toc-text">前端HTML&amp;JS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%96%AA%E8%B5%84%E7%AE%A1%E7%90%86-2"><span class="toc-number">5.3.</span> <span class="toc-text">薪资管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Controller%E5%B1%82-1"><span class="toc-number">5.3.1.</span> <span class="toc-text">Controller层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service%E5%B1%82-1"><span class="toc-number">5.3.2.</span> <span class="toc-text">Service层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapper%E5%B1%82-1"><span class="toc-number">5.3.3.</span> <span class="toc-text">Mapper层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%80%83%E5%8B%A4%E7%AE%A1%E7%90%86-2"><span class="toc-number">5.4.</span> <span class="toc-text">考勤管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Controller%E5%B1%82-2"><span class="toc-number">5.4.1.</span> <span class="toc-text">Controller层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service%E5%B1%82-2"><span class="toc-number">5.4.2.</span> <span class="toc-text">Service层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapper%E5%B1%82-2"><span class="toc-number">5.4.3.</span> <span class="toc-text">Mapper层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%BA%E4%BA%8B%E5%A4%84%E7%90%86-2"><span class="toc-number">5.5.</span> <span class="toc-text">人事处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Controller%E5%B1%82-3"><span class="toc-number">5.5.1.</span> <span class="toc-text">Controller层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sevice%E5%B1%82"><span class="toc-number">5.5.2.</span> <span class="toc-text">Sevice层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapper%E5%B1%82-3"><span class="toc-number">5.5.3.</span> <span class="toc-text">Mapper层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E5%88%86%E7%BB%84"><span class="toc-number">5.6.</span> <span class="toc-text">用户权限分组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shiroConfiguration"><span class="toc-number">5.6.1.</span> <span class="toc-text">shiroConfiguration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shiroRealm"><span class="toc-number">5.6.2.</span> <span class="toc-text">shiroRealm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#thymeleaf-shiro"><span class="toc-number">5.6.3.</span> <span class="toc-text">thymeleaf+shiro</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2"><span class="toc-number">6.</span> <span class="toc-text">项目部署</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/21/Web%E9%A1%B9%E7%9B%AE%E4%B9%8B%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="Web项目之人事资源管理系统"><img src="https://i.ibb.co/XDg90B8/IMG-1995-20210513-103240.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="Web项目之人事资源管理系统"/></a><div class="content"><a class="title" href="/2022/01/21/Web%E9%A1%B9%E7%9B%AE%E4%B9%8B%E4%BA%BA%E4%BA%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="Web项目之人事资源管理系统">Web项目之人事资源管理系统</a><time datetime="2022-01-21T10:55:00.000Z" title="发表于 2022-01-21 10:55:00">2022-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/21/STM32RCC%E4%BD%8D%E5%9F%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E9%92%9F/" title="STM32RCC位域初始化时钟"><img src="https://i.ibb.co/cck3gTC/IMG-1974-20210512-150137.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="STM32RCC位域初始化时钟"/></a><div class="content"><a class="title" href="/2022/01/21/STM32RCC%E4%BD%8D%E5%9F%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E9%92%9F/" title="STM32RCC位域初始化时钟">STM32RCC位域初始化时钟</a><time datetime="2022-01-20T16:53:15.000Z" title="发表于 2022-01-20 16:53:15">2022-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/12/Android%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E5%B8%96%E8%AF%9DAPP/" title="Android项目——帖话APP"><img src="https://i.ibb.co/wK4fNdd/IMG-2300-20210627-182830.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="Android项目——帖话APP"/></a><div class="content"><a class="title" href="/2022/01/12/Android%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E5%B8%96%E8%AF%9DAPP/" title="Android项目——帖话APP">Android项目——帖话APP</a><time datetime="2022-01-12T13:24:10.000Z" title="发表于 2022-01-12 13:24:10">2022-01-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/12/ssm1/" title="ssm1"><img src="https://i.ibb.co/pr7BdqN/IMG-1975-20210512-150143.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="ssm1"/></a><div class="content"><a class="title" href="/2021/11/12/ssm1/" title="ssm1">ssm1</a><time datetime="2021-11-11T18:41:40.000Z" title="发表于 2021-11-11 18:41:40">2021-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/11/ssm%E6%A1%86%E6%9E%B6/" title="无题"><img src="https://i.ibb.co/cck3gTC/IMG-1974-20210512-150137.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/W59Ndd0/IMG-1999-20210513-103507.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2021/11/11/ssm%E6%A1%86%E6%9E%B6/" title="无题">无题</a><time datetime="2021-11-11T09:20:56.754Z" title="发表于 2021-11-11 09:20:56">2021-11-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By GaoMing</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" rel="tag"># Web应用开发</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/21/STM32RCC%E4%BD%8D%E5%9F%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E9%92%9F/" rel="prev" title="STM32RCC位域初始化时钟">
+                  <i class="fa fa-chevron-left"></i> STM32RCC位域初始化时钟
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8F%8A%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/" rel="next" title="计算机及操作系统基础">
+                  计算机及操作系统基础 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoMing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>
