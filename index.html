@@ -130,7 +130,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -173,6 +173,435 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://keeganli.github.com/2022/05/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="GaoMing">
+      <meta itemprop="description" content="终身浪漫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GaoMing's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-05 12:35:46 / 修改时间：14:07:39" itemprop="dateCreated datePublished" datetime="2022-05-05T12:35:46Z">2022-05-05</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>title: Web项目之人事资源管理系统<br>date: 2022-01-21 10:55:00<br>tags: 计算机图形学<br>categories: [计算机图形学,计算机图形学基础知识]</p>
+<h1 id="图形学"><a href="#图形学" class="headerlink" title="图形学"></a>图形学</h1><h1 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h1><h3 id="图形学基本概念"><a href="#图形学基本概念" class="headerlink" title="图形学基本概念"></a>图形学基本概念</h3><ol>
+<li><p>什么是计算机图形学？</p>
+<p><strong>ISO定义:计算机图形学是研究通过计算机将数据转换为图形，并在专门的显示设备上显示的原理、方法和技术的学科</strong></p>
+</li>
+<li><p>图形组成和表示</p>
+<p>几何要素和非几何要素</p>
+<p>点阵法和参数法</p>
+</li>
+<li><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504191354296.png" alt="image-20220504191354296" style="zoom: 67%;"></li>
+<li><p>计算机图形学应用</p>
+<p>图形用户界面，计算机辅助设计，科学可视化，计算机艺术，虚拟现实。</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504191714897.png" alt="image-20220504191714897" style="zoom:67%;"></li>
+<li><p>计算机图形学发展史</p>
+<p>画线显示器，存储管式显示器，刷新式光栅扫描显示器，液晶显示器</p>
+</li>
+<li><p>计算机图形学当前研究的热点问题</p>
+<p>造型技术，真实感图形绘制，人机交互。</p>
+</li>
+<li><p>小结</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504191847247.png" alt="image-20220504191847247" style="zoom:67%;"></li>
+<li><p>课后习题</p>
+<p>（1）什么是计算机图形学？其研究内容有哪些？</p>
+<p>​    <strong>计算机图形学是研究通过计算机将数据转换成图形，并在专门的显示设备上显示的原理，方法和技术的学科</strong></p>
+<p>（2）使用计算机图形学可以解决哪些问题？</p>
+<p>​    <strong>。。。</strong></p>
+</li>
+</ol>
+<h1 id="计算机显示—图形设备"><a href="#计算机显示—图形设备" class="headerlink" title="计算机显示—图形设备"></a>计算机显示—图形设备</h1><h2 id="计算机图形处理的硬件系统组成"><a href="#计算机图形处理的硬件系统组成" class="headerlink" title="计算机图形处理的硬件系统组成"></a>计算机图形处理的硬件系统组成</h2><h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504192614543.png" alt="image-20220504192614543" style="zoom: 80%;">
+
+<h2 id="显示器"><a href="#显示器" class="headerlink" title="显示器"></a>显示器</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
+<li><p>阴极射线管（CRT）</p>
+</li>
+<li><p>平板型显示器（液晶，等离子）</p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504192948818.png" alt="image-20220504192948818"></p>
+</li>
+</ul>
+<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><ol>
+<li><p>LCD体积小，厚度薄，重量轻，耗能少，辐射少</p>
+</li>
+<li><p>CRT显示亮度高，色彩鲜艳，分辨率高</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504193016520.png" alt="image-20220504193016520" style="zoom:80%;"></li>
+</ol>
+<h2 id="光栅扫描显示系统"><a href="#光栅扫描显示系统" class="headerlink" title="光栅扫描显示系统"></a>光栅扫描显示系统</h2><h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><p>​    电子束按固定的扫描线和扫描顺序从左到右，自上而下进行扫描</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504193158562.png" alt="image-20220504193158562"></p>
+<h3 id="组成-1"><a href="#组成-1" class="headerlink" title="组成"></a>组成</h3><ol>
+<li><p>帧缓冲存储器（帧缓存）</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504193408998.png" alt="image-20220504193408998" style="zoom:80%;">
+
+<p><strong>帧缓冲容量</strong></p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504193621913.png" alt="image-20220504193621913"></p>
+<p>像素数*所需帧缓存单元的位数（每个单元可表示几种颜色，例如真彩色默认每种基色占8bit，所以一个帧缓存单元占24bit，即24/8=3B）</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504194223915.png" alt="image-20220504194223915" style="zoom:80%;"></li>
+<li><p>视频控制器</p>
+</li>
+<li><p>显示处理器</p>
+</li>
+<li><p>显示器（CRT，液晶）</p>
+</li>
+</ol>
+<h3 id="颜色模型—三基色"><a href="#颜色模型—三基色" class="headerlink" title="颜色模型—三基色"></a>颜色模型—三基色</h3><h4 id="RGB（红绿蓝）"><a href="#RGB（红绿蓝）" class="headerlink" title="RGB（红绿蓝）"></a>RGB（红绿蓝）</h4><h4 id="CMY（三补色，蓝绿-品红-黄）"><a href="#CMY（三补色，蓝绿-品红-黄）" class="headerlink" title="CMY（三补色，蓝绿 品红 黄）"></a>CMY（三补色，蓝绿 品红 黄）</h4><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504194400694.png" alt="image-20220504194400694" style="zoom:67%;">
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504194516441.png" alt="image-20220504194516441"></p>
+<h3 id="光栅显示系统的组成"><a href="#光栅显示系统的组成" class="headerlink" title="光栅显示系统的组成"></a>光栅显示系统的组成</h3><ul>
+<li>CPU</li>
+<li>主存储器</li>
+<li>图形显示处理器</li>
+<li>视频显示控制器</li>
+<li>显示器</li>
+</ul>
+<h1 id="直线段的扫描转换"><a href="#直线段的扫描转换" class="headerlink" title="直线段的扫描转换"></a>直线段的扫描转换</h1><h2 id="直线绘制要求"><a href="#直线绘制要求" class="headerlink" title="直线绘制要求"></a>直线绘制要求</h2><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504195205038.png" alt="image-20220504195205038"></p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504195549710.png" alt="image-20220504195549710"></p>
+<h2 id="直线方程法"><a href="#直线方程法" class="headerlink" title="直线方程法"></a>直线方程法</h2><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504195702268.png" alt="image-20220504195702268"></p>
+<h2 id="数值微分DDA算法"><a href="#数值微分DDA算法" class="headerlink" title="数值微分DDA算法"></a>数值微分DDA算法</h2><ul>
+<li><p>灵活使用递推</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504195757303.png" alt="image-20220504195757303" style="zoom:67%;"></li>
+<li><p>Yi+1 = Yi + k  Xi+1 = Xi + 1</p>
+</li>
+</ul>
+<h2 id="中点算法"><a href="#中点算法" class="headerlink" title="中点算法"></a>中点算法</h2><ol>
+<li><p>消除DDA算法中浮点运算，改为采用中点值比较。</p>
+</li>
+<li><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504200010020.png" alt="image-20220504200010020" style="zoom:67%;"></li>
+<li><p>基本原理</p>
+<ul>
+<li><p>假定x是最大位移方向（0&lt;=k&lt;=1）</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504200123323.png" alt="image-20220504200123323" style="zoom:67%;"></li>
+<li><p>误差项d的递推</p>
+<p>di &lt; 0  ==&gt; di+1 = di + 1 - k</p>
+<p>di &gt;= 0 ==&gt; di+1 = di - k</p>
+<p>初始值d0 = 0.5 - k</p>
+</li>
+</ul>
+</li>
+<li><p>算法步骤</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504200503389.png" alt="image-20220504200503389" style="zoom:67%;"></li>
+<li><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504201606201.png" alt="image-20220504201606201" style="zoom:67%;"></li>
+</ol>
+<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><ol>
+<li><p><strong>比较直线段扫描转换四种算法中的运算特点</strong></p>
+<p>方程法：运算量大，简单好上手</p>
+<p>微分DDA：运算较方程法简单，有浮点四舍五入。</p>
+<p>中点（基本的<code>Bresenham</code>）：运用递推，消除浮点运算</p>
+<p>改进<code>Bresenham</code>：速度快，效率高，运动递推，进一步简化中点算法</p>
+</li>
+<li><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504202150206.png" alt="image-20220504202150206"></p>
+</li>
+</ol>
+<ul>
+<li>​            <img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504202212110.png" alt="image-20220504202212110"></li>
+</ul>
+<h1 id="圆弧的扫描转换"><a href="#圆弧的扫描转换" class="headerlink" title="圆弧的扫描转换"></a>圆弧的扫描转换</h1><h2 id="方程法"><a href="#方程法" class="headerlink" title="方程法"></a>方程法</h2><h2 id="中点算法-1"><a href="#中点算法-1" class="headerlink" title="中点算法"></a>中点算法</h2><h2 id="逼近法"><a href="#逼近法" class="headerlink" title="逼近法"></a>逼近法</h2><h1 id="区域填充算法"><a href="#区域填充算法" class="headerlink" title="区域填充算法"></a>区域填充算法</h1><h2 id="逐点判断法"><a href="#逐点判断法" class="headerlink" title="逐点判断法"></a>逐点判断法</h2><h3 id="基本原理-1"><a href="#基本原理-1" class="headerlink" title="基本原理"></a>基本原理</h3><p>​    判断绘画窗口内的像素是否在多边形内，若在，用指定颜色绘制该像素</p>
+<h3 id="判断点在多边形的内外关系"><a href="#判断点在多边形的内外关系" class="headerlink" title="判断点在多边形的内外关系"></a>判断点在多边形的内外关系</h3><ol>
+<li><p>射线法</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504204448711.png" alt="image-20220504204448711" style="zoom:67%;">
+
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504204612847.png" alt="image-20220504204612847" style="zoom:67%;">
+
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504204634707.png" alt="image-20220504204634707" style="zoom:67%;"></li>
+<li><p>累计角度法</p>
+</li>
+<li><p>编码法</p>
+</li>
+</ol>
+<h2 id="扫描线算法"><a href="#扫描线算法" class="headerlink" title="扫描线算法"></a>扫描线算法</h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>​    利用相邻像素的连贯性，提高算法效率</p>
+<h3 id="扫描线"><a href="#扫描线" class="headerlink" title="扫描线"></a>扫描线</h3><ul>
+<li>​    平行于坐标轴的直线（一般平行于X轴）</li>
+</ul>
+<h3 id="基本方法"><a href="#基本方法" class="headerlink" title="基本方法"></a>基本方法</h3><ol>
+<li>​    将整个绘图窗口内扫描多边形的问题分解为<strong>一条条扫描线计算与多边形的相交区间</strong>，只要完成每条扫描线的生成就实现了多边形的扫描转换</li>
+<li>​    一条扫描线与多边形的边有<strong>偶数</strong>个交点，<strong>每2个点形成一区间，区间内的像素位于多边形内</strong></li>
+</ol>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504205843610.png" alt="image-20220504205843610"></p>
+<p><strong>边表的构造</strong></p>
+<ol>
+<li>首先构造一个纵向链表，链表的长度为多边形所占有的最大扫描线数，链表的每个结点，称为一个桶，则对应多边形覆盖的每一条扫描线。</li>
+<li>将每条边的信息链入与该边最小y坐标（ymin）相对应的桶处。也就是说，若某边的较低端点为ymin，则该边就放在相应的扫描线桶中。</li>
+<li>每条边的数据形成一个结点，内容包括:该扫描线与该边的初始交点x(即较低端点的x值)，1/k，以及该边的最大y值<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504210123315.png" alt="image-20220504210123315" style="zoom:50%;"></li>
+<li>同一桶中若干条边按X|ymin由小到大排序，若X|ymax相等，则按照1/k由小到大排序。</li>
+</ol>
+<h3 id="活性边表（AEL）"><a href="#活性边表（AEL）" class="headerlink" title="活性边表（AEL）"></a>活性边表（AEL）</h3><p>​    存放活性边的顺序链表，且按照<strong>交点x的值从小到大排序</strong></p>
+<p>​    <img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504210611397.png" alt="image-20220504210611397" style="zoom: 80%;"></p>
+<h3 id="完整算法"><a href="#完整算法" class="headerlink" title="完整算法"></a>完整算法</h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504210719023.png" alt="image-20220504210719023"></p>
+<h2 id="边缘填充法"><a href="#边缘填充法" class="headerlink" title="边缘填充法"></a>边缘填充法</h2><h2 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h2><ol>
+<li><p><strong>多边形扫描转换的扫描线算法步骤？</strong></p>
+<ul>
+<li>求出扫描线与多边形所有边的交点</li>
+<li>把这些交点按x坐标值升序排列</li>
+<li>对排序后的交点进行奇偶配对</li>
+<li>对每一对交点间区域进行填充</li>
+</ul>
+<p>扫描线利用了相邻像素间的连贯性，提高了算法效率</p>
+</li>
+<li><p><strong>扫描线算法转换多边形交点取整的三条规则</strong></p>
+<p>（1）x为小数</p>
+<ul>
+<li>交点位于左边，向右取整</li>
+<li>交点位于右边，向左取整</li>
+</ul>
+<p>（2）落在右上边界的像素不予填充，落在左下边界的像素给予填充</p>
+<p>（3）交点是顶点</p>
+<ul>
+<li><p>检查两相邻边在扫描线的哪一侧，决定交点个数为0，1，2个</p>
+</li>
+<li><p>上同侧（2），异侧（1），下同侧（0）</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504213749718.png" alt="image-20220504213749718" style="zoom:67%;"></li>
+</ul>
+</li>
+<li><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220504213911280.png" alt="image-20220504213911280"></p>
+</li>
+<li><p><strong>多边形填充过程中，对于某一条扫描线，填充可以分什么步骤?</strong></p>
+<ol>
+<li>求交，排序，交点配对，区间填色。</li>
+<li>特殊问题：（1）交点取舍问题（2）像素取舍问题</li>
+</ol>
+</li>
+</ol>
+<h1 id="反走样"><a href="#反走样" class="headerlink" title="反走样"></a>反走样</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>​    用离散量表示连续量引起的失真，就叫走样，用于消除或者减少这种效果的技术，就叫反走样。</p>
+<h2 id="过取样"><a href="#过取样" class="headerlink" title="过取样"></a>过取样</h2><h3 id="简单过取样"><a href="#简单过取样" class="headerlink" title="简单过取样"></a>简单过取样</h3><p>调整位置上的像素亮度</p>
+<h3 id="离散计算相交区域近似面积"><a href="#离散计算相交区域近似面积" class="headerlink" title="离散计算相交区域近似面积"></a>离散计算相交区域近似面积</h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505155035761.png" alt="image-20220505155035761"></p>
+<h1 id="自由曲线和曲面"><a href="#自由曲线和曲面" class="headerlink" title="自由曲线和曲面"></a>自由曲线和曲面</h1><h2 id="曲线的表示形式"><a href="#曲线的表示形式" class="headerlink" title="曲线的表示形式"></a>曲线的表示形式</h2><ol>
+<li><p>参数表示</p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505155246801.png" alt="image-20220505155246801"></p>
+</li>
+<li><p>非参数表示</p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505155227913.png" alt="image-20220505155227913"></p>
+</li>
+</ol>
+<h2 id="参数表示优点"><a href="#参数表示优点" class="headerlink" title="参数表示优点"></a>参数表示优点</h2><ol>
+<li>容易确定曲线边界，由参数区间确定</li>
+<li>表示形式不变性，不依赖坐标系的选取</li>
+<li>表示能力强，利于控制点来控制曲线形状。</li>
+</ol>
+<h2 id="切矢量，法矢量，曲率"><a href="#切矢量，法矢量，曲率" class="headerlink" title="切矢量，法矢量，曲率"></a>切矢量，法矢量，曲率</h2><h3 id="位置矢量"><a href="#位置矢量" class="headerlink" title="位置矢量"></a>位置矢量</h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505155638171.png" alt="image-20220505155638171"></p>
+<h3 id="切矢量"><a href="#切矢量" class="headerlink" title="切矢量"></a>切矢量</h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505155753892.png" alt="image-20220505155753892"></p>
+<h3 id="法矢量"><a href="#法矢量" class="headerlink" title="法矢量"></a>法矢量</h3><p>与切矢量垂直</p>
+<h3 id="曲率，曲率半径"><a href="#曲率，曲率半径" class="headerlink" title="曲率，曲率半径"></a>曲率，曲率半径</h3><h2 id="参数多项式曲线"><a href="#参数多项式曲线" class="headerlink" title="参数多项式曲线"></a>参数多项式曲线</h2><h3 id="n次多项式曲线"><a href="#n次多项式曲线" class="headerlink" title="n次多项式曲线"></a>n次多项式曲线</h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505160112360.png" alt="image-20220505160112360"></p>
+<h3 id="矩阵表示"><a href="#矩阵表示" class="headerlink" title="矩阵表示"></a>矩阵表示</h3><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505160159896.png" alt="image-20220505160159896">
+
+
+
+<h2 id="三次Hermite（厄密多）曲线"><a href="#三次Hermite（厄密多）曲线" class="headerlink" title="三次Hermite（厄密多）曲线"></a>三次Hermite（厄密多）曲线</h2><h3 id="矩阵表示-1"><a href="#矩阵表示-1" class="headerlink" title="矩阵表示"></a>矩阵表示</h3><h2 id="Bezier曲线"><a href="#Bezier曲线" class="headerlink" title="Bezier曲线"></a>Bezier曲线</h2><h3 id="Bezier基函数"><a href="#Bezier基函数" class="headerlink" title="Bezier基函数"></a>Bezier基函数</h3><h4 id="n阶基函数"><a href="#n阶基函数" class="headerlink" title="n阶基函数"></a>n阶基函数</h4><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505160848721.png" alt="image-20220505160848721" style="zoom:150%;">
+
+<h3 id="Bezier基函数的基本性质"><a href="#Bezier基函数的基本性质" class="headerlink" title="Bezier基函数的基本性质"></a>Bezier基函数的基本性质</h3><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505161014350.png" alt="image-20220505161014350" style="zoom:150%;">
+
+
+
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505161120951.png" alt="image-20220505161120951" style="zoom:150%;">
+
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505161143010.png" alt="image-20220505161143010" style="zoom:150%;">
+
+<h2 id="Bezier曲线-1"><a href="#Bezier曲线-1" class="headerlink" title="Bezier曲线"></a>Bezier曲线</h2><h3 id="一次Bezier曲线"><a href="#一次Bezier曲线" class="headerlink" title="一次Bezier曲线"></a>一次Bezier曲线</h3><p>​    n = 1,有两个控制点P0和P1（Bezier多项式是一次多项式）</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505161804409.png" alt="image-20220505161804409" style="zoom:150%;">
+
+
+
+<h3 id="二次Bezier曲线"><a href="#二次Bezier曲线" class="headerlink" title="二次Bezier曲线"></a>二次Bezier曲线</h3><p>​    n = 2,有三个控制点P0,P1和P2,Bezier多项式是二次多项式</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505161929123.png" alt="image-20220505161929123" style="zoom:150%;">
+
+<h3 id="三次Bezier曲线"><a href="#三次Bezier曲线" class="headerlink" title="三次Bezier曲线"></a>三次Bezier曲线</h3><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505162220892.png" alt="image-20220505162220892" style="zoom:150%;">
+
+<h2 id="几何作图法"><a href="#几何作图法" class="headerlink" title="几何作图法"></a>几何作图法</h2><ol>
+<li><p>线段P0P1上选择一个点P(t)</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505162333343.png" alt="image-20220505162333343" style="zoom:150%;"></li>
+<li><p>依次对每一条边执行a过程</p>
+</li>
+</ol>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505162554936.png" alt="image-20220505162554936" style="zoom:150%;">
+
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505162628570.png" alt="image-20220505162628570" style="zoom:150%;">
+
+<h2 id="德卡斯特里奥算法"><a href="#德卡斯特里奥算法" class="headerlink" title="德卡斯特里奥算法"></a>德卡斯特里奥算法</h2><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505162828809.png" alt="image-20220505162828809"></p>
+<h2 id="Bezier曲面"><a href="#Bezier曲面" class="headerlink" title="Bezier曲面"></a>Bezier曲面</h2><p>​    利用两组正交的Bezier曲线逼近，由控制点网格描述的曲面</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505170118940.png" alt="image-20220505170118940" style="zoom:150%;">
+
+<h2 id="B样条曲线"><a href="#B样条曲线" class="headerlink" title="B样条曲线"></a>B样条曲线</h2><p>​    B样条有三大要素：*<strong>节点，控制点，阶次。*</strong></p>
+<p>​    控制点和贝塞尔的一样，就是空间上决定曲线形状的点。</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505171231575.png" alt="image-20220505171231575" style="zoom:150%;">
+
+<h2 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h2><ol>
+<li><img src="/.com//Users\user\AppData\Roaming\Typora\typora-user-images\image-20220505171407855.png" alt="image-20220505171407855" style="zoom:150%;">
+
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505171453760.png" alt="image-20220505171453760"></li>
+<li><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505171519983.png" alt="image-20220505171519983"></p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505172010436.png" alt="image-20220505172010436"></p>
+<p>deCasteljau ==&gt;P(0.6)</p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505172114508.png" alt="image-20220505172114508"></p>
+</li>
+<li><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505172145921.png" alt="image-20220505172145921" style="zoom:150%;">
+
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505172406789.png" alt="image-20220505172406789" style="zoom:150%;"></li>
+<li><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505172803428.png" alt="image-20220505172803428"></p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505173008774.png" alt="image-20220505173008774"></p>
+</li>
+</ol>
+<h1 id="图形变换-几何变换"><a href="#图形变换-几何变换" class="headerlink" title="图形变换-几何变换"></a>图形变换-几何变换</h1><h2 id="学习如何使图形变化"><a href="#学习如何使图形变化" class="headerlink" title="学习如何使图形变化"></a>学习如何使图形变化</h2><h2 id="平移变换"><a href="#平移变换" class="headerlink" title="平移变换"></a>平移变换</h2><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505194941095.png" alt="image-20220505194941095"></p>
+<h2 id="旋转变换"><a href="#旋转变换" class="headerlink" title="旋转变换"></a>旋转变换</h2><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505195047273.png" alt="image-20220505195047273"></p>
+<ol>
+<li><p>变换前后坐标关系</p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505195211191.png" alt="image-20220505195211191"></p>
+</li>
+</ol>
+<h2 id="放缩变换"><a href="#放缩变换" class="headerlink" title="放缩变换"></a>放缩变换</h2><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505195456720.png" alt="image-20220505195456720"></p>
+<h2 id="齐次坐标"><a href="#齐次坐标" class="headerlink" title="齐次坐标"></a>齐次坐标</h2><h3 id="齐次坐标的引入"><a href="#齐次坐标的引入" class="headerlink" title="齐次坐标的引入"></a>齐次坐标的引入</h3><ul>
+<li>几何变换矩阵运算表示形式不统一</li>
+<li>对多个点同时进行相同的多次变换时，分别利用矩阵计算各点变换的计算量大</li>
+<li>统一运算，对连续变换==&gt;合成变换矩阵</li>
+</ul>
+<h3 id="齐次坐标的定义"><a href="#齐次坐标的定义" class="headerlink" title="齐次坐标的定义"></a>齐次坐标的定义</h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505195939728.png" alt="image-20220505195939728"></p>
+<p>二维空间的二维物体 == &gt; 三维空间的二维物体</p>
+<h3 id="平移变换-1"><a href="#平移变换-1" class="headerlink" title="平移变换"></a><strong>平移变换</strong></h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505200130935.png" alt="image-20220505200130935"></p>
+<h3 id="旋转变换-1"><a href="#旋转变换-1" class="headerlink" title="旋转变换"></a><strong>旋转变换</strong></h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505200151565.png" alt="image-20220505200151565"></p>
+<h3 id="放缩变换-1"><a href="#放缩变换-1" class="headerlink" title="放缩变换"></a><strong>放缩变换</strong></h3><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505200216788.png" alt="image-20220505200216788" style="zoom:150%;">
+
+<h3 id="对称变换"><a href="#对称变换" class="headerlink" title="对称变换"></a><strong>对称变换</strong></h3><h4 id="关于X轴的对称变换"><a href="#关于X轴的对称变换" class="headerlink" title="关于X轴的对称变换"></a>关于X轴的对称变换</h4><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505201721730.png" alt="image-20220505201721730" style="zoom:150%;">
+
+<h4 id="关于Y轴的对称变换"><a href="#关于Y轴的对称变换" class="headerlink" title="关于Y轴的对称变换"></a>关于Y轴的对称变换</h4><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505201749735.png" alt="image-20220505201749735" style="zoom:150%;">
+
+<h3 id="错切变换"><a href="#错切变换" class="headerlink" title="错切变换"></a>错切变换</h3><p>​    <strong>依赖轴</strong>：不变</p>
+<p>​    <strong>方向轴</strong>：余下的轴</p>
+<h3 id="变换性质"><a href="#变换性质" class="headerlink" title="变换性质"></a>变换性质</h3><ol>
+<li>平移和旋转具有可加性</li>
+<li>放缩具有可乘性</li>
+</ol>
+<h3 id="逆变换（反变换）"><a href="#逆变换（反变换）" class="headerlink" title="逆变换（反变换）"></a>逆变换（反变换）</h3><ol>
+<li>正向平移 – 反向平移</li>
+<li>逆时针旋转 –顺时针旋转 </li>
+<li>逆放缩</li>
+</ol>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505200707438.png" alt="image-20220505200707438"></p>
+<p>本质：高维空间的低维物体，高维表示低维</p>
+<h3 id="复合变换"><a href="#复合变换" class="headerlink" title="复合变换"></a>复合变换</h3><h4 id="实例1-关于任意参照点Pr（Xr-Yr）的旋转变换"><a href="#实例1-关于任意参照点Pr（Xr-Yr）的旋转变换" class="headerlink" title="实例1 - 关于任意参照点Pr（Xr,Yr）的旋转变换"></a>实例1 - 关于任意参照点Pr（Xr,Yr）的旋转变换</h4><ol>
+<li><p>平移对象使基准点到坐标原点</p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505200130935.png" alt="image-20220505200130935"></p>
+</li>
+<li><p>绕坐标原点旋转</p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505200151565.png" alt="image-20220505200151565"></p>
+</li>
+<li><p>平移对象使参照点回到原始位置</p>
+<p>​    a.步骤的逆变换</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505201138965.png" alt="image-20220505201138965" style="zoom:150%;"></li>
+</ol>
+<h4 id="实例2-关于任意参照点Pr（Xr-Yr）的放缩变换"><a href="#实例2-关于任意参照点Pr（Xr-Yr）的放缩变换" class="headerlink" title="实例2 - 关于任意参照点Pr（Xr,Yr）的放缩变换"></a>实例2 - 关于任意参照点Pr（Xr,Yr）的放缩变换</h4><ol>
+<li><p>平移对象使基准点到坐标原点</p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505200130935.png" alt="image-20220505200130935"></p>
+</li>
+<li><p>放缩</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505200216788.png" alt="image-20220505200216788" style="zoom:150%;"></li>
+<li><p>平移对象使参照点回到原始位置</p>
+<p>​    a.步骤的逆变换</p>
+<img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505201138965.png" alt="image-20220505201138965" style="zoom:150%;"></li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>左行右列原则（对矩阵的初等变换）</li>
+<li>变换的现后顺序改变会可能导致变换结果的不同（AB != BA ）</li>
+<li><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505201550325.png" alt="image-20220505201550325"></li>
+</ol>
+<h2 id="三维几何变换"><a href="#三维几何变换" class="headerlink" title="三维几何变换"></a>三维几何变换</h2><h3 id="平移"><a href="#平移" class="headerlink" title="平移"></a><strong>平移</strong></h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505202132122.png" alt="image-20220505202132122"></p>
+<h3 id="放缩"><a href="#放缩" class="headerlink" title="放缩"></a><strong>放缩</strong></h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505202148078.png" alt="image-20220505202148078"></p>
+<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a><strong>旋转</strong></h3><h4 id="绕X轴"><a href="#绕X轴" class="headerlink" title="绕X轴"></a>绕X轴</h4><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505202308439.png" alt="image-20220505202308439"></p>
+<h4 id="绕Y轴"><a href="#绕Y轴" class="headerlink" title="绕Y轴"></a>绕Y轴</h4><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505202320307.png" alt="image-20220505202320307"></p>
+<h4 id="绕Z轴"><a href="#绕Z轴" class="headerlink" title="绕Z轴"></a>绕Z轴</h4><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505202337905.png" alt="image-20220505202337905"></p>
+<h3 id="错切"><a href="#错切" class="headerlink" title="错切"></a><strong>错切</strong></h3><h4 id="z为依赖轴"><a href="#z为依赖轴" class="headerlink" title="z为依赖轴"></a>z为依赖轴</h4><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505202413961.png" alt="image-20220505202413961"></p>
+<h3 id="对称变换-1"><a href="#对称变换-1" class="headerlink" title="对称变换"></a>对称变换</h3><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505202450475.png" alt="image-20220505202450475"></p>
+<h1 id="图形裁剪"><a href="#图形裁剪" class="headerlink" title="图形裁剪"></a>图形裁剪</h1><h2 id="直线段的裁剪"><a href="#直线段的裁剪" class="headerlink" title="直线段的裁剪"></a>直线段的裁剪</h2><h2 id="位置关系"><a href="#位置关系" class="headerlink" title="位置关系"></a>位置关系</h2><ol>
+<li>完全落在窗口内</li>
+<li>完全落在窗口外</li>
+<li>部分在内，部分在外</li>
+</ol>
+<h2 id="区域编码法（Cohen-Sutherland）"><a href="#区域编码法（Cohen-Sutherland）" class="headerlink" title="区域编码法（Cohen-Sutherland）"></a>区域编码法（Cohen-Sutherland）</h2><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505204207733.png" alt="image-20220505204207733"></p>
+<h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><ol>
+<li>两端点编码全为<strong>0000</strong> ==&gt; 线段<strong>完全在窗口内</strong></li>
+<li>两端点编码<strong>按位与不为0000</strong> ==&gt;线段<strong>完全在窗口外</strong></li>
+<li>两端点编码<strong>按位与为0000</strong> ==&gt; 计算边界延长线和线段交点，若<strong>交点在延长线，完全在外</strong>，<strong>否则</strong>部分在内，<strong>部分在内，根据交点裁剪</strong></li>
+</ol>
+<h2 id="中点分割裁剪法"><a href="#中点分割裁剪法" class="headerlink" title="中点分割裁剪法"></a>中点分割裁剪法</h2><h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>​    首先根据编码法判断线段与窗口的位置关系，如果部分在内，采用找到离线段两端点最远的可见点，两个可见点间的连线即为要输出的可见线段。</p>
+<h3 id="算法步骤-1"><a href="#算法步骤-1" class="headerlink" title="算法步骤"></a>算法步骤</h3><p>P141</p>
+<h2 id="多边形的裁剪"><a href="#多边形的裁剪" class="headerlink" title="多边形的裁剪"></a>多边形的裁剪</h2><h3 id="Sutherland-Hodgman算法（逐边裁剪算法）"><a href="#Sutherland-Hodgman算法（逐边裁剪算法）" class="headerlink" title="Sutherland-Hodgman算法（逐边裁剪算法）"></a>Sutherland-Hodgman算法（逐边裁剪算法）</h3><h4 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h4><p>​    依次使用窗口的四条边对多边形进行裁剪</p>
+<h4 id="算法步骤-2"><a href="#算法步骤-2" class="headerlink" title="算法步骤"></a>算法步骤</h4><p>P145</p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505210636164.png" alt="image-20220505210636164"></p>
+<h4 id="算法优缺"><a href="#算法优缺" class="headerlink" title="算法优缺"></a>算法优缺</h4><p>​    算法简单，可推广至任意凸多边形，对凹多边形可能会出现问题（可能会出现多余线段）</p>
+<h4 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h4><p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505211002320.png" alt="image-20220505211002320"></p>
+<h3 id="Weiler-Atherton算法（双边裁剪算法）"><a href="#Weiler-Atherton算法（双边裁剪算法）" class="headerlink" title="Weiler-Atherton算法（双边裁剪算法）"></a>Weiler-Atherton算法（双边裁剪算法）</h3><p>​    见习题 和 课本 P146</p>
+<h2 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h2><h3 id="简要说明二维观察的过程-几何变换、窗口裁剪的作用是什么"><a href="#简要说明二维观察的过程-几何变换、窗口裁剪的作用是什么" class="headerlink" title="简要说明二维观察的过程,几何变换、窗口裁剪的作用是什么?"></a>简要说明二维观察的过程,几何变换、窗口裁剪的作用是什么?</h3><p>​    <img src="/.com//Users/86176/OneDrive/%E6%A1%8C%E9%9D%A2/IMG_3723.JPG" alt="IMG_3723"></p>
+<pre><code>###     在二维平面上将某一图形关于任意参照点P(x，y)逆时针旋转日角度，试写出该图形变换所对应的变换矩阵，并给出具体求解过程。
+</code></pre>
+<p><img src="/.com//Users/86176/OneDrive/%E6%A1%8C%E9%9D%A2/IMG_3724.JPG" alt="IMG_3724"></p>
+<h3 id><a href="#" class="headerlink" title></a><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505212705629.png" alt="image-20220505212705629"></h3><p><img src="/.com//Users/86176/OneDrive/%E6%A1%8C%E9%9D%A2/IMG_3725.JPG" alt="IMG_3725"> </p>
+<p><img src="https://gitee.com/lkksxxdxxd/pic-go/raw/master/img/image-20220505212801019.png" alt="image-20220505212801019"></p>
+<p><img src="/.com//Users/86176/OneDrive/%E6%A1%8C%E9%9D%A2/IMG_3726.JPG" alt="IMG_3726"></p>
+<p><img src="/.com//Users/86176/OneDrive/%E6%A1%8C%E9%9D%A2/IMG_3727.JPG" alt="IMG_3727"></p>
+<h1 id="几何造型基础"><a href="#几何造型基础" class="headerlink" title="几何造型基础"></a>几何造型基础</h1><h2 id="三维模型"><a href="#三维模型" class="headerlink" title="三维模型"></a>三维模型</h2><p>​    线框，曲面，实体</p>
+<h2 id="几何造型功能"><a href="#几何造型功能" class="headerlink" title="几何造型功能"></a>几何造型功能</h2><ol>
+<li>形体输入</li>
+<li>图形控制</li>
+<li>图形修改</li>
+<li>图形分析</li>
+</ol>
+<h2 id="线框模型"><a href="#线框模型" class="headerlink" title="线框模型"></a>线框模型</h2><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><ol>
+<li>简单，处理速度快</li>
+<li>没有固定的轮廓</li>
+<li>线框模型与形体之间不存在一一对应关系：</li>
+<li>没有形体的表面信息，不适于真实感显示，由此导致表示的形体可能产生二义性。</li>
+</ol>
+<h2 id="曲面模型"><a href="#曲面模型" class="headerlink" title="曲面模型"></a>曲面模型</h2><h3 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h3><p>​    不能有效地表示实体</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -5093,100 +5522,6 @@ hexo d	<span class="token comment">//部署到Github</span><span aria-hidden="tr
 <li>其他的网站优化加速访问的方法等等等干货</li>
 </ul>
 <p>持续关注哟！！！下篇再见</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://keeganli.github.com/2021/09/02/Java%E4%B9%8BCollection/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="GaoMing">
-      <meta itemprop="description" content="终身浪漫">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GaoMing's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/09/02/Java%E4%B9%8BCollection/" class="post-title-link" itemprop="url">Java之Collection</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2021-09-02 10:51:15 / 修改时间：04:25:25" itemprop="dateCreated datePublished" datetime="2021-09-02T10:51:15Z">2021-09-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Java集合框架"><a href="#Java集合框架" class="headerlink" title="Java集合框架"></a>Java集合框架</h1><p>在很久之前，<code>Java</code>就提供了各种类，但是这些类之间关联性不大，以至于之间的操作方式差很大，不利于使用</p>
-<p>于是便设计了集合框架</p>
-<h2 id="集合框架满足的目标"><a href="#集合框架满足的目标" class="headerlink" title="集合框架满足的目标"></a>集合框架满足的目标</h2><ul>
-<li><p>框架高效</p>
-</li>
-<li><p>允许容纳不同的集合，并且之间具有高度互通性</p>
-</li>
-<li><p>对于某一集合的扩展是方便和简单的</p>
-<p>框架图如下</p>
-<p><img src="https://i.ibb.co/jVSwjWB/R-C.jpg"></p>
-</li>
-</ul>
-<h2 id="集合框架分析"><a href="#集合框架分析" class="headerlink" title="集合框架分析"></a>集合框架分析</h2><ul>
-<li>集合框架主要有两种类型的<strong>容器</strong>，一种是集合(Collection)，存储一个元素的集合；另一种是图(Map)，存储键、值映射</li>
-<li>有三种<strong>接口</strong>类型，分别是<code>List</code>,<code>Set</code>,<code>Queue</code></li>
-<li>具体<strong>实现类</strong>有很多扩展，如<code>ArrayList</code>、<code>LinkedList</code>、<code>HashSet</code>、<code>HashMap</code>等。</li>
-<li>还有各种<strong>算法</strong>，方便集合的操作</li>
-</ul>
-<h3 id="集合接口"><a href="#集合接口" class="headerlink" title="集合接口"></a>集合接口</h3><ol>
-<li><code>Collection</code>接口</li>
-</ol>
 
       
     </div>
